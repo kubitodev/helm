@@ -2,6 +2,27 @@ apiVersion: v1
 entries:
   kubernetes-cloudflare-ddns:
   - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2022-07-17T08:20:19.179693323Z"
+    description: Kubito Kubernetes Cloudflare DDNS Helm Chart
+    digest: 9a4437f6590fbb6d7b4fc1f4e25322ac238f31ceb3f96392a0e20bef07ca114e
+    home: https://github.com/kubitodev/helm/charts/kubernetes-cloudflare-ddns
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - ddns
+    - cronjob
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: kubernetes-cloudflare-ddns
+    sources:
+    - https://github.com/kubitodev/kubernetes-cloudflare-ddns
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/kubernetes-cloudflare-ddns-1.0.1/kubernetes-cloudflare-ddns-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-07-17T07:48:59.99529339Z"
     description: Kubito Kubernetes Cloudflare DDNS Helm Chart
@@ -22,4 +43,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/kubernetes-cloudflare-ddns-1.0.0/kubernetes-cloudflare-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-17T07:48:59.995315991Z"
+generated: "2022-07-17T08:20:19.179701523Z"
