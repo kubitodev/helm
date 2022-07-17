@@ -19,7 +19,7 @@ cron:
   job:
     schedule: '"*/5 * * * *"'
     successfulJobsHistoryLimit: 1
-  
+
   pod:
     restartPolicy: OnFailure
 

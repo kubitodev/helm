@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.cron.job.schedule }}
+  successfulJobsHistoryLimit: {{ .Values.cron.job.successfulJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ .Values.rbac.serviceAccountName }}
+          containers:
+            - name: {{ .Release.Name }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              env:
+                - name: WHITELIST_MIDDLEWARE_NAME
+                  value: {{ .Values.middleware.name }}
+                - name: WHITELIST_TRAEFIK_NAMESPACE
+                  value: {{ .Release.Namespace }}
+          restartPolicy: {{ .Values.cron.pod.restartPolicy }}

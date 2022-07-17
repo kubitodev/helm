@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ .Values.middleware.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ipWhiteList:
+    sourceRange:
+      - 1.1.1.1 # dynamically changing
+    {{- if .Values.middleware.ipStrategy.enabled }}
+    ipStrategy:
+      depth: {{ .Values.middleware.ipStrategy.depth }}
+      excludedIPs: {{ .Values.middleware.ipStrategy.excludedIPs }}
+    {{- end }}
