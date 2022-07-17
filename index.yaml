@@ -3,6 +3,27 @@ entries:
   kubernetes-cloudflare-ddns:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2022-07-17T23:25:35.020097162Z"
+    description: Kubito Kubernetes Cloudflare DDNS Helm Chart
+    digest: a5eba544f35427d52de08fc1303d5908187d3f325384196b33f357ba47f54dea
+    home: https://github.com/kubitodev/helm/tree/main/charts/kubernetes-cloudflare-ddns
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - ddns
+    - cronjob
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: kubernetes-cloudflare-ddns
+    sources:
+    - https://github.com/kubitodev/kubernetes-cloudflare-ddns
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/kubernetes-cloudflare-ddns-1.0.4/kubernetes-cloudflare-ddns-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2022-07-17T23:15:17.750034691Z"
     description: Kubito Kubernetes Cloudflare DDNS Helm Chart
     digest: fea03822c67b26c5915293ed71d540d9aadaf8ff307cea01e4400bd2e57244f9
@@ -88,6 +109,30 @@ entries:
   traefik-whitelist-ddns:
   - apiVersion: v2
     appVersion: 2.8.0
+    created: "2022-07-17T23:25:35.193040285Z"
+    description: Kubito Traefik Whitelist DDNS Helm Chart
+    digest: 6c8dbae17fb299000d2d6a0f11a3fe150a5535ff22ff2e204e53611a86adccef
+    home: https://github.com/kubitodev/helm/tree/main/charts/traefik-whitelist-ddns
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - traefik
+    - ddns
+    - cronjob
+    - middleware
+    - ip
+    - whitelist
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: traefik-whitelist-ddns
+    sources:
+    - https://github.com/kubitodev/traefik-whitelist-ddns
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.2/traefik-whitelist-ddns-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 2.8.0
     created: "2022-07-17T23:15:18.016745764Z"
     description: Kubito Traefik Whitelist DDNS Helm Chart
     digest: 64367f2c7f6db63369dc3b9b185aeb5f481617aac771b94980570d132adaf74d
@@ -134,4 +179,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-17T23:15:18.016767265Z"
+generated: "2022-07-17T23:25:35.193089286Z"
