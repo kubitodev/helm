@@ -1,0 +1,5 @@
+helm-extra-args: --timeout 600
+check-version-increment: false
+debug: true
+chart-repos:
+  - groundhog2k=https://helm.kubito.dev/charts

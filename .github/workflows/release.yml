@@ -1,0 +1,28 @@
+name: Release Helm Charts
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'charts/**'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Add Dependencies
+        run: |
+          helm repo add kubitodev https://helm.kubito.dev/charts
+      - name: Run Release
+        uses: helm/chart-releaser-action@v1.4.0
+        env:
+          CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
