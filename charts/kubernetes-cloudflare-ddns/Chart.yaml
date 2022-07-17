@@ -3,8 +3,8 @@ maintainers:
   - name: kubitodev
     url: https://kubito.dev
 apiVersion: v2
-appVersion: 1.0.0
-version: 1.0.0
+appVersion: 1.0.1
+version: 1.0.1
 description: Kubito Kubernetes Cloudflare DDNS Helm Chart
 home: https://github.com/kubitodev/helm/charts/kubernetes-cloudflare-ddns
 icon: https://kubito.dev/images/kubito.svg
