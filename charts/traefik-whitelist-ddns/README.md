@@ -48,7 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name               | Description                                   | Value                                 |
 | ------------------ | --------------------------------------------- | ------------------------------------- |
 | `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-ip-whitelist-sync` |
-| `image.tag`        | The image tag to use.                         | `latest`                              |
+| `image.tag`        | The image tag to use.                         | `1.0.1`                               |
 
 
 ### Cron parameters

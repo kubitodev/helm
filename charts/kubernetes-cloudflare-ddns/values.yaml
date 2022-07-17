@@ -7,7 +7,7 @@
 ##
 image:
   repository: kubitodev/kubernetes-cloudflare-ddns
-  tag: latest
+  tag: "1.0.1"
 
 ## @section Cron parameters
 
