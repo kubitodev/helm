@@ -21,7 +21,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       # - name: Add Dependencies
       #   run: |
-      #     helm repo add kubitodev https://helm.kubito.dev/charts
+      #     helm repo add kubitodev https://charts.kubito.dev
       - name: Run Release
         uses: helm/chart-releaser-action@v1.4.0
         env:

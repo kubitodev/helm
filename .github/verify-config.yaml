@@ -2,4 +2,4 @@ helm-extra-args: --timeout 600
 check-version-increment: false
 debug: true
 chart-repos:
-  - kubitodev=https://helm.kubito.dev/charts
+  - kubitodev=https://charts.kubito.dev

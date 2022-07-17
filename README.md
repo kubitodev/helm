@@ -7,7 +7,7 @@ This repository acts like a helm chart repository for various Kubernetes applica
 ## TL;DR
 
 ```bash
-helm repo add kubitodev https://helm.kubito.dev/charts
+helm repo add kubitodev https://charts.kubito.dev
 helm search repo kubitodev
 helm install example kubitodev/<chart>
 ```
