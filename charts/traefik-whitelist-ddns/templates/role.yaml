@@ -1,0 +1,9 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: patch-middleware
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups: ["traefik.containo.us"]
+  resources: ["middlewares"]
+  verbs: ["patch"]

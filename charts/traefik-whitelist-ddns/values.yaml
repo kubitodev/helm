@@ -1,0 +1,46 @@
+## Default values for Traefik Whitelist DDNS
+
+## @section Image parameters
+
+## @param image.repository The Docker repository to pull the image from.
+## @param image.tag The image tag to use.
+##
+image:
+  repository: kubitodev/traefik-ip-whitelist-sync
+  tag: latest
+
+## @section Cron parameters
+
+## @param cron.job.schedule Interval for how often the job should run.
+## @param cron.job.successfulJobsHistoryLimit Limit of the successful jobs saved in history as completed pods.
+## @param cron.pod.restartPolicy The logic for restarting the cron pod.
+##
+cron:
+  job:
+    schedule: '"*/5 * * * *"'
+    successfulJobsHistoryLimit: 1
+  
+  pod:
+    restartPolicy: OnFailure
+
+## @section Middleware parameters
+
+## @param middleware.name The name of the IP whitelist middleware.
+## @param middleware.ipStrategy.enabled The ipStrategy option defines two parameters that set how Traefik determines the client IP: depth, and excludedIPs.
+## @param middleware.ipStrategy.depth The depth option tells Traefik to use the X-Forwarded-For header and take the IP located at the depth position (starting from the right).
+## @param middleware.ipStrategy.excludedIPs excludedIPs configures Traefik to scan the X-Forwarded-For header and select the first IP not in the list.
+##
+middleware:
+  name: ip-whitelist
+
+  ipStrategy:
+    enabled: false
+    depth: 1
+    excludedIPs: []
+
+## @section RBAC parameters
+
+## @param rbac.serviceAccountName The name of the default traefik service account in traefik's namespace.
+##
+rbac:
+  serviceAccountName: traefik
