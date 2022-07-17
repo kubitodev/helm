@@ -61,17 +61,17 @@ Notice the `Author` and `Signed-off-by` lines match. If they don't your PR will 
 
 ### Testing
 
-1. Read the [Test Strategy](https://github.com/kubitodev/charts/blob/master/TESTING.md) guide.
+1. Read the [Test Strategy](https://github.com/kubitodev/helm/blob/master/TESTING.md) guide.
 2. Determine the types of tests you will need based on the chart you are testing and the information in the test strategy.
-3. Before you create a pull request, make sure you achieved the [Test Acceptance Criteria](https://github.com/kubitodev/charts/blob/master/TESTING.md#Test-acceptance-criteria).
+3. Before you create a pull request, make sure you achieved the [Test Acceptance Criteria](https://github.com/kubitodev/helm/blob/master/TESTING.md#Test-acceptance-criteria).
 4. If you were able to achieve them, congrats! Create a PR and wait for the approval. You should then be able to see the result of the test execution for multiple cloud platforms (AKS, TKG, GKE) after the approval.
 
 ### Adding a new chart to the repository
 
 There are three major technical requirements to add a new Helm chart to our catalog:
 
-- The chart should use Kubito based container images. If they don't exist, you can [open a GitHub issue](https://github.com/kubitodev/charts/issues/new/choose) and we will work together to create them.
-- Follow the same structure/patterns that the rest of the Kubito charts (you can find a basic scaffolding in the [`template` directory](https://github.com/kubitodev/charts/tree/master/template)).
+- The chart should use Kubito based container images. If they don't exist, you can [open a GitHub issue](https://github.com/kubitodev/helm/issues/new/choose) and we will work together to create them.
+- Follow the same structure/patterns that the rest of the Kubito charts (you can find a basic scaffolding in the [`template` directory](https://github.com/kubitodev/helm/tree/master/template)).
 - Use an [OSI approved license](https://opensource.org/licenses) for all the software.
 
 Please, note we will need to check internally and evaluate the feasibility of adding the new solution to the catalog. Due to limited resources this step could take some time.

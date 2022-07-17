@@ -5,7 +5,7 @@ A simple Kubernetes cronjob which can be used for updating a DNS record on Cloud
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubitodev.com/kubitodev
+helm repo add kubitodev https://helm.kubito.dev/charts
 helm install example kubitodev/kubernetes-cloudflare-ddns
 ```
 
