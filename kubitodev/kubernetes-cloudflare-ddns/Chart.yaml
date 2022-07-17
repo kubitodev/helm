@@ -1,0 +1,17 @@
+name: kubernetes-cloudflare-ddns
+maintainers:
+  - name: kubitodev
+    url: https://kubito.dev
+apiVersion: v2
+appVersion: 1.0.0
+version: 1.0.0
+description: Kubito Kubernetes Cloudflare DDNS Helm Chart
+home: https://github.com/kubitodev/charts/kubernetes-cloudflare-ddns
+icon: https://kubito.dev/images/kubito.svg
+keywords:
+  - kubernetes
+  - cloudflare
+  - ddns
+  - cronjob
+sources:
+  - https://github.com/kubitodev/kubernetes-cloudflare-ddns

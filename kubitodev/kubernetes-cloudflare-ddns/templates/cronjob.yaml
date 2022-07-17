@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.cron.job.schedule }}
+  successfulJobsHistoryLimit: {{ .Values.cron.job.successfulJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: {{ .Release.Name }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              envFrom:
+                - secretRef:
+                    {{- if not .Values.secret.existingSecret }}
+                    name: {{ .Release.Name }}
+                    {{- else }}
+                    name: {{ .Values.secret.existingSecret }}
+                    {{- end }}
+          restartPolicy: {{ .Values.cron.pod.restartPolicy }}

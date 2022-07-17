@@ -1,0 +1,39 @@
+## Default values for Kubernetes Cloudflare DDNS
+
+## @section Image parameters
+
+## @param image.repository The Docker repository to pull the image from.
+## @param image.tag The image tag to use.
+##
+image:
+  repository: kubitodev/kubernetes-cloudflare-ddns
+  tag: latest
+
+## @section Cron parameters
+
+## @param cron.job.schedule Interval for how often the job should run.
+## @param cron.job.successfulJobsHistoryLimit Limit of the successful jobs saved in history as completed pods.
+## @param cron.pod.restartPolicy The logic for restarting the cron pod.
+##
+cron:
+  job:
+    schedule: '"*/5 * * * *"'
+    successfulJobsHistoryLimit: 1
+  
+  pod:
+    restartPolicy: OnFailure
+
+## @section Secret parameters
+
+## @param secret.existingSecret Name of an existing secret. Check [secret.yaml](https://artifacthub.io/packages/helm/kubitodev/kubernetes-cloudflare-ddns?modal=template&template=secret.yaml) for the required variables.
+## @param secret.authKey The value of your Cloudflare API Key.
+## @param secret.dnsRecord The A record you want to update.
+## @param secret.recordId The ID of the record you are updating.
+## @param secret.zoneId The zone ID of your domain.
+##
+secret:
+  existingSecret: ""
+  authKey: ""
+  dnsRecord: ""
+  recordId: ""
+  zoneId: ""
