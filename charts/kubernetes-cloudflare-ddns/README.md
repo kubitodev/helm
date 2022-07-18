@@ -6,7 +6,7 @@ A simple Kubernetes cronjob which can be used for updating a DNS record on Cloud
 
 ```console
 helm repo add kubitodev https://charts.kubito.dev
-helm install example kubitodev/kubernetes-cloudflare-ddns
+helm install kubernetes-cloudflare-ddns kubitodev/kubernetes-cloudflare-ddns
 ```
 
 ## Introduction
@@ -20,10 +20,10 @@ This chart can be used to solve the problem of a Kubernetes cluster being behind
 
 ## Installing the Chart
 
-To install the chart with the release name `example`:
+To install the chart with the release name `kubernetes-cloudflare-ddns`:
 
 ```console
-helm install example kubitodev/kubernetes-cloudflare-ddns
+helm install kubernetes-cloudflare-ddns kubitodev/kubernetes-cloudflare-ddns
 ```
 
 The command deploys kubernetes-cloudflare-ddns on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -32,10 +32,10 @@ The command deploys kubernetes-cloudflare-ddns on the Kubernetes cluster in the 
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `example` deployment:
+To uninstall/delete the `kubernetes-cloudflare-ddns` deployment:
 
 ```console
-helm delete example
+helm delete kubernetes-cloudflare-ddns
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

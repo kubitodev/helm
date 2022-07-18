@@ -6,7 +6,7 @@ This is a simple Traefik v2 DDNS updater script, which can be used in home lab s
 
 ```console
 helm repo add kubitodev https://charts.kubito.dev
-helm install example --namespace traefik kubitodev/traefik-whitelist-ddns
+helm install traefik-whitelist-ddns --namespace traefik kubitodev/traefik-whitelist-ddns
 ```
 
 ## Introduction
@@ -21,10 +21,10 @@ This chart can be used to solve the problem of a whitelisting a single IP addres
 
 ## Installing the Chart
 
-To install the chart with the release name `example`:
+To install the chart with the release name `traefik-whitelist-ddns`:
 
 ```console
-helm install example --namespace traefik kubitodev/traefik-whitelist-ddns
+helm install traefik-whitelist-ddns --namespace traefik kubitodev/traefik-whitelist-ddns
 ```
 
 The command deploys traefik-whitelist-ddns on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -33,10 +33,10 @@ The command deploys traefik-whitelist-ddns on the Kubernetes cluster in the defa
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `example` deployment:
+To uninstall/delete the `traefik-whitelist-ddns` deployment:
 
 ```console
-helm delete example
+helm delete traefik-whitelist-ddns
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

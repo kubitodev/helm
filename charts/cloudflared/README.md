@@ -6,7 +6,7 @@ A tunneling daemon that proxies traffic from the Cloudflare network to your orig
 
 ```console
 helm repo add kubitodev https://charts.kubito.dev
-helm install example kubitodev/cloudflared
+helm install cloudflared kubitodev/cloudflared
 ```
 
 ## Introduction
@@ -21,10 +21,10 @@ Cloudflare Tunnel provides you with a secure way to connect your resources to Cl
 
 ## Installing the Chart
 
-To install the chart with the release name `example`:
+To install the chart with the release name `cloudflared`:
 
 ```console
-helm install example kubitodev/cloudflared
+helm install cloudflared kubitodev/cloudflared
 ```
 
 The command deploys cloudflared on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -33,10 +33,10 @@ The command deploys cloudflared on the Kubernetes cluster in the default configu
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `example` deployment:
+To uninstall/delete the `cloudflared` deployment:
 
 ```console
-helm delete example
+helm delete cloudflared
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.

@@ -8,7 +8,7 @@ A Traefik plugin chart which can be used when you are running a Cloudflared (Arg
 
 ```console
 helm repo add kubitodev https://charts.kubito.dev
-helm install example kubitodev/traefik-cloudflared-source-ip
+helm install traefik-cloudflared-source-ip kubitodev/traefik-cloudflared-source-ip
 ```
 
 ## Introduction
@@ -27,10 +27,10 @@ The plugin solves the issue by overwriting the `X-Real-Ip` header, as well the `
 
 ## Installing the Chart
 
-To install the chart with the release name `example`:
+To install the chart with the release name `traefik-cloudflared-source-ip`:
 
 ```console
-helm install example kubitodev/traefik-cloudflared-source-ip
+helm install traefik-cloudflared-source-ip kubitodev/traefik-cloudflared-source-ip
 ```
 
 The command deploys traefik-cloudflared-source-ip on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -39,10 +39,10 @@ The command deploys traefik-cloudflared-source-ip on the Kubernetes cluster in t
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `example` deployment:
+To uninstall/delete the `traefik-cloudflared-source-ip` deployment:
 
 ```console
-helm delete example
+helm delete traefik-cloudflared-source-ip
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
