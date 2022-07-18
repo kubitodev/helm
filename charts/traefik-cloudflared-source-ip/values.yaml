@@ -1,0 +1,86 @@
+## Default values for Traefik Cloudflared (Argo Tunnel) Source IP
+
+## @section Global parameters
+
+## @param global.cloudflaredEnabled Whether to deploy the cloudflared subchart. It is required to have it, but you can deploy it on your own if you want. Check the [chart](https://artifacthub.io/packages/helm/kubitodev/cloudflared) for configuration.
+## @param global.traefikEnabled Whether to deploy the official Traefik chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/traefik/traefik) for configuration. IMPORTANT: If you want to deploy it on your own, make sure you use the `kubitodev/traefik-cloudflared-source-ip` image as the base image for Traefik.
+##
+global:
+  cloudflaredEnabled: true
+  traefikEnabled: true
+
+## @section Image parameters
+
+## @param image.repository The Docker repository to pull the image from.
+## @param image.tag The image tag to use.
+##
+image:
+  repository: kubitodev/traefik-cloudflared-source-ip
+  tag: "1.0.4"
+
+## @section Middleware parameters
+
+## @param middleware.name The name of the middleware.
+## @param middleware.excludedNets The source IP will be the first one that is not included in any of the CIDRs passed as the `excludedNets` parameter. Can be left as default.
+##
+middleware:
+  name: cloudflared-source-ip
+
+  excludedNets:
+    - "1.1.1.1/24"
+
+
+## @section [Traefik](https://artifacthub.io/packages/helm/traefik/traefik) parameters
+
+## @param traefik.image.repository The Docker repository to pull the image from.
+## @param traefik.namespace The namespace to deploy Traefik to.
+## @param traefik.image.tag The image tag to use.
+## @param traefik.additionalArguments Additional arguments to run the image with. The default one is required.
+## @param traefik.cloudflareTls.existingSecret The name of an existing secret containing the `tls.crt` and `tls.key`.
+## @param traefik.cloudflareTls.crt The TLS certificate obtained from Cloudflare. Check the configuration section for information on how to obtain one.
+## @param traefik.cloudflareTls.key The TLS key obtained from Cloudflare. Check the configuration section for information on how to obtain one.
+##
+traefik:
+  namespace: traefik
+  image:
+    repository: kubitodev/traefik-cloudflared-source-ip
+    tag: "1.0.4"
+
+  additionalArguments:
+    - "--experimental.localPlugins.cloudflared-source-ip.moduleName=github.com/kubitodev/traefik-cloudflared-source-ip"
+
+  cloudflareTls:
+    existingSecret: ""
+    crt: |
+
+    key: |
+
+
+## @section [Cloudflared](https://artifacthub.io/packages/helm/kubitodev/cloudflared) parameters
+
+## @param cloudflared.image.repository The Docker repository to pull the image from. Use `ghcr.io/milgradesec/cloudflared` for ARM64 devices.
+## @param cloudflared.image.tag The image tag to use.
+## @param cloudflared.replicaCount The number of replicas to deploy.
+## @param cloudflared.tunnelID The Argo Tunnel ID you created. Check the configuration section for details.
+## @param cloudflared.ingress The ingress settings to apply. Check the configuration section for examples.
+## @param cloudflared.auth.accountTag The Argo tunnel account tag.
+## @param cloudflared.auth.tunnelName The Argo tunnel name.
+## @param cloudflared.auth.tunnelSecret The Argo tunnel secret.
+## @param cloudflared.existingSecret The name of an existing secret containing the Argo tunnel settings.
+##
+cloudflared:
+  image:
+    repository: cloudflare/cloudflared
+    tag: "2022.7.1"
+
+  replicaCount: 1
+
+  tunnelID: ""
+  ingress: []
+
+  auth:
+    accountTag: ""
+    tunnelName: ""
+    tunnelSecret: ""
+
+  existingSecret: ""
