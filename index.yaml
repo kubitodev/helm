@@ -1,6 +1,50 @@
 apiVersion: v1
 entries:
+  cloudflared:
+  - apiVersion: v2
+    appVersion: 2022.7.1
+    created: "2022-07-18T05:58:44.824909509Z"
+    description: Kubito Cloudflared (Argo Tunnel) Helm Chart
+    digest: d78ab4adc0fb66aff45a7611e3e44dadcb7c6a60a5cd52d35ed2c32d60bee4a2
+    home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/cloudflared-1.0.0/cloudflared-1.0.0.tgz
+    version: 1.0.0
   kubernetes-cloudflare-ddns:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2022-07-18T05:58:44.968106097Z"
+    description: Kubito Kubernetes Cloudflare DDNS Helm Chart
+    digest: 9775b0f8353e2cd259fccafed8a05c83293f5f2f3df97de94218763818678865
+    home: https://github.com/kubitodev/helm/tree/main/charts/kubernetes-cloudflare-ddns
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - ddns
+    - cronjob
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: kubernetes-cloudflare-ddns
+    sources:
+    - https://github.com/kubitodev/kubernetes-cloudflare-ddns
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/kubernetes-cloudflare-ddns-1.0.5/kubernetes-cloudflare-ddns-1.0.5.tgz
+    version: 1.0.5
   - apiVersion: v2
     appVersion: 1.0.1
     created: "2022-07-17T23:25:35.020097162Z"
@@ -179,4 +223,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-17T23:25:35.193089286Z"
+generated: "2022-07-18T05:58:44.968165802Z"
