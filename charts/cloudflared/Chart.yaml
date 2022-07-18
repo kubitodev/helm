@@ -1,0 +1,18 @@
+name: cloudflared
+maintainers:
+  - name: kubitodev
+    url: https://kubito.dev
+apiVersion: v2
+appVersion: 2022.7.1
+version: 1.0.0
+description: Kubito Cloudflared (Argo Tunnel) Helm Chart
+home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
+icon: https://kubito.dev/images/kubito.svg
+keywords:
+  - kubernetes
+  - cloudflare
+  - cloudflared
+  - argo
+  - tunnel
+sources:
+  - https://github.com/cloudflare/cloudflared
