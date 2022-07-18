@@ -1,4 +1,4 @@
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/kubitodev)](https://artifacthub.io/packages/search?repo=kubitodev)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/kubitodev&style=for-the-badge)](https://artifacthub.io/packages/search?repo=kubitodev)
 
 # Kubito Helm Charts for Kubernetes
 
