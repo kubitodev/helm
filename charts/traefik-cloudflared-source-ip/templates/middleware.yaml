@@ -6,5 +6,7 @@ metadata:
 spec:
   plugin:
     cloudflared-source-ip:
-      excludednets:
-        - {{ .Values.middleware.excludedNets }}
+      excludednets: |-
+        {{- range .Values.middleware.excludedNets }}
+        - {{ . | quote }}
+        {{- end }}
