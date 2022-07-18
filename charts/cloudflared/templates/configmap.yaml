@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+data:
+  config.yaml: |-
+    logDirectory: /var/log/cloudflared
+    tunnel: {{ required "The Argo Tunnel ID is missing." .Values.tunnelID }}
+    credentials-file: /etc/cloudflared/tunnel-config.json
+    warp-routing:
+      enabled: {{ .Values.warpRouting }}
+    ingress: {{ toYaml .Values.ingress | nindent 6 }}

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount | int }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+      annotations:
+        checksum/tunnel-id: {{ sha256sum .Values.tunnelID }}
+        checksum/ingress: {{ .Values.ingress | toJson | sha256sum }}
+        checksum/auth: {{ .Values.auth | toJson | sha256sum }}
+        checksum/warp-routing: {{ .Values.warpRouting | toJson | sha256sum }}
+    spec:
+      containers:
+      - args:
+        - tunnel
+        - --no-autoupdate
+        - --config
+        - /etc/cloudflared/config.yaml
+        - run
+        name: {{ .Release.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        volumeMounts:
+        - mountPath: /etc/cloudflared/tunnel-config.json
+          name: tunnel-secret-volume
+          subPath: tunnel-config.json
+        - mountPath: /etc/cloudflared/config.yaml
+          name: cloudflared-config-volume
+          subPath: config.yaml
+      imagePullSecrets:
+      - name: {{ default "tunnel-secret" .Values.existingSecret }}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: tunnel-secret-volume
+        secret:
+          defaultMode: 420
+          optional: false
+          secretName: {{ default "tunnel-secret" .Values.existingSecret }}
+      - name: cloudflared-config-volume
+        configMap:
+          defaultMode: 420
+          name: {{ .Release.Name }}
+          optional: false
