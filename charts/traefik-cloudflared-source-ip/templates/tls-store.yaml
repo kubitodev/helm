@@ -1,3 +1,4 @@
+{{- if .Values.global.traefikEnabled }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: TLSStore
 metadata:
@@ -10,3 +11,4 @@ spec:
     {{- else }}
     secretName: cloudflare-tls
     {{- end }}
+{{- end }}
