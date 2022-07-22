@@ -19,4 +19,6 @@ spec:
                   value: {{ .Values.middleware.name }}
                 - name: WHITELIST_TRAEFIK_NAMESPACE
                   value: {{ .Release.Namespace }}
+                - name: WHITELIST_CUSTOM_DOMAIN
+                  value: {{ .Values.middleware.customDomain }}
           restartPolicy: {{ .Values.cron.pod.restartPolicy }}

@@ -1,6 +1,6 @@
 # Traefik Whitelist DDNS
 
-This is a simple Traefik v2 DDNS updater script, which can be used in home lab setups to synchronize the allowed IP addresses for your [IP Whitelist Middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/), which allows you to configure a VPN protected setup for your applications.
+This is a simple Traefik v2 DDNS updater script, which can be used in home lab setups to synchronize the allowed IP addresses for your [IP Whitelist Middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/), which allows you to configure a VPN protected setup for your applications. It also support setting a custom domain for its IP(s) to be added to the whitelist range of the middleware.
 
 ## TL;DR
 
@@ -11,7 +11,7 @@ helm install traefik-whitelist-ddns --namespace traefik kubitodev/traefik-whitel
 
 ## Introduction
 
-This chart can be used to solve the problem of a whitelisting a single IP address by using a Traefik Middleware, which can allow you to use your own VPN to protect services from external access.
+This chart can be used to solve the problem of a whitelisting a single IP address by using a Traefik Middleware, which can allow you to use your own VPN to protect services from external access. It also support setting a custom domain for its IP(s) to be added to the whitelist range of the middleware.
 
 ## Prerequisites
 
@@ -48,7 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name               | Description                                   | Value                                 |
 | ------------------ | --------------------------------------------- | ------------------------------------- |
 | `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-ip-whitelist-sync` |
-| `image.tag`        | The image tag to use.                         | `1.0.1`                               |
+| `image.tag`        | The image tag to use.                         | `1.0.2`                               |
 
 
 ### Cron parameters
@@ -65,6 +65,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                                | Description                                                                                                                               | Value          |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | `middleware.name`                   | The name of the IP whitelist middleware.                                                                                                  | `ip-whitelist` |
+| `middleware.customDomain`           | The custom domain that you want to whitelist instead of your public IP.                                                                   | `""`           |
 | `middleware.ipStrategy.enabled`     | The ipStrategy option defines two parameters that set how Traefik determines the client IP: depth, and excludedIPs.                       | `false`        |
 | `middleware.ipStrategy.depth`       | The depth option tells Traefik to use the X-Forwarded-For header and take the IP located at the depth position (starting from the right). | `1`            |
 | `middleware.ipStrategy.excludedIPs` | excludedIPs configures Traefik to scan the X-Forwarded-For header and select the first IP not in the list.                                | `[]`           |
@@ -99,6 +100,25 @@ helm install --namespace traefik example -f values.yaml kubitodev/example
 ### Default namespace
 
 This chart is intended to run where Traefik is installed, so always run it in that namespace, as it uses the Traefik service account to run the job.
+
+### Custom domain
+
+If you have your VPN on a custom domain and it is not a part of your network, you can set the `middleware.customDomain` value to that domain. It will get the IP(s) and whitelist them in the middleware as well, including your public IP so you can access it from home without VPN.
+
+### Using ArgoCD
+
+If you are using ArgoCD, the chart will not work if you don't set the ArgoCD application to ignore the `sourceRange` field of the `Middleware` CRD. So, in your application, set the following:
+
+```yaml
+ignoreDifferences:
+    - group: traefik.containo.us
+      kind: Middleware
+      jsonPointers:
+      - /spec/ipWhiteList/sourceRange
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true
+```
 
 ## Troubleshooting
 
