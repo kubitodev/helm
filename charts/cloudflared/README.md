@@ -46,21 +46,23 @@ The command removes all the Kubernetes components associated with the chart and 
 ### Image parameters
 
 | Name                    | Description                                   | Value                    |
-| ----------------------- | --------------------------------------------- | ------------------------ |
+|-------------------------|-----------------------------------------------|--------------------------|
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
 | `image.tag`             | The image tag to use.                         | `2022.7.1`               |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
+| `image.arch`            | The logic of cpu architecture.                | `amd64|arm64`            |
 
 
 ### Deployment parameters
 
 | Name                | Description                                                                  | Value   |
-| ------------------- | ---------------------------------------------------------------------------- | ------- |
+|---------------------|------------------------------------------------------------------------------| ------- |
 | `replicaCount`      | The number of replicas to deploy.                                            | `3`     |
 | `tunnelID`          | The Argo Tunnel ID you created. Check the configuration section for details. | `""`    |
 | `auth.accountTag`   | The Argo tunnel account tag.                                                 | `""`    |
 | `auth.tunnelName`   | The Argo tunnel name.                                                        | `""`    |
 | `auth.tunnelSecret` | The Argo tunnel secret.                                                      | `""`    |
+| `auth.tunnelToken`  | The Argo tunnel jwt token.                                                   | `""`    |
 | `existingSecret`    | The name of an existing secret containing the Argo tunnel settings.          | `""`    |
 | `warpRouting`       | Whether to enable WARP traffic routing to local subnets.                     | `false` |
 | `ingress`           | The ingress settings to apply. Check the configuration section for examples. | `[]`    |
@@ -85,7 +87,16 @@ helm install example -f values.yaml kubitodev/example
 
 ## Configuration and installation details
 
-### Getting the Argo Tunnel ID (required)
+### Cloudflared the managed way
+If you choose to install cloudflared by managed way, no configuration is necessary
+
+Create tunnel from UI, then provide jwt token during helm installation
+```console
+helm install cloudflared --set auth.tunnelToken=ey.....
+```
+
+### Getting the Argo Tunnel ID
+> **Warning**: This step is not necessary if you choosed the managed method
 
 - Start by downloading and installing the lightweight Cloudflare Tunnel daemon, `cloudflared`. You can find it [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/).
 

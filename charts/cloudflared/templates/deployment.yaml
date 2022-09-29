@@ -28,7 +28,7 @@ spec:
         {{- end }}
             - run
           name: {{ .Release.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ .Values.image.arch }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ default "amd64" .Values.image.arch }}"
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         {{- if ne .Values.auth.tunnelToken "" }}
           env:

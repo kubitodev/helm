@@ -3,7 +3,7 @@ maintainers:
   - name: kubitodev
     url: https://kubito.dev
 apiVersion: v2
-appVersion: 2022.9.1-amd64
+appVersion: 2022.9.1
 version: 1.0.2
 description: Kubito Cloudflared (Argo Tunnel) Helm Chart
 home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
