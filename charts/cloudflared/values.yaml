@@ -5,11 +5,13 @@
 ## @param image.repository The Docker repository to pull the image from.
 ## @param image.tag The image tag to use.
 ## @param image.imagePullPolicy The logic of image pulling.
+## @param image.arch Cpu Architecture.
 ##
 image:
   repository: cloudflare/cloudflared
-  tag: "2022.7.1"
+  tag: "2022.9.1"
   imagePullPolicy: IfNotPresent
+  arch: "amd64"
 
 ## @section Deployment parameters
 
@@ -22,11 +24,13 @@ tunnelID: ""
 ## @param auth.accountTag The Argo tunnel account tag.
 ## @param auth.tunnelName The Argo tunnel name.
 ## @param auth.tunnelSecret The Argo tunnel secret.
+## @param auth.tunnelToken The Argo tunnel jwt token for managed tunnel.
 ##
 auth:
   accountTag: ""
   tunnelName: ""
   tunnelSecret: ""
+  tunnelToken: ""
 ## @param existingSecret The name of an existing secret containing the Argo tunnel settings.
 ##
 existingSecret: ""

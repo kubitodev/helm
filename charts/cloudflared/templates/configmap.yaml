@@ -1,3 +1,4 @@
+{{- if eq .Values.auth.tunnelToken "" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -11,3 +12,4 @@ data:
     warp-routing:
       enabled: {{ .Values.warpRouting }}
     ingress: {{ toYaml .Values.ingress | nindent 6 }}
+{{ end }}

@@ -19,34 +19,47 @@ spec:
         checksum/warp-routing: {{ .Values.warpRouting | toJson | sha256sum }}
     spec:
       containers:
-      - args:
-        - tunnel
-        - --no-autoupdate
-        - --config
-        - /etc/cloudflared/config.yaml
-        - run
-        name: {{ .Release.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-        volumeMounts:
-        - mountPath: /etc/cloudflared/tunnel-config.json
-          name: tunnel-secret-volume
-          subPath: tunnel-config.json
-        - mountPath: /etc/cloudflared/config.yaml
-          name: cloudflared-config-volume
-          subPath: config.yaml
+        - args:
+            - tunnel
+            - --no-autoupdate
+        {{- if eq .Values.auth.tunnelToken "" }}
+            - --config
+            - /etc/cloudflared/config.yaml
+        {{- end }}
+            - run
+          name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}-{{ .Values.image.arch }}"
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        {{- if ne .Values.auth.tunnelToken "" }}
+          env:
+          - name: TUNNEL_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tunnel-secret
+                key: token
+        {{- else }}
+          volumeMounts:
+            - mountPath: /etc/cloudflared/tunnel-config.json
+              name: tunnel-secret-volume
+              subPath: tunnel-config.json
+            - mountPath: /etc/cloudflared/config.yaml
+              name: cloudflared-config-volume
+              subPath: config.yaml
+        {{- end }}
       imagePullSecrets:
-      - name: {{ default "tunnel-secret" .Values.existingSecret }}
+        - name: {{ default "tunnel-secret" .Values.existingSecret }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      {{- if eq .Values.auth.token "" }}
       volumes:
-      - name: tunnel-secret-volume
-        secret:
-          defaultMode: 420
-          optional: false
-          secretName: {{ default "tunnel-secret" .Values.existingSecret }}
-      - name: cloudflared-config-volume
-        configMap:
-          defaultMode: 420
-          name: {{ .Release.Name }}
-          optional: false
+        - name: tunnel-secret-volume
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: {{ default "tunnel-secret" .Values.existingSecret }}
+        - name: cloudflared-config-volume
+          configMap:
+            defaultMode: 420
+            name: {{ .Release.Name }}
+            optional: false
+      {{- end }}
