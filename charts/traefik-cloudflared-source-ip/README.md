@@ -62,7 +62,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name               | Description                                   | Value                                     |
 | ------------------ | --------------------------------------------- | ----------------------------------------- |
 | `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-cloudflared-source-ip` |
-| `image.tag`        | The image tag to use.                         | `1.0.4`                                   |
+| `image.tag`        | The image tag to use.                         | `1.0.6`                                   |
 
 
 ### Middleware parameters
@@ -79,7 +79,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | `traefik.image.repository`             | The Docker repository to pull the image from.                                                                       | `kubitodev/traefik-cloudflared-source-ip`                                                                             |
 | `traefik.namespace`                    | The namespace to deploy Traefik to.                                                                                 | `traefik`                                                                                                             |
-| `traefik.image.tag`                    | The image tag to use.                                                                                               | `1.0.4`                                                                                                               |
+| `traefik.image.tag`                    | The image tag to use.                                                                                               | `1.0.6`                                                                                                               |
 | `traefik.additionalArguments`          | Additional arguments to run the image with. The default one is required.                                            | `["--experimental.localPlugins.cloudflared-source-ip.moduleName=github.com/kubitodev/traefik-cloudflared-source-ip"]` |
 | `traefik.cloudflareTls.existingSecret` | The name of an existing secret containing the `tls.crt` and `tls.key`.                                              | `""`                                                                                                                  |
 | `traefik.cloudflareTls.crt`            | The TLS certificate obtained from Cloudflare. Check the configuration section for information on how to obtain one. | `""`                                                                                                                  |
@@ -91,7 +91,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                            | Description                                                                                            | Value                    |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------ |
 | `cloudflared.image.repository`  | The Docker repository to pull the image from. Use `ghcr.io/milgradesec/cloudflared` for ARM64 devices. | `cloudflare/cloudflared` |
-| `cloudflared.image.tag`         | The image tag to use.                                                                                  | `2022.7.1`               |
+| `cloudflared.image.tag`         | The image tag to use.                                                                                  | `2022.10.3`              |
 | `cloudflared.replicaCount`      | The number of replicas to deploy.                                                                      | `1`                      |
 | `cloudflared.tunnelID`          | The Argo Tunnel ID you created. Check the configuration section for details.                           | `""`                     |
 | `cloudflared.ingress`           | The ingress settings to apply. Check the configuration section for examples.                           | `[]`                     |
