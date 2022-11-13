@@ -16,7 +16,7 @@ global:
 ##
 image:
   repository: kubitodev/traefik-cloudflared-source-ip
-  tag: "1.0.4"
+  tag: "1.0.6"
 
 ## @section Middleware parameters
 
@@ -44,7 +44,7 @@ traefik:
   namespace: traefik
   image:
     repository: kubitodev/traefik-cloudflared-source-ip
-    tag: "1.0.4"
+    tag: "1.0.6"
 
   additionalArguments:
     - "--experimental.localPlugins.cloudflared-source-ip.moduleName=github.com/kubitodev/traefik-cloudflared-source-ip"
@@ -71,7 +71,7 @@ traefik:
 cloudflared:
   image:
     repository: cloudflare/cloudflared
-    tag: "2022.7.1"
+    tag: "2022.10.3"
 
   replicaCount: 1
 
