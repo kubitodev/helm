@@ -2,6 +2,28 @@ apiVersion: v1
 entries:
   cloudflared:
   - apiVersion: v2
+    appVersion: 2023.5.1
+    created: "2023-05-27T09:11:25.789724784Z"
+    description: Kubito Cloudflared (Argo Tunnel) Helm Chart
+    digest: 7658be2a902171c583ac72c2abc64701c04573cd7638de77ca2c79f5c0b86df9
+    home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/cloudflared-1.0.3/cloudflared-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
     appVersion: 2022.10.3
     created: "2022-11-13T02:22:42.178552759Z"
     description: Kubito Cloudflared (Argo Tunnel) Helm Chart
@@ -217,6 +239,41 @@ entries:
     version: 1.0.0
   traefik-cloudflared-source-ip:
   - apiVersion: v2
+    appVersion: 2.10.1
+    created: "2023-05-27T09:11:25.929998659Z"
+    dependencies:
+    - condition: global.cloudflaredEnabled
+      name: cloudflared
+      repository: https://charts.kubito.dev
+      version: 1.x.x
+    - condition: global.traefikEnabled
+      name: traefik
+      repository: https://traefik.github.io/charts
+      version: 23.0.1
+    description: Kubito Traefik Cloudflared (Argo Tunnel) Real IP Helm Chart
+    digest: 75962c746193b12f002a112ce4a8c1f0dc61227f80df9e5270486cccc77887d1
+    home: https://github.com/kubitodev/helm/tree/main/charts/traefik-cloudflared-source-ip
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - middleware
+    - real-ip
+    - source-ip
+    - argo-tunnel
+    - argo
+    - traefik
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: traefik-cloudflared-source-ip
+    sources:
+    - https://github.com/kubitodev/traefik-cloudflared-source-ip
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/traefik-cloudflared-source-ip-1.0.7/traefik-cloudflared-source-ip-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v2
     appVersion: 2.9.4
     created: "2022-11-13T02:22:42.303160633Z"
     dependencies:
@@ -428,6 +485,30 @@ entries:
     version: 1.0.0
   traefik-whitelist-ddns:
   - apiVersion: v2
+    appVersion: 2.x.x
+    created: "2023-05-27T09:11:26.037247121Z"
+    description: Kubito Traefik Whitelist DDNS Helm Chart
+    digest: ac06aa8becbf3d2aa2117896284d2fc8b0cfdd38dce9510abc66faa7314d377f
+    home: https://github.com/kubitodev/helm/tree/main/charts/traefik-whitelist-ddns
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - traefik
+    - ddns
+    - cronjob
+    - middleware
+    - ip
+    - whitelist
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: traefik-whitelist-ddns
+    sources:
+    - https://github.com/kubitodev/traefik-whitelist-ddns
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.5/traefik-whitelist-ddns-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     appVersion: 2.8.0
     created: "2022-07-22T14:25:16.423324639Z"
     description: Kubito Traefik Whitelist DDNS Helm Chart
@@ -547,4 +628,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2022-11-13T02:22:42.303248934Z"
+generated: "2023-05-27T09:11:26.037303922Z"
