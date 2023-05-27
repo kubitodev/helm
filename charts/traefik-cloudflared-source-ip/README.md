@@ -56,14 +56,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | `global.cloudflaredEnabled` | Whether to deploy the cloudflared subchart. It is required to have it, but you can deploy it on your own if you want. Check the [chart](https://artifacthub.io/packages/helm/kubitodev/cloudflared) for configuration.                                                                                              | `true` |
 | `global.traefikEnabled`     | Whether to deploy the official Traefik chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/traefik/traefik) for configuration. IMPORTANT: If you want to deploy it on your own, make sure you use the `kubitodev/traefik-cloudflared-source-ip` image as the base image for Traefik. | `true` |
 
-
 ### Image parameters
 
 | Name               | Description                                   | Value                                     |
 | ------------------ | --------------------------------------------- | ----------------------------------------- |
 | `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-cloudflared-source-ip` |
-| `image.tag`        | The image tag to use.                         | `1.0.6`                                   |
-
+| `image.tag`        | The image tag to use.                         | `1.0.7`                                   |
 
 ### Middleware parameters
 
@@ -72,26 +70,24 @@ The command removes all the Kubernetes components associated with the chart and 
 | `middleware.name`         | The name of the middleware.                                                                                                                  | `cloudflared-source-ip` |
 | `middleware.excludedNets` | The source IP will be the first one that is not included in any of the CIDRs passed as the `excludedNets` parameter. Can be left as default. | `["1.1.1.1/24"]`        |
 
-
 ### [Traefik](https://artifacthub.io/packages/helm/traefik/traefik) parameters
 
 | Name                                   | Description                                                                                                         | Value                                                                                                                 |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | `traefik.image.repository`             | The Docker repository to pull the image from.                                                                       | `kubitodev/traefik-cloudflared-source-ip`                                                                             |
 | `traefik.namespace`                    | The namespace to deploy Traefik to.                                                                                 | `traefik`                                                                                                             |
-| `traefik.image.tag`                    | The image tag to use.                                                                                               | `1.0.6`                                                                                                               |
+| `traefik.image.tag`                    | The image tag to use.                                                                                               | `1.0.7`                                                                                                               |
 | `traefik.additionalArguments`          | Additional arguments to run the image with. The default one is required.                                            | `["--experimental.localPlugins.cloudflared-source-ip.moduleName=github.com/kubitodev/traefik-cloudflared-source-ip"]` |
 | `traefik.cloudflareTls.existingSecret` | The name of an existing secret containing the `tls.crt` and `tls.key`.                                              | `""`                                                                                                                  |
 | `traefik.cloudflareTls.crt`            | The TLS certificate obtained from Cloudflare. Check the configuration section for information on how to obtain one. | `""`                                                                                                                  |
 | `traefik.cloudflareTls.key`            | The TLS key obtained from Cloudflare. Check the configuration section for information on how to obtain one.         | `""`                                                                                                                  |
-
 
 ### [Cloudflared](https://artifacthub.io/packages/helm/kubitodev/cloudflared) parameters
 
 | Name                            | Description                                                                                            | Value                    |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------ |
 | `cloudflared.image.repository`  | The Docker repository to pull the image from. Use `ghcr.io/milgradesec/cloudflared` for ARM64 devices. | `cloudflare/cloudflared` |
-| `cloudflared.image.tag`         | The image tag to use.                                                                                  | `2022.10.3`              |
+| `cloudflared.image.tag`         | The image tag to use.                                                                                  | `2023.5.1`               |
 | `cloudflared.replicaCount`      | The number of replicas to deploy.                                                                      | `1`                      |
 | `cloudflared.tunnelID`          | The Argo Tunnel ID you created. Check the configuration section for details.                           | `""`                     |
 | `cloudflared.ingress`           | The ingress settings to apply. Check the configuration section for examples.                           | `[]`                     |

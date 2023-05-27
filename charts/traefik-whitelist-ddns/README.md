@@ -50,7 +50,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-ip-whitelist-sync` |
 | `image.tag`        | The image tag to use.                         | `1.0.2`                               |
 
-
 ### Cron parameters
 
 | Name                                  | Description                                                      | Value           |
@@ -58,7 +57,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | `cron.job.schedule`                   | Interval for how often the job should run.                       | `"*/5 * * * *"` |
 | `cron.job.successfulJobsHistoryLimit` | Limit of the successful jobs saved in history as completed pods. | `1`             |
 | `cron.pod.restartPolicy`              | The logic for restarting the cron pod.                           | `OnFailure`     |
-
 
 ### Middleware parameters
 
@@ -69,7 +67,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | `middleware.ipStrategy.enabled`     | The ipStrategy option defines two parameters that set how Traefik determines the client IP: depth, and excludedIPs.                       | `false`        |
 | `middleware.ipStrategy.depth`       | The depth option tells Traefik to use the X-Forwarded-For header and take the IP located at the depth position (starting from the right). | `1`            |
 | `middleware.ipStrategy.excludedIPs` | excludedIPs configures Traefik to scan the X-Forwarded-For header and select the first IP not in the list.                                | `[]`           |
-
 
 ### RBAC parameters
 

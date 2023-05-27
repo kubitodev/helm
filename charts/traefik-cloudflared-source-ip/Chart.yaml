@@ -3,8 +3,8 @@ maintainers:
   - name: kubitodev
     url: https://kubito.dev
 apiVersion: v2
-appVersion: 2.9.4
-version: 1.0.6
+appVersion: 2.10.1
+version: 1.0.7
 description: Kubito Traefik Cloudflared (Argo Tunnel) Real IP Helm Chart
 home: https://github.com/kubitodev/helm/tree/main/charts/traefik-cloudflared-source-ip
 icon: https://kubito.dev/images/kubito.svg
@@ -30,4 +30,4 @@ dependencies:
   - condition: global.traefikEnabled
     name: traefik
     repository: https://traefik.github.io/charts
-    version: 20.1.0
+    version: 23.0.1
