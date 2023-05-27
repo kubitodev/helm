@@ -3,7 +3,7 @@ maintainers:
   - name: kubitodev
     url: https://kubito.dev
 apiVersion: v2
-appVersion: 2
+appVersion: 2.x.x
 version: 1.0.5
 description: Kubito Traefik Whitelist DDNS Helm Chart
 home: https://github.com/kubitodev/helm/tree/main/charts/traefik-whitelist-ddns
