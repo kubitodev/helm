@@ -12,22 +12,43 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}
+      {{- if .Values.local.enabled }}
       annotations:
-        checksum/tunnel-id: {{ sha256sum .Values.tunnelID }}
+        checksum/tunnel-id: {{ sha256sum .Values.local.auth.tunnelID }}
         checksum/ingress: {{ .Values.ingress | toJson | sha256sum }}
         checksum/auth: {{ .Values.auth | toJson | sha256sum }}
         checksum/warp-routing: {{ .Values.warpRouting | toJson | sha256sum }}
+      {{- end }}
     spec:
       containers:
       - args:
         - tunnel
         - --no-autoupdate
+        {{- if .Values.local.enabled }}
         - --config
         - /etc/cloudflared/config.yaml
         - run
+        {{- else if .Values.managed.enabled }}
+        - run
+        - --token
+        - $(CF_MANAGED_TUNNEL_TOKEN)
+        {{- end }}
         name: {{ .Release.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        {{- if .Values.managed.enabled }}
+        env:
+        - name: CF_MANAGED_TUNNEL_TOKEN
+          {{- if .Values.managed.existingSecret }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.managed.existingSecret }}
+              key: cf-tunnel-token
+          {{- else }}
+          value: {{ .Values.managed.token }}
+          {{- end }}
+        {{- end }}
+        {{- if .Values.local.enabled }}
         volumeMounts:
         - mountPath: /etc/cloudflared/tunnel-config.json
           name: tunnel-secret-volume
@@ -35,18 +56,19 @@ spec:
         - mountPath: /etc/cloudflared/config.yaml
           name: cloudflared-config-volume
           subPath: config.yaml
-      imagePullSecrets:
-      - name: {{ default "tunnel-secret" .Values.existingSecret }}
+        {{- end }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      {{- if .Values.local.enabled }}
       volumes:
       - name: tunnel-secret-volume
         secret:
           defaultMode: 420
           optional: false
-          secretName: {{ default "tunnel-secret" .Values.existingSecret }}
+          secretName: {{ default "tunnel-secret" .Values.local.auth.existingSecret }}
       - name: cloudflared-config-volume
         configMap:
           defaultMode: 420
           name: {{ .Release.Name }}
           optional: false
+      {{- end }}
