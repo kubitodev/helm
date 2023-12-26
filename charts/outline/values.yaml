@@ -1,0 +1,295 @@
+## Default values for Outline Wiki
+
+## @section Global parameters
+
+## @param global.postgresqlEnabled Whether to deploy the postgresql subchart. Check the [chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration.
+## @param global.redisEnabled Whether to deploy the redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.
+## @param global.minioEnabled Whether to deploy the minio chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/minio) for configuration.
+##
+global:
+  postgresqlEnabled: true
+  redisEnabled: true
+  minioEnabled: true
+
+## @section Image parameters
+
+## @param image.repository The Docker repository to pull the image from.
+## @param image.tag The image tag to use.
+## @param image.imagePullPolicy The logic of image pulling.
+##
+image:
+  repository: outlinewiki/outline
+  tag: "0.74.0"
+  imagePullPolicy: IfNotPresent
+
+## @section Deployment parameters
+
+## @param replicaCount The number of replicas to deploy.
+##
+replicaCount: 1
+
+## @param outline.secretKey.value Direct value for the secret key, if not using Kubernetes secret.
+## @param outline.secretKey.existingSecret Reference to an existing Kubernetes secret for the secret key (outline-secret-key).
+## @param outline.utilsSecret.value Direct value for the utilities secret, if not using Kubernetes secret.
+## @param outline.utilsSecret.existingSecret Reference to an existing Kubernetes secret for the utilities secret (outline-utils-key).
+## @param outline.nodeEnv The environment in which the application is running (e.g., production, development).
+## @param outline.database.connectionPoolMin Minimum number of connections in the database pool.
+## @param outline.database.connectionPoolMax Maximum number of connections in the database pool.
+## @param outline.database.sslMode SSL mode for the database connection.
+## @param outline.service.url The URL where the application will be accessible.
+## @param outline.service.port The port on which the application will run.
+## @param outline.fileStorage.type Type of file storage to be used (e.g., local, s3).
+## @param outline.fileStorage.localRootDir Local directory path for storing files, if using local storage.
+## @param outline.fileStorage.uploadMaxSize Maximum file upload size limit.
+## @param outline.optional.collaborationUrl URL for collaboration features, if any.
+## @param outline.optional.forceHttps Forces HTTPS connections for increased security.
+## @param outline.optional.enableUpdates Enables automatic application updates.
+## @param outline.optional.webConcurrency Number of concurrent web processes to run.
+## @param outline.optional.maximumImportSize Maximum size limit for importing documents.
+## @param outline.optional.logLevel Sets the level of logging detail (e.g., info, error, debug).
+## @param outline.optional.googleAnalyticsId Google Analytics ID for website traffic analysis.
+## @param outline.optional.sentry.dsn Data Source Name for Sentry, used to report errors.
+## @param outline.optional.sentry.tunnel URL for Sentry tunnel, useful for bypassing ad blockers.
+## @param outline.optional.smtp.enabled Whether to enable SMTP.
+## @param outline.optional.smtp.host Hostname of the SMTP server.
+## @param outline.optional.smtp.port Port number for the SMTP server.
+## @param outline.optional.smtp.username Username for SMTP server authentication.
+## @param outline.optional.smtp.existingSecret Reference to an existing Kubernetes secret for SMTP password configuration (smtp-password).
+## @param outline.optional.smtp.password Password for SMTP server authentication.
+## @param outline.optional.smtp.fromEmail Email address used as the sender in outgoing emails.
+## @param outline.optional.smtp.replyEmail Email address used for replies to outgoing emails.
+## @param outline.optional.smtp.tlsCiphers TLS ciphers to use for SMTP connections.
+## @param outline.optional.smtp.secure Boolean indicating whether to use a secure connection for SMTP.
+## @param outline.optional.defaultLanguage Default language setting for the application interface.
+## @param outline.optional.rateLimiter.enabled Enable or disable rate limiting.
+## @param outline.optional.rateLimiter.requests Number of requests allowed per time window.
+## @param outline.optional.rateLimiter.durationWindow Duration of the rate limit window in seconds.
+## @param outline.optional.developmentUnsafeInlineCsp Enables unsafe-inline CSP directive in development mode.
+## @param outline.optional.ssl.key Base64 encoded private key for SSL.
+## @param outline.optional.ssl.cert Base64 encoded certificate for SSL.
+## @param outline.optional.cdnUrl URL for Content Delivery Network, if used.
+##
+outline:
+  secretKey:
+    value: ""
+    existingSecret: ""
+  utilsSecret:
+    value: ""
+    existingSecret: ""
+  nodeEnv: production
+  database:
+    connectionPoolMin: ""
+    connectionPoolMax: "20"
+    sslMode: disable
+  service:
+    url: https://app.outline.dev
+    port: 3000
+  fileStorage:
+    type: s3 # set to local|s3
+    localRootDir: /var/lib/outline/data
+    uploadMaxSize: 26214400
+  optional:
+    collaborationUrl: ""
+    forceHttps: false
+    enableUpdates: false
+    webConcurrency: 1
+    maximumImportSize: 5120000
+    logLevel: info
+    googleAnalyticsId: ""
+    sentry:
+      dsn: ""
+      tunnel: ""
+    smtp:
+      enabled: false
+      host: ""
+      port: ""
+      username: ""
+      existingSecret: ""
+      password: ""
+      fromEmail: hello@example.com
+      replyEmail: hello@example.com
+      tlsCiphers: ""
+      secure: true
+    defaultLanguage: en_US
+    rateLimiter:
+      enabled: false
+      requests: 1000
+      durationWindow: 60
+    developmentUnsafeInlineCsp: false
+    ssl:
+      key: ""
+      cert: ""
+    cdnUrl: ""
+
+## @param auth.slack.enabled Whether to enable Slack auth.
+## @param auth.slack.clientId.value Direct value for the Slack client ID, if not using Kubernetes secret.
+## @param auth.slack.clientId.existingSecret Reference to an existing Kubernetes secret for the Slack client ID (slack-client-id).
+## @param auth.slack.clientSecret.value Direct value for the Slack client secret, if not using Kubernetes secret.
+## @param auth.slack.clientSecret.existingSecret Reference to an existing Kubernetes secret for the Slack client secret (slack-client-secret).
+## @param auth.slack.messageActions Enables Slack message actions integration.
+## @param auth.slack.appId Slack application ID.
+## @param auth.slack.verificationToken Slack verification token.
+## @param auth.google.enabled Whether to enable Google auth.
+## @param auth.google.clientId.value Direct value for the Google client ID, if not using Kubernetes secret.
+## @param auth.google.clientId.existingSecret Reference to an existing Kubernetes secret for the Google client ID (google-client-id).
+## @param auth.google.clientSecret.value Direct value for the Google client secret, if not using Kubernetes secret.
+## @param auth.google.clientSecret.existingSecret Reference to an existing Kubernetes secret for the Google client secret (google-client-secret).
+## @param auth.azure.enabled Whether to enable Azure auth.
+## @param auth.azure.clientId.value Direct value for the Azure client ID, if not using Kubernetes secret.
+## @param auth.azure.clientId.existingSecret Reference to an existing Kubernetes secret for the Azure client ID (azure-client-id).
+## @param auth.azure.clientSecret.value Direct value for the Azure client secret, if not using Kubernetes secret.
+## @param auth.azure.clientSecret.existingSecret Reference to an existing Kubernetes secret for the Azure client secret (azure-client-secret).
+## @param auth.azure.resourceAppId Azure resource application ID.
+## @param auth.oidc.enabled Whether to enable OIDC auth.
+## @param auth.oidc.clientId.value Direct value for the OIDC client ID, if not using Kubernetes secret.
+## @param auth.oidc.clientId.existingSecret Reference to an existing Kubernetes secret for the OIDC client ID (oidc-client-id).
+## @param auth.oidc.clientSecret.value Direct value for the OIDC client secret, if not using Kubernetes secret.
+## @param auth.oidc.clientSecret.existingSecret Reference to an existing Kubernetes secret for the OIDC client secret (oidc-client-secret).
+## @param auth.oidc.authUri OIDC authorization endpoint URI.
+## @param auth.oidc.tokenUri OIDC token endpoint URI.
+## @param auth.oidc.userinfoUri OIDC userinfo endpoint URI.
+## @param auth.oidc.usernameClaim OIDC claim used for the username.
+## @param auth.oidc.displayName Name to display for OIDC authentication.
+## @param auth.oidc.scopes OIDC scopes to request.
+##
+auth:
+  slack:
+    enabled: false
+    clientId:
+      value: ""
+      existingSecret: ""
+    clientSecret:
+      value: ""
+      existingSecret: ""
+    messageActions: true
+    appId: ""
+    verificationToken: ""
+  google:
+    enabled: false
+    clientId:
+      value: ""
+      existingSecret: ""
+    clientSecret:
+      value: ""
+      existingSecret: ""
+  azure:
+    enabled: false
+    clientId:
+      value: ""
+      existingSecret: ""
+    clientSecret:
+      value: ""
+      existingSecret: ""
+    resourceAppId: ""
+  oidc:
+    enabled: false
+    clientId:
+      value: ""
+      existingSecret: ""
+    clientSecret:
+      value: ""
+      existingSecret: ""
+    authUri: ""
+    tokenUri: ""
+    userinfoUri: ""
+    usernameClaim: preferred_username
+    displayName: OpenID Connect
+    scopes: openid profile email
+
+## @section Ingress parameters
+
+## @param ingress.enabled Whether to enable the ingress.
+## @param ingress.annotations Annotations for the Ingress resource.
+## @param ingress.tls.enabled Enable TLS for the Ingress.
+## @param ingress.tls.hosts List of hosts for which the TLS certificate is valid.
+## @param ingress.rules.host The host name that the Ingress will respond to.
+## @param ingress.rules.http.paths.path URL path for the HTTP rule.
+## @param ingress.rules.http.paths.pathType Type of path matching.
+## @param ingress.rules.http.paths.backend.service.name Name of the service that serves the specified path.
+## @param ingress.rules.http.paths.backend.service.port.name Name of the service port.
+##
+ingress:
+  enabled: false
+  annotations: {}
+  tls:
+    enabled: false
+    hosts: []
+
+  rules:
+    host: ""
+
+    http:
+      paths:
+        path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ""
+            port:
+              name: web
+
+## @section Redis parameters
+
+## @param redis.architecture Redis deployment architecture: 'standalone' or 'replication'.
+## @param redis.auth.enabled Enable or disable authentication for Redis.
+##
+redis:
+  architecture: standalone
+  auth:
+    enabled: false
+
+## @section PostgreSQL parameters
+
+## @param postgresql.architecture PostgreSQL deployment architecture: 'standalone' or 'replication'.
+## @param postgresql.auth.database Name of the default database created on initial startup.
+## @param postgresql.auth.username Username for the default database.
+## @param postgresql.auth.existingSecret Reference to an existing Kubernetes secret containing the database credentials. Use 'password' for user, and 'postgres-password' for postgres user.
+## @param postgresql.auth.password Password for the default database user (used if existingSecret is not specified).
+## @param postgresql.auth.postgresPassword Password for the 'postgres' administrative user (used if existingSecret is not specified).
+##
+postgresql:
+  architecture: standalone
+  auth:
+    database: outline
+    username: outline
+    existingSecret: ""
+    password: ""
+    postgresPassword: ""
+
+## @section Minio parameters
+
+## @param minio.mode MinIO deployment mode: 'standalone' or 'distributed'.
+## @param minio.disableWebUI Enable or disable the MinIO web user interface.
+## @param minio.defaultBuckets Comma-separated list of default buckets to create on startup.
+## @param minio.auth.rootUser Root user name for MinIO access.
+## @param minio.auth.existingSecret Reference to an existing Kubernetes secret containing MinIO credentials. Use 'root-user' for user, and 'root-password' for the password.
+## @param minio.auth.rootPassword Root password for MinIO access (used if existingSecret is not specified).
+## @param minio.ingress.enabled Enable or disable Ingress for MinIO.
+## @param minio.ingress.hostname Default host for the ingress resource for MinIO.
+## @param minio.s3Config.region Direct value for the AWS region, if not using Kubernetes secret.
+## @param minio.s3Config.accelerateUrl URL for S3 Transfer Acceleration.
+## @param minio.s3Config.uploadMaxSize Max size for S3 uploads.
+## @param minio.s3Config.uploadBucketUrl URL to the S3 bucket for uploads.
+## @param minio.s3Config.uploadBucketName Name of the S3 bucket for uploads.
+## @param minio.s3Config.forcePathStyle Whether to force path style URLs for S3.
+## @param minio.s3Config.acl Default ACL for S3 objects.
+##
+minio:
+  mode: standalone
+  disableWebUI: false
+  defaultBuckets: outline
+  auth:
+    rootUser: ""
+    existingSecret: ""
+    rootPassword: ""
+  ingress:
+    enabled: false
+    hostname: "outline.server.example"
+  s3Config:
+    region: "eu-central-1"
+    accelerateUrl: ""
+    uploadMaxSize: "26214400"
+    uploadBucketUrl: http://minio.minio.svc.cluster.local:4569
+    uploadBucketName: outline
+    forcePathStyle: true
+    acl: private

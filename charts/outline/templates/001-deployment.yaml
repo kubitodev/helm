@@ -1,0 +1,317 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "{{ .Values.outline.nodeEnv }}"
+            - name: URL
+              value: "{{ .Values.outline.service.url }}"
+            - name: PORT
+              value: "{{ .Values.outline.service.port }}"
+
+          {{- if .Values.outline.secretKey.existingSecret }}
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.secretKey.existingSecret }}"
+                  key: outline-secret-key
+            {{- else if .Values.outline.secretKey.value }}
+            - name: SECRET_KEY
+              value: "{{ .Values.outline.secretKey.value }}"
+            {{- end }}
+
+            {{- if .Values.outline.utilsSecret.existingSecret }}
+            - name: UTILS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.utilsSecret.existingSecret }}"
+                  key: outline-utils-key
+            {{- else if .Values.outline.utilsSecret.value }}
+            - name: UTILS_SECRET
+              value: "{{ .Values.outline.utilsSecret.value }}"
+          {{- end }}
+
+          {{- if .Values.global.postgresqlEnabled }}
+            {{- if .Values.postgresql.auth.existingSecret }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.postgresql.auth.existingSecret }}"
+                  key: password
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
+            - name: DATABASE_URL_TEST
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- else }}
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
+            - name: DATABASE_URL_TEST
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- end }}
+          {{- else }}
+            {{- if .Values.postgresql.auth.existingSecret }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.postgresql.auth.existingSecret }}"
+                  key: password
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}"
+            - name: DATABASE_URL_TEST
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- else }}
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}"
+            - name: DATABASE_URL_TEST
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- end }}
+          {{- end }}
+
+            - name: DATABASE_CONNECTION_POOL_MIN
+              value: "{{ .Values.outline.database.connectionPoolMin }}"
+            - name: DATABASE_CONNECTION_POOL_MAX
+              value: "{{ .Values.outline.database.connectionPoolMax }}"
+            - name: PGSSLMODE
+              value: "{{ .Values.outline.database.sslMode }}"
+
+          {{- if .Values.global.redisEnabled }}
+            - name: REDIS_URL
+              value: "redis://{{ .Release.Name }}-redis-master:6379"
+          {{- end }}
+
+          {{- if eq .Values.outline.fileStorage.type "s3" }}
+            {{- if .Values.minio.auth.existingSecret }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.minio.auth.existingSecret }}"
+                  key: root-user
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.minio.auth.existingSecret }}"
+                  key: root-password
+            {{- else }}
+            - name: AWS_ACCESS_KEY_ID
+              value: "{{ .Values.minio.auth.rootUser }}"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "{{ .Values.minio.auth.rootPassword }}"
+            {{- end }}
+            - name: AWS_REGION
+              value: "{{ .Values.minio.s3Config.region }}"
+            - name: AWS_S3_UPLOAD_BUCKET_NAME
+              value: "{{ .Values.minio.s3Config.uploadBucketName }}"
+            - name: AWS_S3_UPLOAD_BUCKET_URL
+              value: "{{ .Values.minio.s3Config.uploadBucketUrl }}"
+            - name: AWS_S3_FORCE_PATH_STYLE
+              value: "{{ .Values.minio.s3Config.forcePathStyle }}"
+            - name: AWS_S3_ACL
+              value: "{{ .Values.minio.s3Config.acl }}"
+            - name: FILE_STORAGE_UPLOAD_MAX_SIZE
+              value: "{{ .Values.minio.s3Config.uploadMaxSize }}"
+          {{- else if eq .Values.outline.fileStorage.type "local" }}
+            - name: FILE_STORAGE
+              value: "{{ .Values.outline.fileStorage.type }}"
+            - name: FILE_STORAGE_LOCAL_ROOT_DIR
+              value: "{{ .Values.outline.fileStorage.localRootDir }}"
+            - name: FILE_STORAGE_UPLOAD_MAX_SIZE
+              value: "{{ .Values.outline.fileStorage.uploadMaxSize }}"
+          {{- end }}
+
+            - name: COLLABORATION_URL
+              value: "{{ .Values.outline.optional.collaborationUrl }}"
+            - name: FORCE_HTTPS
+              value: "{{ .Values.outline.optional.forceHttps }}"
+            - name: ENABLE_UPDATES
+              value: "{{ .Values.outline.optional.enableUpdates }}"
+            - name: WEB_CONCURRENCY
+              value: "{{ .Values.outline.optional.webConcurrency }}"
+            - name: MAXIMUM_IMPORT_SIZE
+              value: "{{ .Values.outline.optional.maximumImportSize }}"
+            - name: LOG_LEVEL
+              value: "{{ .Values.outline.optional.logLevel }}"
+            - name: GOOGLE_ANALYTICS_ID
+              value: "{{ .Values.outline.optional.googleAnalyticsId }}"
+            - name: SENTRY_DSN
+              value: "{{ .Values.outline.optional.sentry.dsn }}"
+            - name: SENTRY_TUNNEL
+              value: "{{ .Values.outline.optional.sentry.tunnel }}"
+
+          {{- if .Values.outline.optional.smtp.enabled }}
+            {{- if .Values.outline.optional.smtp.existingSecret }}
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.optional.smtp.existingSecret }}"
+                  key: smtp-password
+            {{- else }}
+            - name: SMTP_PASSWORD
+              value: "{{ .Values.outline.optional.smtp.password }}"
+            {{- end }}
+            - name: SMTP_HOST
+              value: "{{ .Values.outline.optional.smtp.host }}"
+            - name: SMTP_PORT
+              value: "{{ .Values.outline.optional.smtp.port }}"
+            - name: SMTP_USERNAME
+              value: "{{ .Values.outline.optional.smtp.username }}"
+            - name: SMTP_FROM_EMAIL
+              value: "{{ .Values.outline.optional.smtp.fromEmail }}"
+            - name: SMTP_REPLY_EMAIL
+              value: "{{ .Values.outline.optional.smtp.replyEmail }}"
+            - name: SMTP_TLS_CIPHERS
+              value: "{{ .Values.outline.optional.smtp.tlsCiphers }}"
+            - name: SMTP_SECURE
+              value: "{{ .Values.outline.optional.smtp.secure }}"
+          {{- end }}
+
+            - name: DEFAULT_LANGUAGE
+              value: "{{ .Values.outline.optional.defaultLanguage }}"
+            - name: RATE_LIMITER_ENABLED
+              value: "{{ .Values.outline.optional.rateLimiter.enabled }}"
+            - name: RATE_LIMITER_REQUESTS
+              value: "{{ .Values.outline.optional.rateLimiter.requests }}"
+            - name: RATE_LIMITER_DURATION_WINDOW
+              value: "{{ .Values.outline.optional.rateLimiter.durationWindow }}"
+            - name: DEVELOPMENT_UNSAFE_INLINE_CSP
+              value: "{{ .Values.outline.optional.developmentUnsafeInlineCsp }}"
+            - name: SSL_KEY
+              value: "{{ .Values.outline.optional.ssl.key }}"
+            - name: SSL_CERT
+              value: "{{ .Values.outline.optional.ssl.cert }}"
+            - name: CDN_URL
+              value: "{{ .Values.outline.optional.cdnUrl }}"
+
+          {{- if .Values.auth.slack.enabled }}
+            - name: SLACK_CLIENT_ID
+              {{- if .Values.auth.slack.clientId.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.slack.clientId.existingSecret }}"
+                  key: slack-client-id
+              {{- else }}
+              value: "{{ .Values.auth.slack.clientId.value }}"
+              {{- end }}
+            - name: SLACK_CLIENT_SECRET
+              {{- if .Values.auth.slack.clientSecret.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.slack.clientSecret.existingSecret }}"
+                  key: slack-client-secret
+              {{- else }}
+              value: "{{ .Values.auth.slack.clientSecret.value }}"
+              {{- end }}
+            - name: SLACK_MESSAGE_ACTIONS
+              value: "{{ .Values.auth.slack.messageActions }}"
+            - name: SLACK_APP_ID
+              value: "{{ .Values.auth.slack.appId }}"
+            - name: SLACK_VERIFICATION_TOKEN
+              value: "{{ .Values.auth.slack.verificationToken }}"
+          {{- end }}
+
+          {{- if .Values.auth.google.enabled }}
+            - name: GOOGLE_CLIENT_ID
+              {{- if .Values.auth.google.clientId.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.google.clientId.existingSecret }}"
+                  key: google-client-id
+              {{- else }}
+              value: "{{ .Values.auth.google.clientId.value }}"
+              {{- end }}
+            - name: GOOGLE_CLIENT_SECRET
+              {{- if .Values.auth.google.clientSecret.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.google.clientSecret.existingSecret }}"
+                  key: google-client-secret
+              {{- else }}
+              value: "{{ .Values.auth.google.clientSecret.value }}"
+              {{- end }}
+          {{- end }}
+
+          {{- if .Values.auth.azure.enabled }}
+            - name: AZURE_CLIENT_ID
+              {{- if .Values.auth.azure.clientId.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.azure.clientId.existingSecret }}"
+                  key: azure-client-id
+              {{- else }}
+              value: "{{ .Values.auth.azure.clientId.value }}"
+              {{- end }}
+            - name: AZURE_CLIENT_SECRET
+              {{- if .Values.auth.azure.clientSecret.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.azure.clientSecret.existingSecret }}"
+                  key: azure-client-secret
+              {{- else }}
+              value: "{{ .Values.auth.azure.clientSecret.value }}"
+              {{- end }}
+            - name: AZURE_RESOURCE_APP_ID
+              value: "{{ .Values.auth.azure.resourceAppId }}"
+          {{- end }}
+
+          {{- if .Values.auth.oidc.enabled }}
+            - name: OIDC_CLIENT_ID
+              {{- if .Values.auth.oidc.clientId.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.oidc.clientId.existingSecret }}"
+                  key: oidc-client-id
+              {{- else }}
+              value: "{{ .Values.auth.oidc.clientId.value }}"
+              {{- end }}
+            - name: OIDC_CLIENT_SECRET
+              {{- if .Values.auth.oidc.clientSecret.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.auth.oidc.clientSecret.existingSecret }}"
+                  key: oidc-client-secret
+              {{- else }}
+              value: "{{ .Values.auth.oidc.clientSecret.value }}"
+              {{- end }}
+            - name: OIDC_AUTH_URI
+              value: "{{ .Values.auth.oidc.authUri }}"
+            - name: OIDC_TOKEN_URI
+              value: "{{ .Values.auth.oidc.tokenUri }}"
+            - name: OIDC_USERINFO_URI
+              value: "{{ .Values.auth.oidc.userinfoUri }}"
+            - name: OIDC_USERNAME_CLAIM
+              value: "{{ .Values.auth.oidc.usernameClaim }}"
+            - name: OIDC_DISPLAY_NAME
+              value: "{{ .Values.auth.oidc.displayName }}"
+            - name: OIDC_SCOPES
+              value: "{{ .Values.auth.oidc.scopes }}"
+          {{- end }}
+
+      {{- if eq .Values.outline.fileStorage.type "local" }}
+          volumeMounts:
+          - name: {{ .Release.Name }}-data
+            mountPath: {{ .Values.outline.fileStorage.localRootDir }}
+      volumes:
+      - name: {{ .Release.Name }}-data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-data
+      {{- end }}

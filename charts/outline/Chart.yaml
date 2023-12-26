@@ -1,0 +1,32 @@
+name: outline
+maintainers:
+  - name: kubitodev
+    url: https://kubito.dev
+apiVersion: v2
+appVersion: 0.74.0
+version: 1.0.0
+description: Kubito Outline Wiki Helm Chart
+home: https://github.com/kubitodev/helm/tree/main/charts/outline
+icon: https://kubito.dev/images/kubito.svg
+keywords:
+  - kubernetes
+  - outline
+  - wiki
+  - docs
+sources:
+  - https://github.com/outline/outline
+
+dependencies:
+  - condition: global.postgresqlEnabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    # https://github.com/Masterminds/semver#checking-version-constraints
+    version: 13.x.x
+  - condition: global.redisEnabled
+    name: redis
+    repository: https://charts.bitnami.com/bitnami
+    version: 18.x.x
+  - condition: global.minioEnabled
+    name: minio
+    repository: https://charts.bitnami.com/bitnami
+    version: 12.x.x
