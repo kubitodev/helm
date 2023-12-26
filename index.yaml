@@ -303,6 +303,41 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/kubernetes-cloudflare-ddns-1.0.0/kubernetes-cloudflare-ddns-1.0.0.tgz
     version: 1.0.0
+  outline:
+  - apiVersion: v2
+    appVersion: 0.74.0
+    created: "2023-12-26T15:43:10.613816646Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    - condition: global.minioEnabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.x.x
+    description: Kubito Outline Wiki Helm Chart
+    digest: 8be02c0683d47de56f130e4e87d7a6c4c949ef435ad4aa79e618f7ed4fab0062
+    home: https://github.com/kubitodev/helm/tree/main/charts/outline
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - outline
+    - wiki
+    - docs
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: outline
+    sources:
+    - https://github.com/outline/outline
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/outline-1.0.0/outline-1.0.0.tgz
+    version: 1.0.0
   traefik-cloudflared-source-ip:
   - apiVersion: v2
     appVersion: 2.10.7
@@ -764,4 +799,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2023-12-24T19:36:39.66481552Z"
+generated: "2023-12-26T15:43:10.61385103Z"
