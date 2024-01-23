@@ -56,6 +56,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                        | Description                                                                                                  | Value   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------- |
 | `replicaCount`              | The number of replicas to deploy.                                                                            | `1`     |
+| `affinity`                  | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.            | `{}`    |
+| `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.   | `[]`    |
+| `topologySpreadConstraints` | Describes how a group of pods ought to spread across topology domains.                                       | `[]`    |
 | `managed.enabled`           | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one. | `true`  |
 | `managed.token`             | The connector token provided at the end of the CF Zero Trust tunnel creation.                                | `""`    |
 | `managed.existingSecret`    | The name of the existing secret containing the token. The secret key must be set to 'cf-tunnel-token'.       | `""`    |

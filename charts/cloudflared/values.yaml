@@ -14,8 +14,14 @@ image:
 ## @section Deployment parameters
 
 ## @param replicaCount The number of replicas to deploy.
+## @param affinity The pod's scheduling constraints
+## @param tolerations Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.
+## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ##
 replicaCount: 1
+affinity: {}
+tolerations: []
+topologySpreadConstraints: []
 
 ## @param managed.enabled Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.
 ## @param managed.token The connector token provided at the end of the CF Zero Trust tunnel creation.
