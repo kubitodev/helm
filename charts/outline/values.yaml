@@ -219,14 +219,14 @@ ingress:
     host: ""
 
     http:
-      paths:
-        path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ""
-            port:
-              name: web
+      - paths:
+          path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: ""
+              port:
+                name: web
 
 ## @section Redis parameters
 
