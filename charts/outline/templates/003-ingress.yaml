@@ -30,7 +30,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ default .Release.Name .backend.service.name }}
+                name: {{ default $.Release.Name .backend.service.name }}
                 port:
                   name: {{ .backend.service.port.name }}
           {{- end }}
