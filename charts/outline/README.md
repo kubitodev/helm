@@ -136,17 +136,17 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ### Ingress parameters
 
-| Name                                                 | Description                                           | Value    |
-| ---------------------------------------------------- | ----------------------------------------------------- | -------- |
-| `ingress.enabled`                                    | Whether to enable the ingress.                        | `false`  |
-| `ingress.annotations`                                | Annotations for the Ingress resource.                 | `{}`     |
-| `ingress.tls.enabled`                                | Enable TLS for the Ingress.                           | `false`  |
-| `ingress.tls.hosts`                                  | List of hosts for which the TLS certificate is valid. | `[]`     |
-| `ingress.rules.host`                                 | The host name that the Ingress will respond to.       | `""`     |
-| `ingress.rules.http.paths.path`                      | URL path for the HTTP rule.                           | `/`      |
-| `ingress.rules.http.paths.pathType`                  | Type of path matching.                                | `Prefix` |
-| `ingress.rules.http.paths.backend.service.name`      | Name of the service that serves the specified path.   | `""`     |
-| `ingress.rules.http.paths.backend.service.port.name` | Name of the service port.                             | `web`    |
+| Name                                                    | Description                                           | Value    |
+| ------------------------------------------------------- | ----------------------------------------------------- | -------- |
+| `ingress.enabled`                                       | Whether to enable the ingress.                        | `false`  |
+| `ingress.annotations`                                   | Annotations for the Ingress resource.                 | `{}`     |
+| `ingress.tls.enabled`                                   | Enable TLS for the Ingress.                           | `false`  |
+| `ingress.tls.hosts`                                     | List of hosts for which the TLS certificate is valid. | `[]`     |
+| `ingress.rules.host`                                    | The host name that the Ingress will respond to.       | `""`     |
+| `ingress.rules.http[0].paths.path`                      | URL path for the HTTP rule.                           | `/`      |
+| `ingress.rules.http[0].paths.pathType`                  | Type of path matching.                                | `Prefix` |
+| `ingress.rules.http[0].paths.backend.service.name`      | Name of the service that serves the specified path.   | `""`     |
+| `ingress.rules.http[0].paths.backend.service.port.name` | Name of the service port.                             | `web`    |
 
 ### Redis parameters
 
