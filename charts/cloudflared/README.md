@@ -56,7 +56,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                        | Description                                                                                                                                   | Value   |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | `replicaCount`              | The number of replicas to deploy.                                                                                                             | `1`     |
-| `affinity`                  | The pod's scheduling constraints                                                                                                              | `{}`    |
+| `affinity`                  | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`    |
 | `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
 | `topologySpreadConstraints` | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
 | `managed.enabled`           | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.                                  | `true`  |

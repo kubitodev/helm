@@ -14,7 +14,7 @@ jobs:
       - name: Fetch history
         run: git fetch --prune --unshallow
       - name: Run lint
-        uses: helm/chart-testing-action@v2.4.0
+        uses: helm/chart-testing-action@v2.6.1
         with:
           command: lint
           config: .github/verify-config.yaml
