@@ -203,10 +203,10 @@ auth:
 ## @param ingress.tls.enabled Enable TLS for the Ingress.
 ## @param ingress.tls.hosts List of hosts for which the TLS certificate is valid.
 ## @param ingress.rules.host The host name that the Ingress will respond to.
-## @param ingress.rules.http.paths.path URL path for the HTTP rule.
-## @param ingress.rules.http.paths.pathType Type of path matching.
-## @param ingress.rules.http.paths.backend.service.name Name of the service that serves the specified path.
-## @param ingress.rules.http.paths.backend.service.port.name Name of the service port.
+## @param ingress.rules.http[0].paths.path URL path for the HTTP rule.
+## @param ingress.rules.http[0].paths.pathType Type of path matching.
+## @param ingress.rules.http[0].paths.backend.service.name Name of the service that serves the specified path.
+## @param ingress.rules.http[0].paths.backend.service.port.name Name of the service port.
 ##
 ingress:
   enabled: false
@@ -219,14 +219,14 @@ ingress:
     host: ""
 
     http:
-      paths:
-        path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ""
-            port:
-              name: web
+      - paths:
+          path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: ""
+              port:
+                name: web
 
 ## @section Redis parameters
 
