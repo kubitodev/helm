@@ -48,28 +48,28 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                    |
 | ----------------------- | --------------------------------------------- | ------------------------ |
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
-| `image.tag`             | The image tag to use.                         | `2023.10.0`              |
+| `image.tag`             | The image tag to use.                         | `2024.4.0`               |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
 
 ### Deployment parameters
 
-| Name                        | Description                                                                                                  | Value   |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------- |
-| `replicaCount`              | The number of replicas to deploy.                                                                            | `1`     |
-| `affinity`                  | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.            | `{}`    |
-| `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.   | `[]`    |
-| `topologySpreadConstraints` | Describes how a group of pods ought to spread across topology domains.                                       | `[]`    |
-| `managed.enabled`           | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one. | `true`  |
-| `managed.token`             | The connector token provided at the end of the CF Zero Trust tunnel creation.                                | `""`    |
-| `managed.existingSecret`    | The name of the existing secret containing the token. The secret key must be set to 'cf-tunnel-token'.       | `""`    |
-| `local.enabled`             | Whether to enable Local (CLI) tunnel configuration. Cannot coexist with the managed one.                     | `false` |
-| `local.auth.tunnelID`       | The Argo Tunnel ID you created. Check the configuration section for details.                                 | `""`    |
-| `local.auth.accountTag`     | The Argo tunnel account tag.                                                                                 | `""`    |
-| `local.auth.tunnelName`     | The Argo tunnel name.                                                                                        | `""`    |
-| `local.auth.tunnelSecret`   | The Argo tunnel secret.                                                                                      | `""`    |
-| `local.auth.existingSecret` | The name of an existing secret containing the Argo tunnel settings.                                          | `""`    |
-| `local.warpRouting`         | Whether to enable WARP traffic routing to local subnets.                                                     | `false` |
-| `local.ingress`             | The ingress settings to apply. Check the configuration section for examples.                                 | `[]`    |
+| Name                        | Description                                                                                                                                   | Value   |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `replicaCount`              | The number of replicas to deploy.                                                                                                             | `1`     |
+| `affinity`                  | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`    |
+| `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
+| `topologySpreadConstraints` | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
+| `managed.enabled`           | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.                                  | `true`  |
+| `managed.token`             | The connector token provided at the end of the CF Zero Trust tunnel creation.                                                                 | `""`    |
+| `managed.existingSecret`    | The name of the existing secret containing the token. The secret key must be set to 'cf-tunnel-token'.                                        | `""`    |
+| `local.enabled`             | Whether to enable Local (CLI) tunnel configuration. Cannot coexist with the managed one.                                                      | `false` |
+| `local.auth.tunnelID`       | The Argo Tunnel ID you created. Check the configuration section for details.                                                                  | `""`    |
+| `local.auth.accountTag`     | The Argo tunnel account tag.                                                                                                                  | `""`    |
+| `local.auth.tunnelName`     | The Argo tunnel name.                                                                                                                         | `""`    |
+| `local.auth.tunnelSecret`   | The Argo tunnel secret.                                                                                                                       | `""`    |
+| `local.auth.existingSecret` | The name of an existing secret containing the Argo tunnel settings.                                                                           | `""`    |
+| `local.warpRouting`         | Whether to enable WARP traffic routing to local subnets.                                                                                      | `false` |
+| `local.ingress`             | The ingress settings to apply. Check the configuration section for examples.                                                                  | `[]`    |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
