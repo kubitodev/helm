@@ -29,6 +29,10 @@ spec:
         - /etc/cloudflared/config.yaml
         - run
         {{- else if .Values.managed.enabled }}
+        {{- if .Values.logLevel }}
+        - --loglevel
+        - {{ .Values.logLevel }}
+        {{- end }}
         - run
         - --token
         - $(CF_MANAGED_TUNNEL_TOKEN)
