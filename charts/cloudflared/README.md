@@ -59,6 +59,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `affinity`                  | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`    |
 | `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
 | `topologySpreadConstraints` | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
+| `logLevel`                  | The log level to use for the tunnel.                                                                                                          | `info`  |
 | `managed.enabled`           | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.                                  | `true`  |
 | `managed.token`             | The connector token provided at the end of the CF Zero Trust tunnel creation.                                                                 | `""`    |
 | `managed.existingSecret`    | The name of the existing secret containing the token. The secret key must be set to 'cf-tunnel-token'.                                        | `""`    |
