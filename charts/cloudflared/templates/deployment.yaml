@@ -37,6 +37,10 @@ spec:
         - --token
         - $(CF_MANAGED_TUNNEL_TOKEN)
         {{- end }}
+       {{- if .Values.metrics.enabled }}
+        - --metrics
+        - "0.0.0.0:{{ .Values.metrics.port }}"
+        {{ end }}
         name: {{ .Release.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
@@ -52,6 +56,11 @@ spec:
           value: {{ .Values.managed.token }}
           {{- end }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        ports:
+         - name: metrics
+           containerPort: {{ .Values.metrics.port }}
+        {{ end }}
         {{- if .Values.local.enabled }}
         volumeMounts:
         - mountPath: /etc/cloudflared/tunnel-config.json
