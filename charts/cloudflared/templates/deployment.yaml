@@ -33,14 +33,14 @@ spec:
         - --loglevel
         - {{ .Values.logLevel }}
         {{- end }}
+        {{- if .Values.metrics.enabled }}
+        - --metrics
+        - "0.0.0.0:{{ .Values.metrics.port }}"
+        {{ end }}
         - run
         - --token
         - $(CF_MANAGED_TUNNEL_TOKEN)
         {{- end }}
-       {{- if .Values.metrics.enabled }}
-        - --metrics
-        - "0.0.0.0:{{ .Values.metrics.port }}"
-        {{ end }}
         name: {{ .Release.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
