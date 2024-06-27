@@ -241,6 +241,7 @@ redis:
 ## @section PostgreSQL parameters
 
 ## @param postgresql.architecture PostgreSQL deployment architecture: 'standalone' or 'replication'.
+## @param postgresql.auth.host the hostname of the database default is {{ .Release.Name }}-postgresql .
 ## @param postgresql.auth.database Name of the default database created on initial startup.
 ## @param postgresql.auth.username Username for the default database.
 ## @param postgresql.auth.existingSecret Reference to an existing Kubernetes secret containing the database credentials. Use 'password' for user, and 'postgres-password' for postgres user.
@@ -250,6 +251,7 @@ redis:
 postgresql:
   architecture: standalone
   auth:
+    host: "" 
     database: outline
     username: outline
     existingSecret: ""
