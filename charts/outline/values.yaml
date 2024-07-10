@@ -45,7 +45,7 @@ replicaCount: 1
 ## @param outline.optional.forceHttps Forces HTTPS connections for increased security.
 ## @param outline.optional.enableUpdates Enables automatic application updates.
 ## @param outline.optional.webConcurrency Number of concurrent web processes to run.
-## @param outline.optional.maximumImportSize Maximum size limit for importing documents.
+## @param outline.optional.fileStorageImportMaxSize Maximum size limit for importing documents.
 ## @param outline.optional.logLevel Sets the level of logging detail (e.g., info, error, debug).
 ## @param outline.optional.googleAnalyticsId Google Analytics ID for website traffic analysis.
 ## @param outline.optional.sentry.dsn Data Source Name for Sentry, used to report errors.
@@ -251,7 +251,7 @@ redis:
 postgresql:
   architecture: standalone
   auth:
-    host: "" 
+    host: ""
     database: outline
     username: outline
     existingSecret: ""

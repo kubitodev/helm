@@ -55,7 +55,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                 |
 | ----------------------- | --------------------------------------------- | --------------------- |
 | `image.repository`      | The Docker repository to pull the image from. | `outlinewiki/outline` |
-| `image.tag`             | The image tag to use.                         | `0.74.0`              |
+| `image.tag`             | The image tag to use.                         | `0.78.0-0`            |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`        |
 
 ### Deployment parameters
@@ -80,7 +80,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `outline.optional.forceHttps`                 | Forces HTTPS connections for increased security.                                                | `false`                   |
 | `outline.optional.enableUpdates`              | Enables automatic application updates.                                                          | `false`                   |
 | `outline.optional.webConcurrency`             | Number of concurrent web processes to run.                                                      | `1`                       |
-| `outline.optional.maximumImportSize`          | Maximum size limit for importing documents.                                                     | `5120000`                 |
+| `outline.optional.fileStorageImportMaxSize`   | Maximum size limit for importing documents.                                                     | `5120000`                 |
 | `outline.optional.logLevel`                   | Sets the level of logging detail (e.g., info, error, debug).                                    | `info`                    |
 | `outline.optional.googleAnalyticsId`          | Google Analytics ID for website traffic analysis.                                               | `""`                      |
 | `outline.optional.sentry.dsn`                 | Data Source Name for Sentry, used to report errors.                                             | `""`                      |
@@ -160,6 +160,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                               | Description                                                                                                                                         | Value        |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | `postgresql.architecture`          | PostgreSQL deployment architecture: 'standalone' or 'replication'.                                                                                  | `standalone` |
+| `postgresql.auth.host`             | the hostname of the database default is {{ .Release.Name }}-postgresql .                                                                            | `""`         |
 | `postgresql.auth.database`         | Name of the default database created on initial startup.                                                                                            | `outline`    |
 | `postgresql.auth.username`         | Username for the default database.                                                                                                                  | `outline`    |
 | `postgresql.auth.existingSecret`   | Reference to an existing Kubernetes secret containing the database credentials. Use 'password' for user, and 'postgres-password' for postgres user. | `""`         |
