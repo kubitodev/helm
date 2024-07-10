@@ -3,8 +3,8 @@ maintainers:
   - name: kubitodev
     url: https://kubito.dev
 apiVersion: v2
-appVersion: 0.74.0
-version: 1.0.1
+appVersion: 0.78.0-0
+version: 1.0.2
 description: Kubito Outline Wiki Helm Chart
 home: https://github.com/kubitodev/helm/tree/main/charts/outline
 icon: https://kubito.dev/images/kubito.svg

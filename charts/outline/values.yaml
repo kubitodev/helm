@@ -19,7 +19,7 @@ global:
 ##
 image:
   repository: outlinewiki/outline
-  tag: "0.74.0"
+  tag: "0.78.0-0"
   imagePullPolicy: IfNotPresent
 
 ## @section Deployment parameters
@@ -93,7 +93,7 @@ outline:
     forceHttps: false
     enableUpdates: false
     webConcurrency: 1
-    maximumImportSize: 5120000
+    fileStorageImportMaxSize: 5120000
     logLevel: info
     googleAnalyticsId: ""
     sentry:
