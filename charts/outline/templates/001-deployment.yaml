@@ -20,6 +20,19 @@ spec:
         fsGroup: 1001
         runAsUser: 1001
         runAsGroup: 1001
+    {{- if eq .Values.outline.fileStorage.type "local" }}
+      initContainers:
+        - name: storage-prepare
+          image: busybox
+          command: 
+            - chown
+            - -R
+            - 1001:1001
+            - {{ .Values.outline.fileStorage.localRootDir }}
+          volumeMounts:
+          - name: {{ .Release.Name }}-data
+            mountPath: {{ .Values.outline.fileStorage.localRootDir }}
+      {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
