@@ -74,6 +74,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | `outline.service.url`                         | The URL where the application will be accessible.                                               | `https://app.outline.dev` |
 | `outline.service.port`                        | The port on which the application will run.                                                     | `3000`                    |
 | `outline.fileStorage.type`                    | Type of file storage to be used (e.g., local, s3).                                              | `s3`                      |
+| `outline.fileStorage.storageClassName`        | The storageclass name to use                                                                    | `""`                      |
+| `outline.fileStorage.storageSize`             | The storageclass size to use                                                                    | `250Gi`                   |
 | `outline.fileStorage.localRootDir`            | Local directory path for storing files, if using local storage.                                 | `/var/lib/outline/data`   |
 | `outline.fileStorage.uploadMaxSize`           | Maximum file upload size limit.                                                                 | `26214400`                |
 | `outline.optional.collaborationUrl`           | URL for collaboration features, if any.                                                         | `""`                      |
