@@ -91,7 +91,7 @@ outline:
     storageClassName: ""
     storageSize: 250Gi
     localRootDir: /var/lib/outline/data
-    uploadMaxSize: 26214400
+    uploadMaxSize: "26214400"
 
   optional:
     collaborationUrl: ""
