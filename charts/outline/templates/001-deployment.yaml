@@ -16,6 +16,10 @@ spec:
         app: {{ .Release.Name }}
         release: {{ .Release.Name }}
     spec:
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        runAsGroup: 1001
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
