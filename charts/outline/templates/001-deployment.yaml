@@ -157,14 +157,14 @@ spec:
             - name: AWS_S3_ACL
               value: "{{ .Values.minio.s3Config.acl }}"
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
-              value: "{{ .Values.minio.s3Config.uploadMaxSize }}"
+              value: "{{ .Values.minio.s3Config.uploadMaxSize | quote }}"
           {{- else if eq .Values.outline.fileStorage.type "local" }}
             - name: FILE_STORAGE
               value: "{{ .Values.outline.fileStorage.type }}"
             - name: FILE_STORAGE_LOCAL_ROOT_DIR
               value: "{{ .Values.outline.fileStorage.localRootDir }}"
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
-              value: "{{ .Values.outline.fileStorage.uploadMaxSize }}"
+              value: "{{ .Values.outline.fileStorage.uploadMaxSize | quote }}"
           {{- end }}
 
             - name: COLLABORATION_URL
