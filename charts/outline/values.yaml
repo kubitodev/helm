@@ -98,7 +98,7 @@ outline:
     forceHttps: false
     enableUpdates: false
     webConcurrency: 1
-    fileStorageImportMaxSize: 5120000
+    fileStorageImportMaxSize: "5120000"
     logLevel: info
     googleAnalyticsId: ""
     sentry:
