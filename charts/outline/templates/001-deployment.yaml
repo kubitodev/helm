@@ -75,30 +75,30 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Values.postgresql.auth.existingSecret }}"
-                  key: password
-            {{- if .Values.postgresql.auth.host }}
+                  key: "password"
+              {{- if .Values.postgresql.auth.host }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- else }}
+              {{- else }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- end }}
+              {{- end }}
             {{- else }}
-            {{- if .Values.postgresql.auth.host }}
+              {{- if .Values.postgresql.auth.host }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- else }}
+              {{- else }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- end }}
+              {{- end }}
             {{- end }}
           {{- else }}
             {{- if .Values.postgresql.auth.existingSecret }}
@@ -107,29 +107,29 @@ spec:
                 secretKeyRef:
                   name: "{{ .Values.postgresql.auth.existingSecret }}"
                   key: password
-            {{- if .Values.postgresql.auth.host }}
+              {{- if .Values.postgresql.auth.host }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- else }}
+              {{- else }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- end }}
+              {{- end }}
             {{- else }}
-            {{- if .Values.postgresql.auth.host }}
+              {{- if .Values.postgresql.auth.host }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- else }}
+              {{- else }}
             - name: DATABASE_URL
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
               value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
-            {{- end }}
+              {{- end }}
             {{- end }}
           {{- end }}
 
@@ -174,14 +174,14 @@ spec:
             - name: AWS_S3_ACL
               value: "{{ .Values.minio.s3Config.acl }}"
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
-              value: "{{ .Values.minio.s3Config.uploadMaxSize | quote }}"
+              value: "{{ .Values.minio.s3Config.uploadMaxSize }}"
           {{- else if eq .Values.outline.fileStorage.type "local" }}
             - name: FILE_STORAGE
               value: "{{ .Values.outline.fileStorage.type }}"
             - name: FILE_STORAGE_LOCAL_ROOT_DIR
               value: "{{ .Values.outline.fileStorage.localRootDir }}"
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
-              value: "{{ .Values.outline.fileStorage.uploadMaxSize | quote }}"
+              value: "{{ .Values.outline.fileStorage.uploadMaxSize }}"
           {{- end }}
 
             - name: COLLABORATION_URL
@@ -193,7 +193,7 @@ spec:
             - name: WEB_CONCURRENCY
               value: "{{ .Values.outline.optional.webConcurrency }}"
             - name: FILE_STORAGE_IMPORT_MAX_SIZE
-              value: "{{ .Values.outline.optional.fileStorageImportMaxSize | quote }}"
+              value: "{{ .Values.outline.optional.fileStorageImportMaxSize}}"
             - name: LOG_LEVEL
               value: "{{ .Values.outline.optional.logLevel }}"
             - name: GOOGLE_ANALYTICS_ID
@@ -350,6 +350,15 @@ spec:
             - name: OIDC_SCOPES
               value: "{{ .Values.auth.oidc.scopes }}"
           {{- end }}
+          {{- if .Values.outline.optional.iframely.enabled }} 
+            - name: IFRAMELY_URL
+              value: "{{ .Values.outline.optional.iframely.url }}"
+            {{- if .Values.outline.optional.iframely.apiKey }} 
+            - name: IFRAMELY_API_KEY
+              value: "{{ .Values.outline.optional.iframely.apiKey }}"
+            {{- end }}
+          {{- end }}
+
 
       {{- if eq .Values.outline.fileStorage.type "local" }}
           volumeMounts:
