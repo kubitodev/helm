@@ -416,6 +416,40 @@ entries:
   outline:
   - apiVersion: v2
     appVersion: 0.78.0-0
+    created: "2024-07-18T09:54:46.551120401Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    - condition: global.minioEnabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.x.x
+    description: Kubito Outline Wiki Helm Chart
+    digest: 6823ea864debbf303fa469d26e64a30447ab47fa1ccb718a9105b3c4914f2c8e
+    home: https://github.com/kubitodev/helm/tree/main/charts/outline
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - outline
+    - wiki
+    - docs
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: outline
+    sources:
+    - https://github.com/outline/outline
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/outline-1.0.5/outline-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
+    appVersion: 0.78.0-0
     created: "2024-07-10T11:15:44.625964413Z"
     dependencies:
     - condition: global.postgresqlEnabled
@@ -1080,4 +1114,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-10T11:15:44.626031079Z"
+generated: "2024-07-18T09:54:46.55120478Z"
