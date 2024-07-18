@@ -7,7 +7,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}
 spec:
-  storageClassName: {{ .Values.outline.fileStorage.StorageClassName }}
+  storageClassName: {{ .Values.outline.fileStorage.storageClassName }}
   accessModes:
     - ReadWriteOnce
   resources:
