@@ -39,6 +39,8 @@ replicaCount: 1
 ## @param outline.service.url The URL where the application will be accessible.
 ## @param outline.service.port The port on which the application will run.
 ## @param outline.fileStorage.type Type of file storage to be used (e.g., local, s3).
+## @param outline.fileStorage.storageClassName The storageclass name to use default "".
+## @param outline.fileStorage.storageSize The storageclass size to use default 250Gi.
 ## @param outline.fileStorage.localRootDir Local directory path for storing files, if using local storage.
 ## @param outline.fileStorage.uploadMaxSize Maximum file upload size limit.
 ## @param outline.optional.collaborationUrl URL for collaboration features, if any.
@@ -86,14 +88,17 @@ outline:
     port: 3000
   fileStorage:
     type: s3 # set to local|s3
+    storageClassName: ""
+    storageSize: 250Gi
     localRootDir: /var/lib/outline/data
-    uploadMaxSize: 26214400
+    uploadMaxSize: "26214400"
+
   optional:
     collaborationUrl: ""
     forceHttps: false
     enableUpdates: false
     webConcurrency: 1
-    fileStorageImportMaxSize: 5120000
+    fileStorageImportMaxSize: "5120000"
     logLevel: info
     googleAnalyticsId: ""
     sentry:

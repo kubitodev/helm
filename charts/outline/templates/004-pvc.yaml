@@ -7,9 +7,10 @@ metadata:
   labels:
     app: {{ .Release.Name }}
 spec:
+  storageClassName: {{ .Values.outline.fileStorage.storageClassName }}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 250Gi
+      storage: {{ .Values.outline.fileStorage.storageSize }}
 {{- end }}

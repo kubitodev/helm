@@ -16,6 +16,23 @@ spec:
         app: {{ .Release.Name }}
         release: {{ .Release.Name }}
     spec:
+    {{- if eq .Values.outline.fileStorage.type "local" }}
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        runAsGroup: 1001
+      initContainers:
+        - name: storage-prepare
+          image: busybox
+          command: 
+            - chown
+            - -R
+            - 1001:1001
+            - {{ .Values.outline.fileStorage.localRootDir }}
+          volumeMounts:
+          - name: {{ .Release.Name }}-data
+            mountPath: {{ .Values.outline.fileStorage.localRootDir }}
+      {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -90,15 +107,29 @@ spec:
                 secretKeyRef:
                   name: "{{ .Values.postgresql.auth.existingSecret }}"
                   key: password
+            {{- if .Values.postgresql.auth.host }}
             - name: DATABASE_URL
-              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}"
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
-              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}_test"
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}_test"
             {{- else }}
             - name: DATABASE_URL
-              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}"
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
             - name: DATABASE_URL_TEST
-              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@postgresql.postgresql.svc.cluster.local:5432/{{ .Values.postgresql.auth.database }}_test"
+              value: "postgres://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- end }}
+            {{- else }}
+            {{- if .Values.postgresql.auth.host }}
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}"
+            - name: DATABASE_URL_TEST
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.auth.host }}:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- else }}
+            - name: DATABASE_URL
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
+            - name: DATABASE_URL_TEST
+              value: "postgres://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}_test"
+            {{- end }}
             {{- end }}
           {{- end }}
 
@@ -143,14 +174,14 @@ spec:
             - name: AWS_S3_ACL
               value: "{{ .Values.minio.s3Config.acl }}"
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
-              value: "{{ .Values.minio.s3Config.uploadMaxSize }}"
+              value: "{{ .Values.minio.s3Config.uploadMaxSize | quote }}"
           {{- else if eq .Values.outline.fileStorage.type "local" }}
             - name: FILE_STORAGE
               value: "{{ .Values.outline.fileStorage.type }}"
             - name: FILE_STORAGE_LOCAL_ROOT_DIR
               value: "{{ .Values.outline.fileStorage.localRootDir }}"
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
-              value: "{{ .Values.outline.fileStorage.uploadMaxSize }}"
+              value: "{{ .Values.outline.fileStorage.uploadMaxSize | quote }}"
           {{- end }}
 
             - name: COLLABORATION_URL
@@ -162,7 +193,7 @@ spec:
             - name: WEB_CONCURRENCY
               value: "{{ .Values.outline.optional.webConcurrency }}"
             - name: FILE_STORAGE_IMPORT_MAX_SIZE
-              value: "{{ .Values.outline.optional.fileStorageImportMaxSize }}"
+              value: "{{ .Values.outline.optional.fileStorageImportMaxSize | quote }}"
             - name: LOG_LEVEL
               value: "{{ .Values.outline.optional.logLevel }}"
             - name: GOOGLE_ANALYTICS_ID
