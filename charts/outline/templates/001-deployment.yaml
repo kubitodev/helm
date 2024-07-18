@@ -16,11 +16,11 @@ spec:
         app: {{ .Release.Name }}
         release: {{ .Release.Name }}
     spec:
+    {{- if eq .Values.outline.fileStorage.type "local" }}
       securityContext:
         fsGroup: 1001
         runAsUser: 1001
         runAsGroup: 1001
-    {{- if eq .Values.outline.fileStorage.type "local" }}
       initContainers:
         - name: storage-prepare
           image: busybox
