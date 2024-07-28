@@ -50,6 +50,9 @@ replicaCount: 1
 ## @param outline.optional.fileStorageImportMaxSize Maximum size limit for importing documents.
 ## @param outline.optional.logLevel Sets the level of logging detail (e.g., info, error, debug).
 ## @param outline.optional.googleAnalyticsId Google Analytics ID for website traffic analysis.
+## @param outline.optional.iframely.enabled Whether to enable iframely.
+## @param outline.optional.iframely.url URL of the iframely server.
+## @param outline.optional.iframely.apiKey api key of the iframely server.
 ## @param outline.optional.sentry.dsn Data Source Name for Sentry, used to report errors.
 ## @param outline.optional.sentry.tunnel URL for Sentry tunnel, useful for bypassing ad blockers.
 ## @param outline.optional.smtp.enabled Whether to enable SMTP.
@@ -101,6 +104,10 @@ outline:
     fileStorageImportMaxSize: "5120000"
     logLevel: info
     googleAnalyticsId: ""
+    iframely:
+      enabled: false
+      url: "http://iframely:8061"
+      apiKey: ""
     sentry:
       dsn: ""
       tunnel: ""

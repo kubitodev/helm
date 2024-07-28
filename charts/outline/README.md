@@ -85,6 +85,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | `outline.optional.fileStorageImportMaxSize`   | Maximum size limit for importing documents.                                                     | `5120000`                 |
 | `outline.optional.logLevel`                   | Sets the level of logging detail (e.g., info, error, debug).                                    | `info`                    |
 | `outline.optional.googleAnalyticsId`          | Google Analytics ID for website traffic analysis.                                               | `""`                      |
+| `outline.optional.iframely.enabled`           | Whether to enable iframely                                                                      | `false`                   |
+| `outline.optional.iframely.url`               | URL of the iframely server                                                                      | `"http://iframely:8061"`  |
+| `outline.optional.iframely.apiKey`            | api key of the iframely server                                                                  | `""`                      |
 | `outline.optional.sentry.dsn`                 | Data Source Name for Sentry, used to report errors.                                             | `""`                      |
 | `outline.optional.sentry.tunnel`              | URL for Sentry tunnel, useful for bypassing ad blockers.                                        | `""`                      |
 | `outline.optional.smtp.enabled`               | Whether to enable SMTP.                                                                         | `false`                   |
