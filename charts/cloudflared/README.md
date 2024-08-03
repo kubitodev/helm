@@ -60,6 +60,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
 | `topologySpreadConstraints` | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
 | `logLevel`                  | The log level to use for the tunnel.                                                                                                          | `info`  |
+| `priorityClassName`         | The priority class name to use for the tunnel.                                                                                                | `info`  |
 | `metrics.enabled`           | Enable metrics for prometheus monitoring. The crd monitoring.coreos.com/v1 must be already installed on the target.                           | `false` |
 | `metrics.port`              | The port to use for metrics.                                                                                                                  | `""`    |
 | `managed.enabled`           | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.                                  | `true`  |
