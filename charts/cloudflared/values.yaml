@@ -26,6 +26,9 @@ topologySpreadConstraints: []
 ## @param logLevel The log level to use for the tunnel.
 logLevel: info
 
+## @param priorityClassName The priority class name to use for the tunnel.
+priorityClassName: ""
+
 ## @param metrics.enabled Enable metrics for prometheus monitoring. The crd monitoring.coreos.com/v1 must be already installed on the target.
 ## @param metrics.port The port to use for metrics.
 metrics:
