@@ -17,11 +17,19 @@ image:
 ## @param affinity If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.
 ## @param tolerations Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.
 ## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
+## @param resourcs if specified, sets the cpu and memory for the cloudflared container
 ##
 replicaCount: 1
 affinity: {}
 tolerations: []
 topologySpreadConstraints: []
+resources: {}
+# resources:
+#   requests:
+#     cpu: 10m
+#     memory: 18Mi
+#   limits:
+#     memory: 18Mi
 
 ## @param logLevel The log level to use for the tunnel.
 logLevel: info
