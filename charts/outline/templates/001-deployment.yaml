@@ -230,6 +230,59 @@ spec:
               value: "{{ .Values.outline.optional.smtp.secure }}"
           {{- end }}
 
+          {{- if .Values.outline.optional.github.enabled }}
+            {{- if .Values.outline.optional.github.clientId.existingSecret }}
+            - name: GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.optional.github.clientId.existingSecret }}"
+                  key: github-client-id
+            {{- else }}
+            - name: GITHUB_CLIENT_ID
+              value: "{{ .Values.outline.optional.github.clientId.value }}"
+            {{- end }}
+            {{- if .Values.outline.optional.github.clientSecret.existingSecret }}
+            - name: GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.optional.github.clientSecret.existingSecret }}"
+                  key: github-client-secret
+            {{- else }}
+            - name: GITHUB_CLIENT_SECRET
+              value: "{{ .Values.outline.optional.github.clientSecret.value }}"
+            {{- end }}
+            {{- if .Values.outline.optional.github.appName.existingSecret }}
+            - name: GITHUB_APP_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.optional.github.appName.existingSecret }}"
+                  key: github-app-name
+            {{- else }}
+            - name: GITHUB_APP_NAME
+              value: "{{ .Values.outline.optional.github.appName.value }}"
+            {{- end }}
+            {{- if .Values.outline.optional.github.appId.existingSecret }}
+            - name: GITHUB_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.optional.github.appId.existingSecret }}"
+                  key: github-app-id
+            {{- else }}
+            - name: GITHUB_APP_ID
+              value: "{{ .Values.outline.optional.github.appId.value }}"
+            {{- end }}
+            {{- if .Values.outline.optional.github.appPrivateKey.existingSecret }}
+            - name: GITHUB_APP_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.outline.optional.github.appPrivateKey.existingSecret }}"
+                  key: github-app-private-key
+            {{- else }}
+            - name: GITHUB_APP_PRIVATE_KEY
+              value: "{{ .Values.outline.optional.github.appPrivateKey.value }}"
+            {{- end }}
+          {{- end }}
+
             - name: DEFAULT_LANGUAGE
               value: "{{ .Values.outline.optional.defaultLanguage }}"
             - name: RATE_LIMITER_ENABLED

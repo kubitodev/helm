@@ -55,6 +55,17 @@ replicaCount: 1
 ## @param outline.optional.iframely.apiKey api key of the iframely server.
 ## @param outline.optional.sentry.dsn Data Source Name for Sentry, used to report errors.
 ## @param outline.optional.sentry.tunnel URL for Sentry tunnel, useful for bypassing ad blockers.
+## @param outline.optional.github.enabled Whether to enable GitHub integration.
+## @param outline.optional.github.clientId.value Direct value for the GitHub client ID, if not using Kubernetes secret.
+## @param outline.optional.github.clientId.existingSecret Reference to an existing Kubernetes secret for the GitHub client ID (github-client-id).
+## @param outline.optional.github.clientSecret.value Direct value for the GitHub client secret, if not using Kubernetes secret.
+## @param outline.optional.github.clientSecret.existingSecret Reference to an existing Kubernetes secret for the GitHub client secret (github-client-secret).
+## @param outline.optional.github.appName.value Direct value for the GitHub app name, if not using Kubernetes secret.
+## @param outline.optional.github.appName.existingSecret Reference to an existing Kubernetes secret for the GitHub app name (github-app-name).
+## @param outline.optional.github.appId.value Direct value for the GitHub app ID, if not using Kubernetes secret.
+## @param outline.optional.github.appId.existingSecret Reference to an existing Kubernetes secret for the GitHub app ID (github-app-id).
+## @param outline.optional.github.appPrivateKey.value Direct value for the GitHub app private key, if not using Kubernetes secret.
+## @param outline.optional.github.appPrivateKey.existingSecret Reference to an existing Kubernetes secret for the GitHub app private key (github-app-private-key).
 ## @param outline.optional.smtp.enabled Whether to enable SMTP.
 ## @param outline.optional.smtp.host Hostname of the SMTP server.
 ## @param outline.optional.smtp.port Port number for the SMTP server.
@@ -111,6 +122,23 @@ outline:
     sentry:
       dsn: ""
       tunnel: ""
+    github:
+      enabled: false
+      clientId:
+        value: ""
+        existingSecret: ""
+      clientSecret:
+        value: ""
+        existingSecret: ""
+      appName:
+        value: ""
+        existingSecret: ""
+      appId:  
+        value: ""
+        existingSecret: ""
+      appPrivateKey:
+        value: ""
+        existingSecret: ""
     smtp:
       enabled: false
       host: ""
