@@ -19,7 +19,7 @@ global:
 ##
 image:
   repository: outlinewiki/outline
-  tag: "0.78.0-0"
+  tag: "0.80.2"
   imagePullPolicy: IfNotPresent
 
 ## @section Deployment parameters
@@ -133,7 +133,7 @@ outline:
       appName:
         value: ""
         existingSecret: ""
-      appId:  
+      appId:
         value: ""
         existingSecret: ""
       appPrivateKey:
@@ -243,10 +243,10 @@ auth:
 ## @param ingress.tls.enabled Enable TLS for the Ingress.
 ## @param ingress.tls.hosts List of hosts for which the TLS certificate is valid.
 ## @param ingress.rules.host The host name that the Ingress will respond to.
-## @param ingress.rules.http[0].paths.path URL path for the HTTP rule.
-## @param ingress.rules.http[0].paths.pathType Type of path matching.
-## @param ingress.rules.http[0].paths.backend.service.name Name of the service that serves the specified path.
-## @param ingress.rules.http[0].paths.backend.service.port.name Name of the service port.
+## @param ingress.rules.http.paths[0].path URL path for the HTTP rule.
+## @param ingress.rules.http.paths[0].pathType Type of path matching.
+## @param ingress.rules.http.paths[0].backend.service.name Name of the service that serves the specified path.
+## @param ingress.rules.http.paths[0].backend.service.port.name Name of the service port.
 ##
 ingress:
   enabled: false
@@ -259,8 +259,8 @@ ingress:
     host: ""
 
     http:
-      - paths:
-          path: /
+      paths:
+        - path: /
           pathType: Prefix
           backend:
             service:
