@@ -50,7 +50,7 @@ spec:
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if .Values.prowlarr.persistence.enabled }}
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.prowlarr.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-jellyfin-media
           {{- else }}
