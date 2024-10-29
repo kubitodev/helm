@@ -28,11 +28,11 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
     {{- end }}
-    {{- if and .Values.jellyfin.tailscale.enabled (eq .Values.jellyfin.tailscale.mode "sidecar") }}
+    {{- if and .Values.jellyfin.tailscale.enabled .Values.jellyfin.tailscale.sidecar.enabled }}
       serviceAccountName: jellyfin-tailscale
     {{- end }}
       containers:
-    {{- if and .Values.jellyfin.tailscale.enabled (eq .Values.jellyfin.tailscale.mode "sidecar") }}
+    {{- if and .Values.jellyfin.tailscale.enabled .Values.jellyfin.tailscale.sidecar.enabled }}
         - name: tailscale-sidecar
           image: ghcr.io/tailscale/tailscale:latest
           env:

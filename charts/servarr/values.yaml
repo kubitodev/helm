@@ -64,9 +64,10 @@
 ## @param jellyfin.readinessProbe.successThreshold The minimum consecutive successes required to consider the probe successful.
 ## @param jellyfin.readinessProbe.timeoutSeconds The number of seconds after which the probe times out.
 ## @param jellyfin.tailscale.enabled Whether to enable tailscale integration.
-## @param jellyfin.tailscale.mode The mode to use for tailscale integration. Can be 'sidecar' or 'ingress'. Ingress mode requires the tailscale operator and is required when enableDLNA is true.
+## @param jellyfin.tailscale.sidecar.enabled Whether to enable sidecar container mode. Requires the tailscale auth key.
 ## @param jellyfin.tailscale.sidecar.authKey The tailscale auth key to use for the sidecar container.
 ## @param jellyfin.tailscale.sidecar.existingAuthSecret The name of an existing secret containing the tailscale auth key as TS_AUTHKEY.
+## @param jellyfin.tailscale.ingress.enabled Whether to enable ingress mode. Requires the tailscale operator to be preinstalled and is required when enableDLNA is true.
 ## @param jellyfin.tailscale.ingress.host The hostname of the tailscale node. Uses magicDNS, requires it to be enabled along with HTTPS on the tailscale dashboard.
 ##
 jellyfin:
@@ -193,11 +194,12 @@ jellyfin:
 
   tailscale:
     enabled: false
-    mode: sidecar
     sidecar:
+      enabled: true
       authKey: ""
       existingAuthSecret: ""
     ingress:
+      enabled: false
       host: ""
 
 ## @section Sonarr parameters
