@@ -192,8 +192,8 @@ jellyfin:
     timeoutSeconds: 1
 
   tailscale:
-    enabled: true
-    mode: ingress
+    enabled: false
+    mode: sidecar
     sidecar:
       authKey: ""
       existingAuthSecret: ""
