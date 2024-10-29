@@ -50,7 +50,7 @@ spec:
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if .Values.bazarr.persistence.enabled }}
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.bazarr.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-jellyfin-media
           {{- else }}
