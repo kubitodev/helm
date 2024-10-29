@@ -1,0 +1,31 @@
+{{- if and .Values.flaresolverr.enabled .Values.flaresolverr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-flaresolverr
+  labels:
+    app.kubernetes.io/name: flaresolverr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-flaresolverr
+  minReplicas: {{ .Values.flaresolverr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.flaresolverr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.flaresolverr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.flaresolverr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.flaresolverr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.flaresolverr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

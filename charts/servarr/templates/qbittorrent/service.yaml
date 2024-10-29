@@ -1,0 +1,55 @@
+{{- if .Values.qbittorrent.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-qbittorrent-web
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.qbittorrent.service.web.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.qbittorrent.service.web.port | default 8080 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  {{- if (and (eq .Values.qbittorrent.service.web.type "NodePort") (not (empty .Values.qbittorrent.service.web.nodePort))) }}
+      nodePort: {{ .Values.qbittorrent.service.web.nodePort }}
+  {{- end }}
+  selector:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-qbittorrent-bt
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.qbittorrent.service.bt.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
+      targetPort: bittorrent-tcp
+      protocol: TCP
+      name: bittorrent-tcp
+  {{- if (and (eq .Values.qbittorrent.service.bt.type "NodePort") (not (empty .Values.qbittorrent.service.bt.nodePort))) }}
+      nodePort: {{ .Values.qbittorrent.service.bt.nodePort }}
+  {{- end }}
+    - port: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
+      targetPort: bittorrent-udp
+      protocol: UDP
+      name: bittorrent-udp
+  {{- if (and (eq .Values.qbittorrent.service.bt.type "NodePort") (not (empty .Values.qbittorrent.service.bt.nodePort))) }}
+      nodePort: {{ .Values.qbittorrent.service.bt.nodePort }}
+  {{- end }}
+  selector:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

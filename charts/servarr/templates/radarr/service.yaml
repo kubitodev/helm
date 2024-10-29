@@ -1,0 +1,24 @@
+{{- if .Values.radarr.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-radarr
+  labels:
+    app.kubernetes.io/name: radarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.radarr.service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.radarr.service.port | default 7878 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+{{ if (and (eq .Values.radarr.service.type "NodePort") (not (empty .Values.radarr.service.nodePort))) }}
+      nodePort: {{.Values.radarr.service.nodePort}}
+{{ end }}
+  selector:
+    app.kubernetes.io/name: radarr
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

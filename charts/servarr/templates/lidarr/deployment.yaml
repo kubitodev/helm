@@ -1,0 +1,121 @@
+{{- if .Values.lidarr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-lidarr
+  labels:
+    app.kubernetes.io/name: lidarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.lidarr.autoscaling.enabled }}
+  replicas: {{ .Values.lidarr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.lidarr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: lidarr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.lidarr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: lidarr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.lidarr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.lidarr.serviceAccount.name | default (printf "%s-lidarr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.lidarr.podSecurityContext | nindent 8 }}
+      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.lidarr.persistence.enabled }}
+      initContainers:
+        - name: init-directories
+          image: busybox
+          command: ['sh', '-c', 'mkdir -p /media/{{ .Values.lidarr.persistence.path }} /media/{{ .Values.qbittorrent.persistence.path }} && chown -R 1000:1000 /media/{{ .Values.lidarr.persistence.path }} /media/{{ .Values.qbittorrent.persistence.path }}']
+          volumeMounts:
+            - name: media
+              mountPath: /media
+      {{- if .Values.lidarr.initContainers }}
+        {{- toYaml .Values.lidarr.initContainers | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.lidarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.lidarr.persistence.existingClaim | default (printf "%s-lidarr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.lidarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.lidarr.persistence.additionalVolumes }}
+          {{- .Values.lidarr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.lidarr.securityContext | nindent 12 }}
+          image: "{{ .Values.lidarr.image.repository }}:{{ .Values.lidarr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.lidarr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.lidarr.persistence.enabled }}
+            - mountPath: /media
+              name: media
+          {{- end }}
+          {{- if .Values.lidarr.persistence.additionalMounts }}
+            {{- .Values.lidarr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8686
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.lidarr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 12
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.lidarr.resources | nindent 12 }}
+      {{- with .Values.lidarr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.lidarr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.lidarr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

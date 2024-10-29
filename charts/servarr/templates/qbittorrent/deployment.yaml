@@ -1,0 +1,108 @@
+{{- if .Values.qbittorrent.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-qbittorrent
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.qbittorrent.autoscaling.enabled }}
+  replicas: {{ .Values.qbittorrent.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.qbittorrent.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: qbittorrent
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.qbittorrent.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: qbittorrent
+        aapp.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.qbittorrent.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.qbittorrent.serviceAccount.name | default (printf "%s-qbittorrent" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.qbittorrent.podSecurityContext | nindent 8 }}
+      {{- if .Values.qbittorrent.initContainers }}
+      initContainers:
+        {{- toYaml .Values.qbittorrent.initContainers | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.qbittorrent.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.qbittorrent.persistence.existingClaim | default (printf "%s-qbittorrent" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.qbittorrent.persistence.additionalVolumes }}
+          {{- .Values.qbittorrent.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.qbittorrent.securityContext | nindent 12 }}
+          image: "{{ .Values.qbittorrent.image.repository }}:{{ .Values.qbittorrent.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.qbittorrent.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
+            - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
+              name: media
+              subPath: {{ .Values.qbittorrent.persistence.path }}
+          {{- end }}
+          {{- if .Values.qbittorrent.persistence.additionalMounts }}
+            {{- .Values.qbittorrent.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.qbittorrent.service.web.port | default 8080 }}
+              protocol: TCP
+            - name: bittorrent-tcp
+              containerPort: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
+              protocol: TCP
+            - name: bittorrent-udp
+              containerPort: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
+              protocol: UDP
+          env:
+            {{- range $k,$v := .Values.qbittorrent.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.qbittorrent.resources | nindent 12 }}
+      {{- with .Values.qbittorrent.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.qbittorrent.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.qbittorrent.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

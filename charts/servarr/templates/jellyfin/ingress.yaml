@@ -1,0 +1,70 @@
+{{- if and .Values.jellyfin.enabled .Values.jellyfin.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-jellyfin
+  labels:
+    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    {{- with .Values.jellyfin.ingress.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+{{- with .Values.jellyfin.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  {{- if or (.Capabilities.APIVersions.Has "networking.k8s.io/v1/IngressClass") (.Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/IngressClass") }}
+  {{- if .Values.jellyfin.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.jellyfin.ingress.ingressClassName }}
+  {{- end }}
+  {{- end }}
+{{- if .Values.jellyfin.ingress.tls }}
+  tls:
+  {{- range .Values.jellyfin.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.jellyfin.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: {{ $.Values.jellyfin.ingress.path }}
+            backend:
+              service:
+                name: {{ $.Release.Name }}-jellyfin
+                port:
+                  name: http
+  {{- end }}
+{{- end }}
+
+---
+{{ if and .Values.jellyfin.tailscale.enabled .Values.jellyfin.tailscale.mode "ingress" }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-jellyfin
+  labels:
+    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  defaultBackend:
+    service:
+      name: {{ .Release.Name }}-jellyfin
+      port:
+        number: {{ .Values.jellyfin.service.port }}
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - {{ .Values.jellyfin.tailscale.ingress.host }}
+{{ end }}

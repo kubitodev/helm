@@ -1,0 +1,31 @@
+{{- if and .Values.prowlarr.enabled .Values.prowlarr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-prowlarr
+  minReplicas: {{ .Values.prowlarr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.prowlarr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.prowlarr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.prowlarr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.prowlarr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.prowlarr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

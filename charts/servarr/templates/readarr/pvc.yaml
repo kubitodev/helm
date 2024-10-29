@@ -1,0 +1,24 @@
+{{- if and .Values.readarr.enabled .Values.readarr.persistence.enabled (not .Values.readarr.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-readarr
+  labels:
+    app.kubernetes.io/name: readarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+  {{- if .Values.readarr.persistence.annotations }}
+  annotations:
+    {{- toYaml .Values.readarr.persistence.annotations | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.readarr.persistence.accessMode | quote }}
+  {{- if .Values.readarr.persistence.storageClass }}
+  storageClassName: {{ .Values.readarr.persistence.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.readarr.persistence.size | quote }}
+{{- end }}

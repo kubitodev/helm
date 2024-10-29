@@ -1,0 +1,31 @@
+{{- if and .Values.readarr.enabled .Values.readarr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-readarr
+  labels:
+    app.kubernetes.io/name: readarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-readarr
+  minReplicas: {{ .Values.readarr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.readarr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.readarr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.readarr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.readarr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.readarr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

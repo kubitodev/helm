@@ -1,0 +1,31 @@
+{{- if and .Values.bazarr.enabled .Values.bazarr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-bazarr
+  labels:
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-bazarr
+  minReplicas: {{ .Values.bazarr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.bazarr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.bazarr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.bazarr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.bazarr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.bazarr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

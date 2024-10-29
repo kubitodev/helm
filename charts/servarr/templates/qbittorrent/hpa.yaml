@@ -1,0 +1,31 @@
+{{- if and .Values.qbittorrent.enabled .Values.qbittorrent.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-qbittorrent
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-qbittorrent
+  minReplicas: {{ .Values.qbittorrent.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.qbittorrent.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.qbittorrent.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.qbittorrent.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.qbittorrent.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.qbittorrent.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

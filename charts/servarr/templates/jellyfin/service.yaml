@@ -1,0 +1,54 @@
+{{- if .Values.jellyfin.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-jellyfin
+  labels:
+    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+{{- if .Values.jellyfin.service.labels }}
+{{ toYaml .Values.jellyfin.service.labels | indent 4 }}
+{{- end }}
+{{- with .Values.jellyfin.service.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if (or (eq .Values.jellyfin.service.type "ClusterIP") (empty .Values.jellyfin.service.type)) }}
+  type: ClusterIP
+  {{- if .Values.jellyfin.service.clusterIP }}
+  clusterIP: {{ .Values.jellyfin.service.clusterIP }}
+  {{end}}
+{{- else if eq .Values.jellyfin.service.type "LoadBalancer" }}
+  type: {{ .Values.jellyfin.service.type }}
+  {{- if .Values.jellyfin.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.jellyfin.service.loadBalancerIP }}
+  {{- end }}
+  {{- if .Values.jellyfin.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+{{ toYaml .Values.jellyfin.service.loadBalancerSourceRanges | indent 4 }}
+  {{- end -}}
+{{- else }}
+  type: {{ .Values.jellyfin.service.type }}
+{{- end }}
+{{- if .Values.jellyfin.service.externalIPs }}
+  externalIPs:
+{{ toYaml .Values.jellyfin.service.externalIPs | indent 4 }}
+{{- end }}
+  {{- if .Values.jellyfin.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.jellyfin.service.externalTrafficPolicy }}
+  {{- end }}
+  ports:
+    - name: http
+      port: {{ .Values.jellyfin.service.port }}
+      protocol: TCP
+      targetPort: http
+{{ if (and (eq .Values.jellyfin.service.type "NodePort") (not (empty .Values.jellyfin.service.nodePort))) }}
+      nodePort: {{.Values.jellyfin.service.nodePort}}
+{{ end }}
+  selector:
+    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

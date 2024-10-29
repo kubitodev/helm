@@ -1,0 +1,31 @@
+{{- if and .Values.jellyseerr.enabled .Values.jellyseerr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-jellyseerr
+  labels:
+    app.kubernetes.io/name: jellyseerr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-jellyseerr
+  minReplicas: {{ .Values.jellyseerr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.jellyseerr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.jellyseerr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.jellyseerr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.jellyseerr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.jellyseerr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

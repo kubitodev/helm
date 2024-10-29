@@ -1,0 +1,24 @@
+{{- if and .Values.lidarr.enabled .Values.lidarr.persistence.enabled (not .Values.lidarr.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-lidarr
+  labels:
+    app.kubernetes.io/name: lidarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+  {{- if .Values.lidarr.persistence.annotations }}
+  annotations:
+    {{- toYaml .Values.lidarr.persistence.annotations | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.lidarr.persistence.accessMode | quote }}
+  {{- if .Values.lidarr.persistence.storageClass }}
+  storageClassName: {{ .Values.lidarr.persistence.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.lidarr.persistence.size | quote }}
+{{- end }}

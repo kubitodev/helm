@@ -1,0 +1,107 @@
+{{- if .Values.bazarr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-bazarr
+  labels:
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.bazarr.autoscaling.enabled }}
+  replicas: {{ .Values.bazarr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.bazarr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bazarr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.bazarr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: bazarr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.bazarr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.bazarr.serviceAccount.name | default (printf "%s-bazarr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.bazarr.podSecurityContext | nindent 8 }}
+      {{- if .Values.bazarr.initContainers }}
+      initContainers:
+        {{- toYaml .Values.bazarr.initContainers | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.bazarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.bazarr.persistence.existingClaim | default (printf "%s-bazarr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if .Values.bazarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.bazarr.persistence.additionalVolumes }}
+          {{- .Values.bazarr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.bazarr.securityContext | nindent 12 }}
+          image: "{{ .Values.bazarr.image.repository }}:{{ .Values.bazarr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.bazarr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.sonarr.persistence.enabled .Values.bazarr.persistence.enabled }}
+            - mountPath: "/media/{{ .Values.sonarr.persistence.path }}"
+              name: media
+              subPath: {{ .Values.sonarr.persistence.path }}
+          {{- end }}
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.radarr.persistence.enabled .Values.bazarr.persistence.enabled }}
+            - mountPath: "/media/{{ .Values.radarr.persistence.path }}"
+              name: media
+              subPath: {{ .Values.radarr.persistence.path }}
+          {{- end }}
+          {{- if .Values.bazarr.persistence.additionalMounts }}
+            {{- .Values.bazarr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 6767
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.bazarr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.bazarr.resources | nindent 12 }}
+      {{- with .Values.bazarr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.bazarr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.bazarr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

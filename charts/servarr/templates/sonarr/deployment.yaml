@@ -1,0 +1,121 @@
+{{- if .Values.sonarr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-sonarr
+  labels:
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.sonarr.autoscaling.enabled }}
+  replicas: {{ .Values.sonarr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.sonarr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sonarr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.sonarr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: sonarr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.sonarr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.sonarr.serviceAccount.name | default (printf "%s-sonarr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.sonarr.podSecurityContext | nindent 8 }}
+      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.sonarr.persistence.enabled }}
+      initContainers:
+        - name: init-directories
+          image: busybox
+          command: ['sh', '-c', 'mkdir -p /media/{{ .Values.sonarr.persistence.path }} /media/{{ .Values.qbittorrent.persistence.path }} && chown -R 1000:1000 /media/{{ .Values.sonarr.persistence.path }} /media/{{ .Values.qbittorrent.persistence.path }}']
+          volumeMounts:
+            - name: media
+              mountPath: /media
+      {{- if .Values.sonarr.initContainers }}
+        {{- toYaml .Values.sonarr.initContainers | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.sonarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.sonarr.persistence.existingClaim | default (printf "%s-sonarr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.sonarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.sonarr.persistence.additionalVolumes }}
+          {{- .Values.sonarr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.sonarr.securityContext | nindent 12 }}
+          image: "{{ .Values.sonarr.image.repository }}:{{ .Values.sonarr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.sonarr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.sonarr.persistence.enabled }}
+            - mountPath: /media
+              name: media
+          {{- end }}
+          {{- if .Values.sonarr.persistence.additionalMounts }}
+            {{- .Values.sonarr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8989
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.sonarr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 12
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.sonarr.resources | nindent 12 }}
+      {{- with .Values.sonarr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sonarr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sonarr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

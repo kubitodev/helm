@@ -1,0 +1,1475 @@
+
+## Default values for Jellyfin
+
+## @section Jellyfin parameters
+
+## @param jellyfin.enabled Whether to enable Jellyfin.
+## @param jellyfin.replicaCount The number of replicas to deploy.
+## @param jellyfin.image.repository The Docker repository to pull the image from.
+## @param jellyfin.image.tag The image tag to use.
+## @param jellyfin.image.pullPolicy The logic of image pulling.
+## @param jellyfin.enableDLNA Whether to enable DLNA which requires the pod to be attached to the host network in order to be useful - this can break things like ingress to the service https://jellyfin.org/docs/general/networking/dlna.html.
+## @param jellyfin.service.type The type of service to create.
+## @param jellyfin.service.port The port on which the service will run.
+## @param jellyfin.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param jellyfin.service.annotations Additional annotations to add to the service.
+## @param jellyfin.service.labels Additional labels to add to the service.
+## @param jellyfin.service.loadBalancerIP The IP address to use for the LoadBalancer service. Only used if service.type is LoadBalancer.
+## @param jellyfin.service.loadBalancerSourceRanges The source ranges to use for the LoadBalancer service. Only used if service.type is LoadBalancer.
+## @param jellyfin.service.externalTrafficPolicy The external traffic policy to use for the service. Set to either Cluster or Local.
+## @param jellyfin.ingress.enabled Whether to create an ingress for the service.
+## @param jellyfin.ingress.labels Additional labels to add to the ingress.
+## @param jellyfin.ingress.annotations Additional annotations to add to the ingress.
+## @param jellyfin.ingress.path The path to use for the ingress.
+## @param jellyfin.ingress.hosts The hosts to use for the ingress.
+## @param jellyfin.ingress.tls The TLS configuration for the ingress.
+## @param jellyfin.persistence.config.enabled Whether to enable persistence for the config.
+## @param jellyfin.persistence.config.storageClass The storage class to use for the config.
+## @param jellyfin.persistence.config.existingClaim The name of an existing claim to use for the config.
+## @param jellyfin.persistence.config.subPath The subPath to use for the config's volume mount.
+## @param jellyfin.persistence.config.accessMode The access mode to use for the config.
+## @param jellyfin.persistence.config.size The size to use for the config.
+## @param jellyfin.persistence.config.labels Additional labels to add to the config.
+## @param jellyfin.persistence.config.annotations Additional annotations to add to the config.
+## @param jellyfin.persistence.media.enabled Whether to enable persistence for the media.
+## @param jellyfin.persistence.media.storageClass The storage class to use for the media.
+## @param jellyfin.persistence.media.existingClaim The name of an existing claim to use for the media.
+## @param jellyfin.persistence.media.subPath The subPath to use for the media's volume mount.
+## @param jellyfin.persistence.media.accessMode The access mode to use for the media. Shared volume between all servarr applications, if running on different nodes, set to ReadWriteMany.
+## @param jellyfin.persistence.media.size The size to use for the media.
+## @param jellyfin.persistence.media.labels Additional labels to add to the media.
+## @param jellyfin.persistence.media.annotations Additional annotations to add to the media.
+## @param jellyfin.persistence.extraExistingClaimMounts Additional existing claim mounts to add to the pod.
+## @param jellyfin.resources The resources to use for the pod.
+## @param jellyfin.nodeSelector The node selector to use for the pod.
+## @param jellyfin.tolerations The tolerations to use for the pod.
+## @param jellyfin.affinity The affinity to use for the pod.
+## @param jellyfin.extraVolumes Additional volumes to add to the pod.
+## @param jellyfin.extraVolumeMounts Additional volume mounts to add to the pod.
+## @param jellyfin.extraEnvVars Additional environment variables to add to the pod.
+## @param jellyfin.extraInitContainers Additional init containers to add to the pod.
+## @param jellyfin.extraContainers Additional sidecar containers to add to the pod.
+## @param jellyfin.podSecurityContext The security context to use for the pod.
+## @param jellyfin.securityContext The security context to use for the container.
+## @param jellyfin.livenessProbe.enabled Whether to enable the liveness probe.
+## @param jellyfin.livenessProbe.failureThreshold The number of times to retry before giving up.
+## @param jellyfin.livenessProbe.initialDelaySeconds The number of seconds to wait before starting the probe.
+## @param jellyfin.livenessProbe.periodSeconds The number of seconds between probe attempts.
+## @param jellyfin.livenessProbe.successThreshold The minimum consecutive successes required to consider the probe successful.
+## @param jellyfin.livenessProbe.timeoutSeconds The number of seconds after which the probe times out.
+## @param jellyfin.readinessProbe.enabled Whether to enable the readiness probe.
+## @param jellyfin.readinessProbe.failureThreshold The number of times to retry before giving up.
+## @param jellyfin.readinessProbe.initialDelaySeconds The number of seconds to wait before starting the probe.
+## @param jellyfin.readinessProbe.periodSeconds The number of seconds between probe attempts.
+## @param jellyfin.readinessProbe.successThreshold The minimum consecutive successes required to consider the probe successful.
+## @param jellyfin.readinessProbe.timeoutSeconds The number of seconds after which the probe times out.
+## @param jellyfin.tailscale.enabled Whether to enable tailscale integration.
+## @param jellyfin.tailscale.mode The mode to use for tailscale integration. Can be 'sidecar' or 'ingress'. Ingress mode requires the tailscale operator and is required when enableDLNA is true.
+## @param jellyfin.tailscale.sidecar.authKey The tailscale auth key to use for the sidecar container.
+## @param jellyfin.tailscale.sidecar.existingAuthSecret The name of an existing secret containing the tailscale auth key as TS_AUTHKEY.
+## @param jellyfin.tailscale.ingress.host The hostname of the tailscale node. Uses magicDNS, requires it to be enabled along with HTTPS on the tailscale dashboard.
+##
+jellyfin:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/jellyfin
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+  enableDLNA: false
+
+  service:
+    type: ClusterIP
+    port: 8096
+    nodePort: ""
+    annotations: {}
+    labels: {}
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: Cluster
+
+  ingress:
+    enabled: false
+    labels: {}
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+      - chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  persistence:
+    config:
+      enabled: true
+      storageClass: ""
+      existingClaim: ""
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      labels: {}
+      annotations: {}
+    media:
+      enabled: true
+      storageClass: ""
+      existingClaim: ""
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 10Gi
+      labels: {}
+      annotations: {}
+
+    extraExistingClaimMounts: []
+      # - name: external-mount
+      #   mountPath: /srv/external-mount
+      ## If defined, a manually managed PVC must be created before volume binding
+      #   existingClaim:
+      #   readOnly: true
+
+  resources: {}
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  extraVolumes: []
+    #- name: renderD129
+    #  hostPath:
+    #    path: /dev/dri/renderD129
+
+  extraVolumeMounts: []
+    #- mountPath: /dev/dri/renderD129
+    #  name: renderD129
+
+  extraEnvVars: []
+    #- name: MY_ENV_VAR
+    #  value: my-env-var-value
+
+  extraInitContainers: {}
+
+  extraContainers: {}
+
+  podSecurityContext: {}
+  # Jellyfin can be run as an unprivileged user with the following settings:
+    # runAsUser: 65534
+    # runAsGroup: 65534
+
+  securityContext: {}
+  # For example, you might need to grant the following capabilities to enable hardware acceleration when mounting a /dev/dri device:
+    # capabilities:
+    #   add:
+    #     - "SYS_ADMIN"
+    #   drop:
+    #     - "ALL"
+
+  livenessProbe:
+    enabled: false
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
+  readinessProbe:
+    enabled: false
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
+  tailscale:
+    enabled: true
+    mode: ingress
+    sidecar:
+      authKey: ""
+      existingAuthSecret: ""
+    ingress:
+      host: ""
+
+## @section Sonarr parameters
+
+## @param sonarr.enabled Whether to enable Sonarr.
+## @param sonarr.replicaCount The number of replicas to deploy.
+## @param sonarr.image.repository The Docker repository to pull the image from.
+## @param sonarr.image.tag The image tag to use.
+## @param sonarr.image.pullPolicy The logic of image pulling.
+## @param sonarr.imagePullSecrets The image pull secrets to use.
+## @param sonarr.deployment.strategy.type The deployment strategy to use.
+## @param sonarr.serviceAccount.create Whether to create a service account.
+## @param sonarr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param sonarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param sonarr.podAnnotations Additional annotations to add to the pod.
+## @param sonarr.podSecurityContext The security context to use for the pod.
+## @param sonarr.securityContext The security context to use for the container.
+## @param sonarr.initContainers Additional init containers to add to the pod.
+## @param sonarr.service.type The type of service to create.
+## @param sonarr.service.port The port on which the service will run.
+## @param sonarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param sonarr.ingress.enabled Whether to create an ingress for the service.
+## @param sonarr.ingress.className The ingress class name to use.
+## @param sonarr.ingress.annotations Additional annotations to add to the ingress.
+## @param sonarr.ingress.hosts[0].host The host to use for the ingress.
+## @param sonarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param sonarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param sonarr.ingress.tls The TLS configuration for the ingress.
+## @param sonarr.resources The resources to use for the pod.
+## @param sonarr.autoscaling.enabled Whether to enable autoscaling.
+## @param sonarr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param sonarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param sonarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param sonarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param sonarr.nodeSelector The node selector to use for the pod.
+## @param sonarr.tolerations The tolerations to use for the pod.
+## @param sonarr.affinity The affinity to use for the pod.
+## @param sonarr.env.PUID The user ID to use for the pod.
+## @param sonarr.env.PGID The group ID to use for the pod.
+## @param sonarr.env.TZ The timezone to use for the pod.
+## @param sonarr.env.UMASK The umask to use for the pod.
+## @param sonarr.persistence.enabled Whether to enable persistence.
+## @param sonarr.persistence.path The path to use for the persistence. Don't use slashes.
+## @param sonarr.persistence.storageClass The storage class to use for the persistence.
+## @param sonarr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param sonarr.persistence.accessMode The access mode to use for the persistence.
+## @param sonarr.persistence.size The size to use for the persistence.
+## @param sonarr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param sonarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+sonarr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/sonarr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # -- Init Containers
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 80
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    UMASK: "002"
+
+  persistence:
+    enabled: true
+    path: tv
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section qBittorrent parameters
+
+## @param qbittorrent.enabled Whether to enable qBittorrent.
+## @param qbittorrent.replicaCount The number of replicas to deploy.
+## @param qbittorrent.image.repository The Docker repository to pull the image from.
+## @param qbittorrent.image.tag The image tag to use.
+## @param qbittorrent.image.pullPolicy The logic of image pulling.
+## @param qbittorrent.imagePullSecrets The image pull secrets to use.
+## @param qbittorrent.deployment.strategy.type The deployment strategy to use.
+## @param qbittorrent.serviceAccount.create Whether to create a service account.
+## @param qbittorrent.serviceAccount.annotations Additional annotations to add to the service account.
+## @param qbittorrent.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param qbittorrent.podAnnotations Additional annotations to add to the pod.
+## @param qbittorrent.podSecurityContext The security context to use for the pod.
+## @param qbittorrent.securityContext The security context to use for the container.
+## @param qbittorrent.initContainers Additional init containers to add to the pod.
+## @param qbittorrent.service.web.type The type of service to create.
+## @param qbittorrent.service.web.port The port on which the service will run.
+## @param qbittorrent.service.web.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param qbittorrent.service.bt.type The type of service to create.
+## @param qbittorrent.service.bt.port The port on which the service will run.
+## @param qbittorrent.service.bt.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param qbittorrent.ingress.enabled Whether to create an ingress for the service.
+## @param qbittorrent.ingress.className The ingress class name to use.
+## @param qbittorrent.ingress.annotations Additional annotations to add to the ingress.
+## @param qbittorrent.ingress.hosts[0].host The host to use for the ingress.
+## @param qbittorrent.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param qbittorrent.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param qbittorrent.ingress.tls The TLS configuration for the ingress.
+## @param qbittorrent.resources The resources to use for the pod.
+## @param qbittorrent.autoscaling.enabled Whether to enable autoscaling.
+## @param qbittorrent.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param qbittorrent.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param qbittorrent.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param qbittorrent.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param qbittorrent.nodeSelector The node selector to use for the pod.
+## @param qbittorrent.tolerations The tolerations to use for the pod.
+## @param qbittorrent.affinity The affinity to use for the pod.
+## @param qbittorrent.env.PUID The user ID to use for the pod.
+## @param qbittorrent.env.PGID The group ID to use for the pod.
+## @param qbittorrent.env.TZ The timezone to use for the pod.
+## @param qbittorrent.persistence.enabled Whether to enable persistence.
+## @param qbittorrent.persistence.path The path to use for the persistence. Don't use slashes.
+## @param qbittorrent.persistence.storageClass The storage class to use for the persistence.
+## @param qbittorrent.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param qbittorrent.persistence.accessMode The access mode to use for the persistence.
+## @param qbittorrent.persistence.size The size to use for the persistence.
+## @param qbittorrent.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param qbittorrent.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+qbittorrent:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/qbittorrent
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    web:
+      type: ClusterIP
+      port: 8080
+      nodePort: ""
+    bt:
+      type: ClusterIP
+      port: 6881
+      nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+
+  persistence:
+    enabled: true
+    path: downloads
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section Prowlarr parameters
+
+## @param prowlarr.enabled Whether to enable Prowlarr.
+## @param prowlarr.replicaCount The number of replicas to deploy.
+## @param prowlarr.image.repository The Docker repository to pull the image from.
+## @param prowlarr.image.tag The image tag to use.
+## @param prowlarr.image.pullPolicy The logic of image pulling.
+## @param prowlarr.imagePullSecrets The image pull secrets to use.
+## @param prowlarr.deployment.strategy.type The deployment strategy to use.
+## @param prowlarr.serviceAccount.create Whether to create a service account.
+## @param prowlarr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param prowlarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param prowlarr.podAnnotations Additional annotations to add to the pod.
+## @param prowlarr.podSecurityContext The security context to use for the pod.
+## @param prowlarr.securityContext The security context to use for the container.
+## @param prowlarr.initContainers Additional init containers to add to the pod.
+## @param prowlarr.service.type The type of service to create.
+## @param prowlarr.service.port The port on which the service will run.
+## @param prowlarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param prowlarr.ingress.enabled Whether to create an ingress for the service.
+## @param prowlarr.ingress.className The ingress class name to use.
+## @param prowlarr.ingress.annotations Additional annotations to add to the ingress.
+## @param prowlarr.ingress.hosts[0].host The host to use for the ingress.
+## @param prowlarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param prowlarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param prowlarr.ingress.tls The TLS configuration for the ingress.
+## @param prowlarr.resources The resources to use for the pod.
+## @param prowlarr.autoscaling.enabled Whether to enable autoscaling.
+## @param prowlarr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param prowlarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param prowlarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param prowlarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param prowlarr.nodeSelector The node selector to use for the pod.
+## @param prowlarr.tolerations The tolerations to use for the pod.
+## @param prowlarr.affinity The affinity to use for the pod.
+## @param prowlarr.env.PUID The user ID to use for the pod.
+## @param prowlarr.env.PGID The group ID to use for the pod.
+## @param prowlarr.env.TZ The timezone to use for the pod.
+## @param prowlarr.env.UMASK The umask to use for the pod.
+## @param prowlarr.persistence.enabled Whether to enable persistence.
+## @param prowlarr.persistence.storageClass The storage class to use for the persistence.
+## @param prowlarr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param prowlarr.persistence.accessMode The access mode to use for the persistence.
+## @param prowlarr.persistence.size The size to use for the persistence.
+## @param prowlarr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param prowlarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+prowlarr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/prowlarr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # -- Init Containers
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 9696
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    UMASK: "002"
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section FlareSolverr parameters
+
+## @param flaresolverr.enabled Whether to enable FlareSolverr.
+## @param flaresolverr.replicaCount The number of replicas to deploy.
+## @param flaresolverr.image.repository The Docker repository to pull the image from.
+## @param flaresolverr.image.tag The image tag to use.
+## @param flaresolverr.image.pullPolicy The logic of image pulling.
+## @param flaresolverr.imagePullSecrets The image pull secrets to use.
+## @param flaresolverr.deployment.strategy.type The deployment strategy to use.
+## @param flaresolverr.serviceAccount.create Whether to create a service account.
+## @param flaresolverr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param flaresolverr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param flaresolverr.podAnnotations Additional annotations to add to the pod.
+## @param flaresolverr.podSecurityContext.fsGroup The group ID to use for the pod.
+## @param flaresolverr.podSecurityContext.fsGroupChangePolicy The policy to use for the pod.
+## @param flaresolverr.securityContext.allowPrivilegeEscalation Whether to allow privilege escalation.
+## @param flaresolverr.securityContext.capabilities.drop The capabilities to drop.
+## @param flaresolverr.securityContext.readOnlyRootFilesystem Whether to use a read-only root filesystem.
+## @param flaresolverr.securityContext.runAsNonRoot Whether to run as a non-root user.
+## @param flaresolverr.securityContext.privileged Whether to run in privileged mode.
+## @param flaresolverr.securityContext.runAsUser The user ID to use for the container.
+## @param flaresolverr.securityContext.runAsGroup The group ID to use for the container.
+## @param flaresolverr.securityContext.seccompProfile.type The type of seccomp profile to use.
+## @param flaresolverr.initContainers Additional init containers to add to the pod.
+## @param flaresolverr.service.type The type of service to create.
+## @param flaresolverr.service.port The port on which the service will run.
+## @param flaresolverr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param flaresolverr.ingress.enabled Whether to create an ingress for the service.
+## @param flaresolverr.ingress.className The ingress class name to use.
+## @param flaresolverr.ingress.annotations Additional annotations to add to the ingress.
+## @param flaresolverr.ingress.hosts[0].host The host to use for the ingress.
+## @param flaresolverr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param flaresolverr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param flaresolverr.ingress.tls The TLS configuration for the ingress.
+## @param flaresolverr.resources The resources to use for the pod.
+## @param flaresolverr.autoscaling.enabled Whether to enable autoscaling.
+## @param flaresolverr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param flaresolverr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param flaresolverr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param flaresolverr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param flaresolverr.nodeSelector The node selector to use for the pod.
+## @param flaresolverr.tolerations The tolerations to use for the pod.
+## @param flaresolverr.affinity The affinity to use for the pod.
+##
+flaresolverr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/flaresolverr/flaresolverr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    privileged: false
+    runAsUser: 1000
+    runAsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 8191
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+## @section Jellyseerr parameters
+
+## @param jellyseerr.enabled Whether to enable Jellyseerr.
+## @param jellyseerr.replicaCount The number of replicas to deploy.
+## @param jellyseerr.image.repository The Docker repository to pull the image from.
+## @param jellyseerr.image.tag The image tag to use.
+## @param jellyseerr.image.pullPolicy The logic of image pulling.
+## @param jellyseerr.imagePullSecrets The image pull secrets to use.
+## @param jellyseerr.deployment.strategy.type The deployment strategy to use.
+## @param jellyseerr.serviceAccount.create Whether to create a service account.
+## @param jellyseerr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param jellyseerr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param jellyseerr.podAnnotations Additional annotations to add to the pod.
+## @param jellyseerr.podSecurityContext The security context to use for the pod.
+## @param jellyseerr.securityContext The security context to use for the container.
+## @param jellyseerr.initContainers Additional init containers to add to the pod.
+## @param jellyseerr.service.type The type of service to create.
+## @param jellyseerr.service.port The port on which the service will run.
+## @param jellyseerr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param jellyseerr.ingress.enabled Whether to create an ingress for the service.
+## @param jellyseerr.ingress.className The ingress class name to use.
+## @param jellyseerr.ingress.annotations Additional annotations to add to the ingress.
+## @param jellyseerr.ingress.hosts[0].host The host to use for the ingress.
+## @param jellyseerr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param jellyseerr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param jellyseerr.ingress.tls The TLS configuration for the ingress.
+## @param jellyseerr.resources The resources to use for the pod.
+## @param jellyseerr.autoscaling.enabled Whether to enable autoscaling.
+## @param jellyseerr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param jellyseerr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param jellyseerr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param jellyseerr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param jellyseerr.nodeSelector The node selector to use for the pod.
+## @param jellyseerr.tolerations The tolerations to use for the pod.
+## @param jellyseerr.affinity The affinity to use for the pod.
+## @param jellyseerr.persistence.enabled Whether to enable persistence.
+## @param jellyseerr.persistence.storageClass The storage class to use for the persistence.
+## @param jellyseerr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param jellyseerr.persistence.accessMode The access mode to use for the persistence.
+## @param jellyseerr.persistence.size The size to use for the persistence.
+## @param jellyseerr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param jellyseerr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+jellyseerr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: docker.io/fallenbagel/jellyseerr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # -- Init Containers
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 5055
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section Bazarr parameters
+
+## @param bazarr.enabled Whether to enable Bazarr.
+## @param bazarr.replicaCount The number of replicas to deploy.
+## @param bazarr.image.repository The Docker repository to pull the image from.
+## @param bazarr.image.tag The image tag to use.
+## @param bazarr.image.pullPolicy The logic of image pulling.
+## @param bazarr.imagePullSecrets The image pull secrets to use.
+## @param bazarr.deployment.strategy.type The deployment strategy to use.
+## @param bazarr.serviceAccount.create Whether to create a service account.
+## @param bazarr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param bazarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param bazarr.podAnnotations Additional annotations to add to the pod.
+## @param bazarr.podSecurityContext The security context to use for the pod.
+## @param bazarr.securityContext The security context to use for the container.
+## @param bazarr.initContainers Additional init containers to add to the pod.
+## @param bazarr.service.type The type of service to create.
+## @param bazarr.service.port The port on which the service will run.
+## @param bazarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param bazarr.ingress.enabled Whether to create an ingress for the service.
+## @param bazarr.ingress.className The ingress class name to use.
+## @param bazarr.ingress.annotations Additional annotations to add to the ingress.
+## @param bazarr.ingress.hosts[0].host The host to use for the ingress.
+## @param bazarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param bazarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param bazarr.ingress.tls The TLS configuration for the ingress.
+## @param bazarr.resources The resources to use for the pod.
+## @param bazarr.autoscaling.enabled Whether to enable autoscaling.
+## @param bazarr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param bazarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param bazarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param bazarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param bazarr.nodeSelector The node selector to use for the pod.
+## @param bazarr.tolerations The tolerations to use for the pod.
+## @param bazarr.affinity The affinity to use for the pod.
+## @param bazarr.env.PUID The user ID to use for the pod.
+## @param bazarr.env.PGID The group ID to use for the pod.
+## @param bazarr.env.TZ The timezone to use for the pod.
+## @param bazarr.persistence.enabled Whether to enable persistence.
+## @param bazarr.persistence.storageClass The storage class to use for the persistence.
+## @param bazarr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param bazarr.persistence.accessMode The access mode to use for the persistence.
+## @param bazarr.persistence.size The size to use for the persistence.
+## @param bazarr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param bazarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+bazarr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/bazarr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 6767
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section Radarr parameters
+
+## @param radarr.enabled Whether to enable Radarr.
+## @param radarr.replicaCount The number of replicas to deploy.
+## @param radarr.image.repository The Docker repository to pull the image from.
+## @param radarr.image.tag The image tag to use.
+## @param radarr.image.pullPolicy The logic of image pulling.
+## @param radarr.imagePullSecrets The image pull secrets to use.
+## @param radarr.deployment.strategy.type The deployment strategy to use.
+## @param radarr.serviceAccount.create Whether to create a service account.
+## @param radarr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param radarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param radarr.podAnnotations Additional annotations to add to the pod.
+## @param radarr.podSecurityContext The security context to use for the pod.
+## @param radarr.securityContext The security context to use for the container.
+## @param radarr.initContainers Additional init containers to add to the pod.
+## @param radarr.service.type The type of service to create.
+## @param radarr.service.port The port on which the service will run.
+## @param radarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param radarr.ingress.enabled Whether to create an ingress for the service.
+## @param radarr.ingress.className The ingress class name to use.
+## @param radarr.ingress.annotations Additional annotations to add to the ingress.
+## @param radarr.ingress.hosts[0].host The host to use for the ingress.
+## @param radarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param radarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param radarr.ingress.tls The TLS configuration for the ingress.
+## @param radarr.resources The resources to use for the pod.
+## @param radarr.autoscaling.enabled Whether to enable autoscaling.
+## @param radarr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param radarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param radarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param radarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param radarr.nodeSelector The node selector to use for the pod.
+## @param radarr.tolerations The tolerations to use for the pod.
+## @param radarr.affinity The affinity to use for the pod.
+## @param radarr.env.PUID The user ID to use for the pod.
+## @param radarr.env.PGID The group ID to use for the pod.
+## @param radarr.env.TZ The timezone to use for the pod.
+## @param radarr.env.UMASK The umask to use for the pod.
+## @param radarr.persistence.enabled Whether to enable persistence.
+## @param radarr.persistence.path The path to use for the persistence. Don't use slashes.
+## @param radarr.persistence.storageClass The storage class to use for the persistence.
+## @param radarr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param radarr.persistence.accessMode The access mode to use for the persistence.
+## @param radarr.persistence.size The size to use for the persistence.
+## @param radarr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param radarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+radarr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/radarr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 7878
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    UMASK: "002"
+
+  persistence:
+    enabled: true
+    path: movies
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section Lidarr parameters
+
+## @param lidarr.enabled Whether to enable Lidarr.
+## @param lidarr.replicaCount The number of replicas to deploy.
+## @param lidarr.image.repository The Docker repository to pull the image from.
+## @param lidarr.image.tag The image tag to use.
+## @param lidarr.image.pullPolicy The logic of image pulling.
+## @param lidarr.imagePullSecrets The image pull secrets to use.
+## @param lidarr.deployment.strategy.type The deployment strategy to use.
+## @param lidarr.serviceAccount.create Whether to create a service account.
+## @param lidarr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param lidarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param lidarr.podAnnotations Additional annotations to add to the pod.
+## @param lidarr.podSecurityContext The security context to use for the pod.
+## @param lidarr.securityContext The security context to use for the container.
+## @param lidarr.initContainers Additional init containers to add to the pod.
+## @param lidarr.service.type The type of service to create.
+## @param lidarr.service.port The port on which the service will run.
+## @param lidarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param lidarr.ingress.enabled Whether to create an ingress for the service.
+## @param lidarr.ingress.className The ingress class name to use.
+## @param lidarr.ingress.annotations Additional annotations to add to the ingress.
+## @param lidarr.ingress.hosts[0].host The host to use for the ingress.
+## @param lidarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param lidarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param lidarr.ingress.tls The TLS configuration for the ingress.
+## @param lidarr.resources The resources to use for the pod.
+## @param lidarr.autoscaling.enabled Whether to enable autoscaling.
+## @param lidarr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param lidarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param lidarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param lidarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param lidarr.nodeSelector The node selector to use for the pod.
+## @param lidarr.tolerations The tolerations to use for the pod.
+## @param lidarr.affinity The affinity to use for the pod.
+## @param lidarr.env.PUID The user ID to use for the pod.
+## @param lidarr.env.PGID The group ID to use for the pod.
+## @param lidarr.env.TZ The timezone to use for the pod.
+## @param lidarr.env.UMASK The umask to use for the pod.
+## @param lidarr.persistence.enabled Whether to enable persistence.
+## @param lidarr.persistence.path The path to use for the persistence. Don't use slashes.
+## @param lidarr.persistence.storageClass The storage class to use for the persistence.
+## @param lidarr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param lidarr.persistence.accessMode The access mode to use for the persistence.
+## @param lidarr.persistence.size The size to use for the persistence.
+## @param lidarr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param lidarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+lidarr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/lidarr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  initContainers: []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 8686
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    UMASK: "002"
+
+  persistence:
+    enabled: true
+    path: music
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section Readarr parameters
+
+## @param readarr.enabled Whether to enable Readarr.
+## @param readarr.replicaCount The number of replicas to deploy.
+## @param readarr.image.repository The Docker repository to pull the image from.
+## @param readarr.image.tag The image tag to use.
+## @param readarr.image.pullPolicy The logic of image pulling.
+## @param readarr.imagePullSecrets The image pull secrets to use.
+## @param readarr.deployment.strategy.type The deployment strategy to use.
+## @param readarr.serviceAccount.create Whether to create a service account.
+## @param readarr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param readarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param readarr.podAnnotations Additional annotations to add to the pod.
+## @param readarr.podSecurityContext The security context to use for the pod.
+## @param readarr.securityContext The security context to use for the container.
+## @param readarr.initContainers Additional init containers to add to the pod.
+## @param readarr.service.type The type of service to create.
+## @param readarr.service.port The port on which the service will run.
+## @param readarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param readarr.ingress.enabled Whether to create an ingress for the service.
+## @param readarr.ingress.className The ingress class name to use.
+## @param readarr.ingress.annotations Additional annotations to add to the ingress.
+## @param readarr.ingress.hosts[0].host The host to use for the ingress.
+## @param readarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param readarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param readarr.ingress.tls The TLS configuration for the ingress.
+## @param readarr.resources The resources to use for the pod.
+## @param readarr.autoscaling.enabled Whether to enable autoscaling.
+## @param readarr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param readarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param readarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param readarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param readarr.nodeSelector The node selector to use for the pod.
+## @param readarr.tolerations The tolerations to use for the pod.
+## @param readarr.affinity The affinity to use for the pod.
+## @param readarr.env.PUID The user ID to use for the pod.
+## @param readarr.env.PGID The group ID to use for the pod.
+## @param readarr.env.TZ The timezone to use for the pod.
+## @param readarr.env.UMASK The umask to use for the pod.
+## @param readarr.persistence.enabled Whether to enable persistence.
+## @param readarr.persistence.path The path to use for the persistence. Don't use slashes.
+## @param readarr.persistence.storageClass The storage class to use for the persistence.
+## @param readarr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param readarr.persistence.accessMode The access mode to use for the persistence.
+## @param readarr.persistence.size The size to use for the persistence.
+## @param readarr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param readarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+readarr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/readarr
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  initContainers:
+    []
+    # - name: init-container
+    #   image: busybox
+    #   command: ['sh', '-c', 'echo "this is an init container"']
+
+  service:
+    type: ClusterIP
+    port: 8787
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    UMASK: "002"
+
+  persistence:
+    enabled: true
+    path: books
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []

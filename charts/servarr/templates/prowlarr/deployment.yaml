@@ -1,0 +1,109 @@
+{{- if .Values.prowlarr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.prowlarr.autoscaling.enabled }}
+  replicas: {{ .Values.prowlarr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.prowlarr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prowlarr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.prowlarr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: prowlarr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.prowlarr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.prowlarr.serviceAccount.name | default (printf "%s-prowlarr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.prowlarr.podSecurityContext | nindent 8 }}
+      {{- if .Values.prowlarr.initContainers }}
+      initContainers:
+        {{- toYaml .Values.prowlarr.initContainers | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.prowlarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.prowlarr.persistence.existingClaim | default (printf "%s-prowlarr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if .Values.prowlarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.prowlarr.persistence.additionalVolumes }}
+          {{- .Values.prowlarr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.prowlarr.securityContext | nindent 12 }}
+          image: "{{ .Values.prowlarr.image.repository }}:{{ .Values.prowlarr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.prowlarr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if .Values.prowlarr.persistence.additionalMounts }}
+            {{- .Values.prowlarr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.prowlarr.service.port | default 9696 }}
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.prowlarr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 12
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.prowlarr.resources | nindent 12 }}
+      {{- with .Values.prowlarr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.prowlarr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.prowlarr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

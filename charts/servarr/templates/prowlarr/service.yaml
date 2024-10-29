@@ -1,0 +1,24 @@
+{{- if .Values.prowlarr.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.prowlarr.service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.prowlarr.service.port | default 9696 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+{{ if (and (eq .Values.prowlarr.service.type "NodePort") (not (empty .Values.prowlarr.service.nodePort))) }}
+      nodePort: {{.Values.prowlarr.service.nodePort}}
+{{ end }}
+  selector:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

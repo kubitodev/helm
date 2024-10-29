@@ -1,0 +1,31 @@
+{{- if and .Values.radarr.enabled .Values.radarr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-radarr
+  labels:
+    app.kubernetes.io/name: radarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-radarr
+  minReplicas: {{ .Values.radarr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.radarr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.radarr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.radarr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.radarr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.radarr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

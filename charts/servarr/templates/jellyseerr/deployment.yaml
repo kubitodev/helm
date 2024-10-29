@@ -1,0 +1,90 @@
+{{- if .Values.jellyseerr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-jellyseerr
+  labels:
+    app.kubernetes.io/name: jellyseerr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.jellyseerr.autoscaling.enabled }}
+  replicas: {{ .Values.jellyseerr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.jellyseerr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jellyseerr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.jellyseerr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: jellyseerr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.jellyseerr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.jellyseerr.serviceAccount.name | default (printf "%s-jellyseerr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.jellyseerr.podSecurityContext | nindent 8 }}
+      {{- if .Values.jellyseerr.initContainers }}
+      initContainers:
+        {{- toYaml .Values.jellyseerr.initContainers | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.jellyseerr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.jellyseerr.persistence.existingClaim | default (printf "%s-jellyseerr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.jellyseerr.persistence.additionalVolumes }}
+          {{- .Values.jellyseerr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.jellyseerr.securityContext | nindent 12 }}
+          image: "{{ .Values.jellyseerr.image.repository }}:{{ .Values.jellyseerr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.jellyseerr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /app/config
+              name: config
+          {{- if .Values.jellyseerr.persistence.additionalMounts }}
+            {{- .Values.jellyseerr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.jellyseerr.service.port | default 5055 }}
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.jellyseerr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.jellyseerr.resources | nindent 12 }}
+      {{- with .Values.jellyseerr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.jellyseerr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.jellyseerr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

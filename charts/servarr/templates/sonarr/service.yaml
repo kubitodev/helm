@@ -1,0 +1,24 @@
+{{- if .Values.sonarr.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-sonarr
+  labels:
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.sonarr.service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.sonarr.service.port | default 8989 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+{{ if (and (eq .Values.sonarr.service.type "NodePort") (not (empty .Values.sonarr.service.nodePort))) }}
+      nodePort: {{.Values.sonarr.service.nodePort}}
+{{ end }}
+  selector:
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

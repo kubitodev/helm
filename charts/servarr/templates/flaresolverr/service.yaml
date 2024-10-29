@@ -1,0 +1,24 @@
+{{- if .Values.flaresolverr.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-flaresolverr
+  labels:
+    app.kubernetes.io/name: flaresolverr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.flaresolverr.service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.flaresolverr.service.port | default 8989 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+{{ if (and (eq .Values.flaresolverr.service.type "NodePort") (not (empty .Values.flaresolverr.service.nodePort))) }}
+      nodePort: {{.Values.flaresolverr.service.nodePort}}
+{{ end }}
+  selector:
+    app.kubernetes.io/name: flaresolverr
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

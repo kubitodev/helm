@@ -1,0 +1,24 @@
+{{- if and .Values.bazarr.enabled .Values.bazarr.persistence.enabled (not .Values.bazarr.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-bazarr
+  labels:
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+  {{- if .Values.bazarr.persistence.annotations }}
+  annotations:
+    {{- toYaml .Values.bazarr.persistence.annotations | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.bazarr.persistence.accessMode | quote }}
+  {{- if .Values.bazarr.persistence.storageClass }}
+  storageClassName: {{ .Values.bazarr.persistence.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.bazarr.persistence.size | quote }}
+{{- end }}

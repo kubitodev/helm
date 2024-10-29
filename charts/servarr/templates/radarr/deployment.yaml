@@ -1,0 +1,121 @@
+{{- if .Values.radarr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-radarr
+  labels:
+    app.kubernetes.io/name: radarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.radarr.autoscaling.enabled }}
+  replicas: {{ .Values.radarr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.radarr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: radarr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.radarr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: radarr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.radarr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.radarr.serviceAccount.name | default (printf "%s-radarr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.radarr.podSecurityContext | nindent 8 }}
+      {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.radarr.persistence.enabled }}
+      initContainers:
+        - name: init-directories
+          image: busybox
+          command: ['sh', '-c', 'mkdir -p /media/{{ .Values.radarr.persistence.path }} /media/{{ .Values.qbittorrent.persistence.path }} && chown -R 1000:1000 /media/{{ .Values.radarr.persistence.path }} /media/{{ .Values.qbittorrent.persistence.path }}']
+          volumeMounts:
+            - name: media
+              mountPath: /media
+      {{- if .Values.radarr.initContainers }}
+        {{- toYaml .Values.radarr.initContainers | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.radarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.radarr.persistence.existingClaim | default (printf "%s-radarr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.radarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.radarr.persistence.additionalVolumes }}
+          {{- .Values.radarr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.radarr.securityContext | nindent 12 }}
+          image: "{{ .Values.radarr.image.repository }}:{{ .Values.radarr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.radarr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.radarr.persistence.enabled }}
+            - mountPath: /media
+              name: media
+          {{- end }}
+          {{- if .Values.radarr.persistence.additionalMounts }}
+            {{- .Values.radarr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 7878
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.radarr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 12
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.radarr.resources | nindent 12 }}
+      {{- with .Values.radarr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.radarr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.radarr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

@@ -1,0 +1,68 @@
+{{- if .Values.flaresolverr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-flaresolverr
+  labels:
+    app.kubernetes.io/name: flaresolverr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.flaresolverr.autoscaling.enabled }}
+  replicas: {{ .Values.flaresolverr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.flaresolverr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: flaresolverr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.flaresolverr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: flaresolverr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.flaresolverr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.flaresolverr.serviceAccount.name | default (printf "%s-flaresolverr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.flaresolverr.podSecurityContext | nindent 8 }}
+      {{- if .Values.flaresolverr.initContainers }}
+      initContainers:
+        {{- toYaml .Values.flaresolverr.initContainers | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.flaresolverr.securityContext | nindent 12 }}
+          image: "{{ .Values.flaresolverr.image.repository }}:{{ .Values.flaresolverr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.flaresolverr.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8191
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.flaresolverr.resources | nindent 12 }}
+      {{- with .Values.flaresolverr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.flaresolverr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.flaresolverr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

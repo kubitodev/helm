@@ -1,0 +1,24 @@
+{{- if and .Values.sonarr.enabled .Values.sonarr.persistence.enabled (not .Values.sonarr.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-sonarr
+  labels:
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+  {{- if .Values.sonarr.persistence.annotations }}
+  annotations:
+    {{- toYaml .Values.sonarr.persistence.annotations | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.sonarr.persistence.accessMode | quote }}
+  {{- if .Values.sonarr.persistence.storageClass }}
+  storageClassName: {{ .Values.sonarr.persistence.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.sonarr.persistence.size | quote }}
+{{- end }}
