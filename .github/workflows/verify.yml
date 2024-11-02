@@ -66,7 +66,6 @@ jobs:
                   errors=true
                 fi
               fi
-              echo -e "\n"
             fi
 
             # Check and generate README
@@ -81,7 +80,6 @@ jobs:
               else
                 echo "README generation for $dir is in order."
               fi
-              echo -e "\n"
             fi
           done
 
