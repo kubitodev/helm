@@ -74,6 +74,7 @@ jobs:
               echo "🔄 Generating README for $dir"
               if ! readme-generator -v "${dir}values.yaml" -r "${dir}README.md"; then
                 echo "::error::❌ README.md for $dir is outdated or an error occurred while generating it."
+                echo ""
                 echo "Please update README.md by installing readme-generator-for-helm and running:"
                 echo "npm install -g @bitnami/readme-generator-for-helm"
                 echo "readme-generator -v ${dir}values.yaml -r ${dir}README.md"
@@ -81,7 +82,7 @@ jobs:
               else
                 echo "✅ README generation for $dir is in order."
               fi
-              echo -e "\n"  # Add an empty line after README generation for readability
+              echo ""
             fi
           done
 
