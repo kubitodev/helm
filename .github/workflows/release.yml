@@ -9,6 +9,7 @@ on:
 
 jobs:
   release:
+    name: Release Helm Charts
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -20,7 +20,6 @@ global:
 ## @param serviceAccount.enabled Specifies whether a ServiceAccount should be created.
 ## @param serviceAccount.annotations Annotations for service account. Evaluated as a template. Only used if `create` is `true`.
 ## @param serviceAccount.name The name of the ServiceAccount to use. If not set and enabled is true, a name is generated using the fullname template.
-test: ""
 serviceAccount:
   enabled: true
   annotations: {}
