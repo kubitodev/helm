@@ -17,13 +17,9 @@ global:
 
 ## @section Common parameters
 
-## @param nameOverride String to partially override common.names.fullname
-## @param fullnameOverride String to fully override common.names.fullname
 ## @param serviceAccount.enabled Specifies whether a ServiceAccount should be created.
 ## @param serviceAccount.annotations Annotations for service account. Evaluated as a template. Only used if `create` is `true`.
 ## @param serviceAccount.name The name of the ServiceAccount to use. If not set and enabled is true, a name is generated using the fullname template.
-nameOverride: ""
-fullnameOverride: ""
 serviceAccount:
   enabled: true
   annotations: {}
