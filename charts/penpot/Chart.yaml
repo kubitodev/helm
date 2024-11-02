@@ -1,0 +1,27 @@
+name: penpot
+maintainers:
+  - name: kubitodev
+    url: https://kubito.dev
+apiVersion: v2
+appVersion: 2.2.1
+version: 1.0.0
+description: Kubito Penpot Helm Chart
+home: https://github.com/kubitodev/helm/tree/main/charts/penpot
+icon: https://kubito.dev/images/kubito.svg
+keywords:
+  - kubernetes
+  - penpot
+  - penpotapp
+  - design
+sources:
+  - https://github.com/penpot/penpot
+
+dependencies:
+  - condition: global.postgresqlEnabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 15.x.x
+  - condition: global.redisEnabled
+    name: redis
+    repository: https://charts.bitnami.com/bitnami
+    version: 18.x.x
