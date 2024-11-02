@@ -21,6 +21,14 @@ jobs:
           command: lint
           config: .github/verify-config.yaml
 
+      - name: Set up Node.js (required for readme-generator)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install readme-generator-for-helm
+        run: npm install -g @bitnami/readme-generator-for-helm
+
       - name: Check Chart Version and Run README Generator
         shell: bash
         run: |
