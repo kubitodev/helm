@@ -76,7 +76,7 @@ jobs:
               if readme-generator -v "${dir}values.yaml" -r "${dir}README.md"; then
                 message+="✅ README generation for $dir is up-to-date.\n\n"
               else
-                message+="❌ README for $dir outdated or failed to generate.\nTo update:\n\`\`\`\nnpm install -g @bitnami/readme-generator-for-helm\nreadme-generator -v ${dir}values.yaml -r ${dir}README.md\n\`\`\`\n\n"
+                # message+="❌ README for $dir outdated or failed to generate.\nTo update:\n\`\`\`\nnpm install -g @bitnami/readme-generator-for-helm\nreadme-generator -v ${dir}values.yaml -r ${dir}README.md\n\`\`\`\n\n"
                 errors=true
               fi
             fi
