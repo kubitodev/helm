@@ -30,9 +30,12 @@ jobs:
         run: npm install -g @bitnami/readme-generator-for-helm
 
       - name: Check Chart Version and Run README Generator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
           errors=false
+          message="### Validation Results:\n\n"
 
           # Loop through modified chart directories
           for dir in $(git diff --name-only origin/main | grep -o 'charts/[^/]*/' | sort -u); do
@@ -45,8 +48,10 @@ jobs:
 
               # Check if the version was incremented correctly
               if [ "$current_version" = "$main_version" ]; then
-                echo "::error::Version in $chart_file needs to be updated. The current version in main is $main_version."
-                echo "Please increment the version in $chart_file by updating the 'version' field to the next semantic version (e.g., 1.0.1 -> 1.0.2)."
+                echo "❌ Version in $chart_file needs to be updated. Current version on main is $main_version."
+                echo "Please increment the version in $chart_file to the next semantic version (e.g., 1.0.1 -> 1.0.2)."
+                message+="❌ Version in $chart_file needs to be updated. Current version on main is $main_version.\n"
+                message+="Please increment the version in $chart_file to the next semantic version (e.g., 1.0.1 -> 1.0.2).\n\n"
                 errors=true
               else
                 # Extract major, minor, patch for validation
@@ -55,10 +60,18 @@ jobs:
                 next_minor_version="$major.$((minor + 1)).0"
 
                 # Validate the updated version
-                if [ "$current_version" != "$next_patch_version" ] && [ "$current_version" != "$next_minor_version" ]; then
-                  echo "::error::Version in $chart_file is not a valid next version. The current version in main is $main_version."
-                  echo "Expected the next version to be either $next_patch_version (patch increment) or $next_minor_version (minor increment)."
+                if [ "$current_version" = "$next_patch_version" ]; then
+                  echo "✅ Version in $chart_file is correctly incremented to $current_version (next patch version)."
+                  message+="✅ Version in $chart_file is correctly incremented to $current_version (next patch version).\n\n"
+                elif [ "$current_version" = "$next_minor_version" ]; then
+                  echo "✅ Version in $chart_file is correctly incremented to $current_version (next minor version)."
+                  message+="✅ Version in $chart_file is correctly incremented to $current_version (next minor version).\n\n"
+                else
+                  echo "❌ Version in $chart_file is not a valid next version. Current version on main is $main_version."
+                  echo "Expected next version: $next_patch_version (patch) or $next_minor_version (minor)."
                   echo "Please update the version in $chart_file to one of these expected values."
+                  message+="❌ Version in $chart_file is not a valid next version. Current version on main is $main_version.\n"
+                  message+="Expected next version: $next_patch_version (patch) or $next_minor_version (minor).\n\n"
                   errors=true
                 fi
               fi
@@ -66,21 +79,44 @@ jobs:
 
             # Check and generate README
             if [ -f "${dir}values.yaml" ]; then
-              echo "Generating README for $dir"
+              echo "Generating README for $dir..."
+              message+="Generating README for $dir...\n"
               if ! readme-generator -v "${dir}values.yaml" -r "${dir}README.md"; then
-                echo "::error::README.md for $dir is outdated or an error occurred while generating it."
-                echo "Please update README.md by installing readme-generator-for-helm and running:"
-                echo "npm install -g @bitnami/readme-generator-for-helm"
-                echo "readme-generator -v ${dir}values.yaml -r ${dir}README.md"
+                echo "❌ README.md for $dir is outdated or an error occurred while generating it."
+                echo "Please update README.md by installing readme-generator-for-helm:"
+                echo "  npm install -g @bitnami/readme-generator-for-helm"
+                echo "Then run:"
+                echo "  readme-generator -v ${dir}values.yaml -r ${dir}README.md"
+
+                message+="❌ README.md for $dir is outdated or an error occurred while generating it.\n"
+                message+="Please update README.md by installing readme-generator-for-helm:\n"
+                message+="```\nnpm install -g @bitnami/readme-generator-for-helm\n```\n"
+                message+="Then run:\n"
+                message+="```\nreadme-generator -v ${dir}values.yaml -r ${dir}README.md\n```\n\n"
                 errors=true
+              else
+                echo "✅ README generation for $dir is in order."
+                message+="✅ README generation for $dir is in order.\n\n"
               fi
             fi
           done
 
-          # Fail the job if any errors were detected
+          # Determine final status
           if [ "$errors" = true ]; then
             echo "Some checks failed. Please address the issues above."
-            exit 1
+            message+="Some checks failed. Please address the issues above.\n"
+            exit_code=1
           else
-            echo "All validation checks passed."
+            echo "All validation checks passed! 🎉"
+            message+="All validation checks passed! 🎉\n"
+            exit_code=0
           fi
+
+          # Post the comment on the PR
+          pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          curl -s -X POST "https://api.github.com/repos/${{ github.repository }}/issues/$pr_number/comments" \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d "$(jq -n --arg body "$message" '{body: $body}')"
+
+          exit $exit_code
