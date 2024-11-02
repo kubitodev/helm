@@ -66,9 +66,8 @@ jobs:
                   errors=true
                 fi
               fi
+              echo -e "\n"
             fi
-
-            echo -e "\n"
 
             # Check and generate README
             if [ -f "${dir}values.yaml" ]; then
@@ -82,6 +81,7 @@ jobs:
               else
                 echo "README generation for $dir is in order."
               fi
+              echo -e "\n"
             fi
           done
 
