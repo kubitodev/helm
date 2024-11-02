@@ -45,7 +45,7 @@ jobs:
 
               # Check if the version was incremented correctly
               if [ "$current_version" = "$main_version" ]; then
-                echo "::error::Version in $chart_file needs to be updated. The current version in main is $main_version."
+                echo "::error::❌ Version in $chart_file needs to be updated. The current version in main is $main_version."
                 echo "Please increment the version in $chart_file by updating the 'version' field to the next semantic version (e.g., 1.0.1 -> 1.0.2)."
                 errors=true
               else
@@ -56,37 +56,39 @@ jobs:
 
                 # Validate the updated version
                 if [ "$current_version" = "$next_patch_version" ]; then
-                  echo "Version in $chart_file is correctly incremented to $current_version (next patch version)."
+                  echo "✅ Version in $chart_file is correctly incremented to $current_version (next patch version)."
                 elif [ "$current_version" = "$next_minor_version" ]; then
-                  echo "Version in $chart_file is correctly incremented to $current_version (next minor version)."
+                  echo "✅ Version in $chart_file is correctly incremented to $current_version (next minor version)."
                 else
-                  echo "::error::Version in $chart_file is not a valid next version. The current version in main is $main_version."
+                  echo "::error::❌ Version in $chart_file is not a valid next version. The current version in main is $main_version."
                   echo "Expected the next version to be either $next_patch_version (patch increment) or $next_minor_version (minor increment)."
                   echo "Please update the version in $chart_file to one of these expected values."
                   errors=true
                 fi
               fi
+              echo -e "\n"  # Add an empty line after version check for readability
             fi
 
             # Check and generate README
             if [ -f "${dir}values.yaml" ]; then
-              echo "Generating README for $dir"
+              echo "🔄 Generating README for $dir"
               if ! readme-generator -v "${dir}values.yaml" -r "${dir}README.md"; then
-                echo "::error::README.md for $dir is outdated or an error occurred while generating it."
+                echo "::error::❌ README.md for $dir is outdated or an error occurred while generating it."
                 echo "Please update README.md by installing readme-generator-for-helm and running:"
                 echo "npm install -g @bitnami/readme-generator-for-helm"
                 echo "readme-generator -v ${dir}values.yaml -r ${dir}README.md"
                 errors=true
               else
-                echo "README generation for $dir is in order."
+                echo "✅ README generation for $dir is in order."
               fi
+              echo -e "\n"  # Add an empty line after README generation for readability
             fi
           done
 
           # Fail the job if any errors were detected
           if [ "$errors" = true ]; then
-            echo "Some checks failed. Please address the issues above."
+            echo "❌ Some checks failed. Please address the issues above."
             exit 1
           else
-            echo "All validation checks passed."
+            echo "✅ All validation checks passed."
           fi
