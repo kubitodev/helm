@@ -46,73 +46,52 @@ jobs:
               current_version=$(yq eval '.version' "$chart_file")
               main_version=$(git show origin/main:"$chart_file" | yq eval '.version' -)
 
-              # Check if the version was incremented correctly
+              # Check if the version was incremented
               if [ "$current_version" = "$main_version" ]; then
-                echo "❌ Version in $chart_file needs to be updated. Current version on main is $main_version."
-                echo "Please increment the version in $chart_file to the next semantic version (e.g., 1.0.1 -> 1.0.2)."
-                message+="❌ Version in $chart_file needs to be updated. Current version on main is $main_version.\n"
-                message+="Please increment the version in $chart_file to the next semantic version (e.g., 1.0.1 -> 1.0.2).\n\n"
+                message+="❌ Version in $chart_file needs updating. Main version: $main_version.\nPlease increment the version (e.g., 1.0.1 -> 1.0.2).\n\n"
                 errors=true
               else
-                # Extract major, minor, patch for validation
                 IFS='.' read -r major minor patch <<< "$main_version"
-                next_patch_version="$major.$minor.$((patch + 1))"
-                next_minor_version="$major.$((minor + 1)).0"
+                next_patch="$major.$minor.$((patch + 1))"
+                next_minor="$major.$((minor + 1)).0"
 
-                # Validate the updated version
-                if [ "$current_version" = "$next_patch_version" ]; then
-                  echo "✅ Version in $chart_file is correctly incremented to $current_version (next patch version)."
-                  message+="✅ Version in $chart_file is correctly incremented to $current_version (next patch version).\n\n"
-                elif [ "$current_version" = "$next_minor_version" ]; then
-                  echo "✅ Version in $chart_file is correctly incremented to $current_version (next minor version)."
-                  message+="✅ Version in $chart_file is correctly incremented to $current_version (next minor version).\n\n"
-                else
-                  echo "❌ Version in $chart_file is not a valid next version. Current version on main is $main_version."
-                  echo "Expected next version: $next_patch_version (patch) or $next_minor_version (minor)."
-                  echo "Please update the version in $chart_file to one of these expected values."
-                  message+="❌ Version in $chart_file is not a valid next version. Current version on main is $main_version.\n"
-                  message+="Expected next version: $next_patch_version (patch) or $next_minor_version (minor).\n\n"
-                  errors=true
-                fi
+                # Validate updated version
+                case "$current_version" in
+                  "$next_patch")
+                    message+="✅ $chart_file version correctly incremented to $current_version (next patch).\n\n"
+                    ;;
+                  "$next_minor")
+                    message+="✅ $chart_file version correctly incremented to $current_version (next minor).\n\n"
+                    ;;
+                  *)
+                    message+="❌ Invalid version in $chart_file. Main version: $main_version.\nExpected: $next_patch (patch) or $next_minor (minor).\n\n"
+                    errors=true
+                    ;;
+                esac
               fi
             fi
 
-            # Check and generate README
+            # README generation
             if [ -f "${dir}values.yaml" ]; then
-              echo "Generating README for $dir..."
-              message+="Generating README for $dir...\n"
-              if ! readme-generator -v "${dir}values.yaml" -r "${dir}README.md"; then
-                echo "❌ README.md for $dir is outdated or an error occurred while generating it."
-                echo "Please update README.md by installing readme-generator-for-helm:"
-                echo "  npm install -g @bitnami/readme-generator-for-helm"
-                echo "Then run:"
-                echo "  readme-generator -v ${dir}values.yaml -r ${dir}README.md"
-
-                message+="❌ README.md for $dir is outdated or an error occurred while generating it.\n"
-                message+="Please update README.md by installing readme-generator-for-helm:\n"
-                message+="```\nnpm install -g @bitnami/readme-generator-for-helm\n```\n"
-                message+="Then run:\n"
-                message+="```\nreadme-generator -v ${dir}values.yaml -r ${dir}README.md\n```\n\n"
-                errors=true
+              if readme-generator -v "${dir}values.yaml" -r "${dir}README.md"; then
+                message+="✅ README generation for $dir is up-to-date.\n\n"
               else
-                echo "✅ README generation for $dir is in order."
-                message+="✅ README generation for $dir is in order.\n\n"
+                message+="❌ README for $dir outdated or failed to generate.\nTo update:\n\`\`\`\nnpm install -g @bitnami/readme-generator-for-helm\nreadme-generator -v ${dir}values.yaml -r ${dir}README.md\n\`\`\`\n\n"
+                errors=true
               fi
             fi
           done
 
-          # Determine final status
+          # Final status
           if [ "$errors" = true ]; then
-            echo "Some checks failed. Please address the issues above."
             message+="Some checks failed. Please address the issues above.\n"
             exit_code=1
           else
-            echo "All validation checks passed! 🎉"
             message+="All validation checks passed! 🎉\n"
             exit_code=0
           fi
 
-          # Post the comment on the PR
+          # Post comment on PR
           pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           curl -s -X POST "https://api.github.com/repos/${{ github.repository }}/issues/$pr_number/comments" \
           -H "Authorization: token $GITHUB_TOKEN" \
