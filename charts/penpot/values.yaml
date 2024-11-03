@@ -215,6 +215,7 @@ persistence:
 
 ## @param config.publicURI The public domain to serve Penpot on. Set `disable-secure-session-cookies` in the flags if you plan on serving it on a non HTTPS domain.
 ## @param config.flags The feature flags to enable. Check [the official docs](https://help.penpot.app/technical-guide/configuration/) for more info.
+## @param config.internalResolver The internal cluster resolver to use. Required for the frontend NGINX configuration to fetch fonts. Only replace if you know what you're doing.
 ## @param config.apiSecretKey A random secret key needed for persistent user sessions. Generate with `openssl rand -hex 16` for example.
 ## @param config.postgresql.host The PostgreSQL host to connect to.
 ## @param config.postgresql.port The PostgreSQL host port to use.
@@ -299,6 +300,7 @@ persistence:
 config:
   publicURI: "http://localhost:8080"
   flags: "enable-registration enable-login disable-demo-users disable-demo-warning"
+  internalResolver: "kube-dns.kube-system.svc.cluster.local"
   apiSecretKey: "b46a12cb4bedc6b9df8cb3f18c708b65"
 
   postgresql:
