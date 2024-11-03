@@ -767,6 +767,36 @@ entries:
   penpot:
   - apiVersion: v2
     appVersion: 2.2.1
+    created: "2024-11-03T02:34:09.379477965Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    description: Kubito Penpot Helm Chart
+    digest: 3f56a6d12d34df2902053145a6e204e3ff74ac55113eab43a649e8ab20c27374
+    home: https://github.com/kubitodev/helm/tree/main/charts/penpot
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/penpot-1.1.0/penpot-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 2.2.1
     created: "2024-11-03T02:21:01.182950522Z"
     dependencies:
     - condition: global.postgresqlEnabled
@@ -1548,4 +1578,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-03T02:21:01.183062341Z"
+generated: "2024-11-03T02:34:09.379573113Z"
