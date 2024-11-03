@@ -1,0 +1,17 @@
+name: excalidraw
+maintainers:
+  - name: kubitodev
+    url: https://kubito.dev
+apiVersion: v2
+appVersion: 0.17.6
+version: 1.0.0
+description: Kubito Excalidraw Helm Chart
+home: https://github.com/kubitodev/helm/tree/main/charts/excalidraw
+icon: https://kubito.dev/images/kubito.svg
+keywords:
+  - kubernetes
+  - excalidraw
+  - diagrams
+  - design
+sources:
+  - https://github.com/excalidraw/excalidraw
