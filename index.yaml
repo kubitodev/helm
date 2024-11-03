@@ -309,6 +309,28 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/cloudflared-1.0.0/cloudflared-1.0.0.tgz
     version: 1.0.0
+  excalidraw:
+  - apiVersion: v2
+    appVersion: 0.17.6
+    created: "2024-11-03T18:54:35.102590767Z"
+    description: Kubito Excalidraw Helm Chart
+    digest: 0ec74609b1eb25eca3af59ce13697f9724500ef06aa788797ac30c34a5fdb34d
+    home: https://github.com/kubitodev/helm/tree/main/charts/excalidraw
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - excalidraw
+    - diagrams
+    - design
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: excalidraw
+    sources:
+    - https://github.com/excalidraw/excalidraw
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/excalidraw-1.0.0/excalidraw-1.0.0.tgz
+    version: 1.0.0
   kubernetes-cloudflare-ddns:
   - apiVersion: v2
     appVersion: 1.0.1
@@ -1638,4 +1660,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-03T03:01:49.719370031Z"
+generated: "2024-11-03T18:54:35.102702156Z"
