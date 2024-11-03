@@ -23,7 +23,7 @@ helm uninstall example kubitodev/<chart>
 
 ## License
 
-Copyright &copy; 2022 Kubito
+Copyright &copy; 2024 Kubito
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
