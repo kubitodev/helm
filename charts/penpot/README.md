@@ -44,18 +44,16 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ### Global parameters
 
-| Name                       | Description                                                                                                                                                        | Value   |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
-| `global.postgresqlEnabled` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. | `false` |
-| `global.redisEnabled`      | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.           | `false` |
-| `global.imagePullSecrets`  | Global Docker registry secret names as an array.                                                                                                                   | `[]`    |
+| Name                       | Description                                                                                                                                                        | Value  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
+| `global.postgresqlEnabled` | Whether to deploy the Bitnami PostgreSQL chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/postgresql) for configuration. | `true` |
+| `global.redisEnabled`      | Whether to deploy the Bitnami Redis chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/bitnami/redis) for configuration.           | `true` |
+| `global.imagePullSecrets`  | Global Docker registry secret names as an array.                                                                                                                   | `[]`   |
 
 ### Common parameters
 
 | Name                         | Description                                                                                                             | Value  |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------ |
-| `nameOverride`               | String to partially override common.names.fullname                                                                      | `""`   |
-| `fullnameOverride`           | String to fully override common.names.fullname                                                                          | `""`   |
 | `serviceAccount.enabled`     | Specifies whether a ServiceAccount should be created.                                                                   | `true` |
 | `serviceAccount.annotations` | Annotations for service account. Evaluated as a template. Only used if `create` is `true`.                              | `{}`   |
 | `serviceAccount.name`        | The name of the ServiceAccount to use. If not set and enabled is true, a name is generated using the fullname template. | `""`   |

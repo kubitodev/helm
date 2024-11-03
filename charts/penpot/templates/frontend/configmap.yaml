@@ -9,9 +9,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 data:
   nginx.conf: |
-    user www-data;
     worker_processes auto;
-    pid /run/nginx.pid;
+    pid /tmp/nginx.pid;
     include /etc/nginx/modules-enabled/*.conf;
 
     events {
@@ -20,6 +19,12 @@ data:
     }
 
     http {
+        client_body_temp_path /tmp/client_temp;
+        proxy_temp_path       /tmp/proxy_temp_path;
+        fastcgi_temp_path     /tmp/fastcgi_temp;
+        uwsgi_temp_path       /tmp/uwsgi_temp;
+        scgi_temp_path        /tmp/scgi_temp;
+
         sendfile on;
         tcp_nopush on;
         tcp_nodelay on;
@@ -36,7 +41,7 @@ data:
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 
-        error_log /dev/stdout;
+        error_log /dev/stderr;
         access_log /dev/stdout;
 
         gzip on;
@@ -49,12 +54,22 @@ data:
 
         gzip_types text/plain text/css text/javascript application/javascript application/json application/transit+json;
 
-        resolver 127.0.0.11;
+        proxy_buffer_size 16k;
+        proxy_busy_buffers_size 24k; # essentially, proxy_buffer_size + 2 small buffers of 4k
+        proxy_buffers 32 4k;
+        resolver 127.0.0.11 ipv6=off;
 
         map $http_upgrade $connection_upgrade {
             default upgrade;
             ''      close;
         }
+
+        proxy_cache_path /tmp/cache/ levels=2:2 keys_zone=penpot:20m;
+        proxy_cache_methods GET HEAD;
+        proxy_cache_valid any 48h;
+        proxy_cache_key "$host$request_uri";
+
+        include /etc/nginx/overrides.d/*.conf;
 
         server {
             listen 80 default_server;
@@ -71,34 +86,14 @@ data:
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
             etag off;
+
             root /var/www/app/;
-
-            location ~* \.(js|css).*$ {
-                add_header Cache-Control "max-age=86400" always; # 24 hours
-            }
-
-            location ~* \.(html).*$ {
-                add_header Cache-Control "no-cache, max-age=0" always;
-            }
-
-            location /api/export {
-                proxy_pass http://{{ .Release.Name }}-exporter:6061;
-            }
-
-            location /api {
-                proxy_pass http://{{ .Release.Name }}-backend:6060/api;
-            }
-
-            location /ws/notifications {
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection 'upgrade';
-                proxy_pass http://{{ .Release.Name }}-backend:6060/ws/notifications;
-            }
 
             location @handle_redirect {
                 set $redirect_uri "$upstream_http_location";
                 set $redirect_host "$upstream_http_x_host";
                 set $redirect_cache_control "$upstream_http_cache_control";
+                set $real_mtype "$upstream_http_x_mtype";
 
                 proxy_buffering off;
 
@@ -113,10 +108,11 @@ data:
                 add_header x-internal-redirect "$redirect_uri";
                 add_header x-cache-control "$redirect_cache_control";
                 add_header cache-control "$redirect_cache_control";
+                add_header content-type "$real_mtype";
             }
 
             location /assets {
-                proxy_pass http://{{ .Release.Name }}-backend:6060/assets;
+                proxy_pass http://{{ .Release.Name }}-backend:{{ .Values.backend.service.port }}/assets;
                 recursive_error_pages on;
                 proxy_intercept_errors on;
                 error_page 301 302 307 = @handle_redirect;
@@ -126,6 +122,106 @@ data:
                 internal;
                 alias /opt/data/assets;
                 add_header x-internal-redirect "$upstream_http_x_accel_redirect";
+            }
+
+            location /api/export {
+                proxy_pass http://{{ .Release.Name }}-exporter:{{ .Values.exporter.service.port }};
+            }
+
+            location /api {
+                proxy_pass http://{{ .Release.Name }}-backend:{{ .Values.backend.service.port }}/api;
+            }
+
+            location /readyz {
+                proxy_http_version 1.1;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_pass http://{{ .Release.Name }}-backend:{{ .Values.backend.service.port }}$request_uri;
+            }
+
+            location /ws/notifications {
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_pass http://{{ .Release.Name }}-backend:{{ .Values.backend.service.port }}/ws/notifications;
+            }
+
+            location / {
+                location ~ ^/github/penpot-files/(?<template_file>[a-zA-Z0-9\-\_\.]+) {
+                    proxy_pass https://raw.githubusercontent.com/penpot/penpot-files/main/$template_file;
+                    proxy_hide_header Access-Control-Allow-Origin;
+                    proxy_set_header User-Agent "curl/7.74.0";
+                    proxy_set_header Host "raw.githubusercontent.com";
+                    proxy_set_header Accept "*/*";
+                    add_header Access-Control-Allow-Origin $http_origin;
+                    proxy_buffering off;
+                }
+
+                location ~ ^/internal/gfonts/font/(?<font_file>.+) {
+                    proxy_pass https://fonts.gstatic.com/s/$font_file;
+
+                    proxy_hide_header Access-Control-Allow-Origin;
+                    proxy_hide_header Cross-Origin-Resource-Policy;
+                    proxy_hide_header Link;
+                    proxy_hide_header Alt-Svc;
+                    proxy_hide_header Cache-Control;
+                    proxy_hide_header Expires;
+                    proxy_hide_header Cross-Origin-Opener-Policy;
+                    proxy_hide_header Report-To;
+
+                    proxy_ignore_headers Set-Cookie Vary Cache-Control Expires;
+
+                    proxy_set_header User-Agent "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36";
+                    proxy_set_header Host "fonts.gstatic.com";
+                    proxy_set_header Accept "*/*";
+
+                    proxy_cache penpot;
+
+                    add_header Access-Control-Allow-Origin $http_origin;
+                    add_header Cache-Control max-age=86400;
+                    add_header X-Cache-Status $upstream_cache_status;
+                }
+
+                location ~ ^/internal/gfonts/css {
+                    proxy_pass https://fonts.googleapis.com/css?$args;
+                    proxy_hide_header Access-Control-Allow-Origin;
+                    proxy_hide_header Cross-Origin-Resource-Policy;
+                    proxy_hide_header Link;
+                    proxy_hide_header Alt-Svc;
+                    proxy_hide_header Cache-Control;
+                    proxy_hide_header Expires;
+
+                    proxy_ignore_headers Set-Cookie Vary Cache-Control Expires;
+
+                    proxy_set_header User-Agent "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36";
+                    proxy_set_header Host "fonts.googleapis.com";
+                    proxy_set_header Accept "*/*";
+
+                    proxy_cache penpot;
+
+                    add_header Access-Control-Allow-Origin $http_origin;
+                    add_header Cache-Control max-age=86400;
+                    add_header X-Cache-Status $upstream_cache_status;
+                }
+
+                location ~ ^/js/config.js$ {
+                    add_header Cache-Control "no-store, no-cache, max-age=0" always;
+                }
+
+                location ~* \.(js|css|jpg|svg|png|mjs|map)$ {
+                    add_header Cache-Control "max-age=604800" always; # 7 days
+                }
+
+                location ~ ^/(/|css|fonts|images|js|wasm|mjs|map) {
+                }
+
+                location ~ ^/[^/]+/(.*)$ {
+                    return 301 " /404";
+                }
+
+                add_header Last-Modified $date_gmt;
+                add_header Cache-Control "no-store, no-cache, max-age=0" always;
+                if_modified_since off;
+                try_files $uri /index.html$is_args$args /index.html =404;
             }
         }
     }
