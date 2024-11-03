@@ -91,7 +91,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `frontend.image.imagePullPolicy` | The image pull policy to use.                                                                                                           | `IfNotPresent`       |
 | `frontend.replicaCount`          | The number of replicas to deploy.                                                                                                       | `1`                  |
 | `frontend.service.type`          | The service type to create.                                                                                                             | `ClusterIP`          |
-| `frontend.service.port`          | The service port to use.                                                                                                                | `80`                 |
+| `frontend.service.port`          | The service port to use. Don't change unless you plan to configure NGINX yourself.                                                      | `8080`               |
 | `frontend.ingress.enabled`       | Enable ingress record generation for Penpot frontend.                                                                                   | `false`              |
 | `frontend.ingress.annotations`   | Mapped annotations for the frontend ingress.                                                                                            | `{}`                 |
 | `frontend.ingress.hosts`         | Array style hosts for the frontend ingress.                                                                                             | `[]`                 |

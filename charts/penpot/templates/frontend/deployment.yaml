@@ -43,6 +43,10 @@ spec:
           env:
             - name: PENPOT_PUBLIC_URI
               value: {{ .Values.config.publicURI | quote }}
+            - name: PENPOT_BACKEND_URI
+              value: "http://{{ .Release.Name }}-backend:{{ .Values.backend.service.port }}"
+            - name: PENPOT_EXPORTER_URI
+              value: "http://{{ .Release.Name }}-exporter:{{ .Values.exporter.service.port }}"
             - name: PENPOT_FLAGS
               value: "$PENPOT_FLAGS {{ .Values.config.flags }}"
             - name: PENPOT_INTERNAL_RESOLVER
@@ -347,10 +351,6 @@ spec:
             - mountPath: /opt/data
               name: app-data
               readOnly: false
-            - mountPath: /etc/nginx/nginx.conf
-              name: "{{ .Release.Name }}-frontend-nginx"
-              readOnly: true
-              subPath: nginx.conf
           ports:
             - name: http
               containerPort: {{ .Values.frontend.service.port }}
@@ -377,7 +377,3 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      - configMap:
-          defaultMode: 420
-          name: "{{ .Release.Name }}-frontend-nginx"
-        name: "{{ .Release.Name }}-frontend-nginx"

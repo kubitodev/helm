@@ -88,7 +88,7 @@ backend:
 ## @param frontend.image.imagePullPolicy The image pull policy to use.
 ## @param frontend.replicaCount The number of replicas to deploy.
 ## @param frontend.service.type The service type to create.
-## @param frontend.service.port The service port to use.
+## @param frontend.service.port The service port to use. Don't change unless you plan to configure NGINX yourself.
 ## @param frontend.ingress.enabled Enable ingress record generation for Penpot frontend.
 ## @param frontend.ingress.annotations Mapped annotations for the frontend ingress.
 ## @param frontend.ingress.hosts Array style hosts for the frontend ingress.
@@ -109,7 +109,7 @@ frontend:
 
   service:
     type: ClusterIP
-    port: 80
+    port: 8080
 
   ingress:
     enabled: false
