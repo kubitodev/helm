@@ -70,6 +70,10 @@ spec:
           name: cloudflared-config-volume
           subPath: config.yaml
         {{- end }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       {{- if .Values.priorityClassName }}

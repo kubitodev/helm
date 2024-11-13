@@ -48,7 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                    |
 | ----------------------- | --------------------------------------------- | ------------------------ |
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
-| `image.tag`             | The image tag to use.                         | `2024.10.0`              |
+| `image.tag`             | The image tag to use.                         | `2024.11.0`              |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
 
 ### Deployment parameters
@@ -59,6 +59,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `affinity`                  | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`    |
 | `tolerations`               | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
 | `topologySpreadConstraints` | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
+| `resources`                 | If specified, it sets the resource requests and limits for the pod.                                                                           | `{}`    |
 | `logLevel`                  | The log level to use for the tunnel.                                                                                                          | `info`  |
 | `priorityClassName`         | The priority class name to use for the tunnel.                                                                                                | `""`    |
 | `metrics.enabled`           | Enable metrics for prometheus monitoring. The crd monitoring.coreos.com/v1 must be already installed on the target.                           | `false` |

@@ -8,7 +8,7 @@
 ##
 image:
   repository: cloudflare/cloudflared
-  tag: "2024.10.0"
+  tag: "2024.11.0"
   imagePullPolicy: IfNotPresent
 
 ## @section Deployment parameters
@@ -17,11 +17,20 @@ image:
 ## @param affinity If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.
 ## @param tolerations Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.
 ## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
+## @param resources If specified, it sets the resource requests and limits for the pod.
 ##
 replicaCount: 1
 affinity: {}
 tolerations: []
 topologySpreadConstraints: []
+resources: {}
+# resources:
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
 
 ## @param logLevel The log level to use for the tunnel.
 logLevel: info
