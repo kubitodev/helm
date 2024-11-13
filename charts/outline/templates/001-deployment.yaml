@@ -32,6 +32,8 @@ spec:
           volumeMounts:
           - name: {{ .Release.Name }}-data
             mountPath: {{ .Values.outline.fileStorage.localRootDir }}
+          securityContext:
+            runAsUser: 0
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
