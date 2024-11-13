@@ -1,34 +1,20 @@
 # Kubito Helm Charts PR Checklist
 
-Thanks for contributing! Please check the following to make sure your PR is ready:
+Thank you for your contribution! Please ensure the following:
 
-- [ ] **Chart Version**: Have you updated the `version` in `Chart.yaml` in the relevant chart directory?
-- [ ] **README Update**: If you've changed `values.yaml`, run the `readme-generator-for-helm` tool to update the `README.md` file:
+- [] **Chart Version**: Updated `version` in `Chart.yaml` for the relevant chart.
+- [] **README Update**: If `values.yaml` was changed, run:
 
   ```bash
   readme-generator -v charts/your-chart/values.yaml -r charts/your-chart/README.md
   ```
 
-- [ ] **Description**: Briefly describe your changes and why they are necessary.
+- [] **Testing**: Tested the chart locally, and it works as expected.
 
-- [ ] **Testing**: Have you tested the chart locally to ensure your changes work as expected?
+## Changes Summary
 
----
-
-## Description of Changes
-
-> Provide a summary of your changes here. Explain why this PR is necessary and what it adds to the repository.
-
----
+> Briefly describe your changes and why they are needed.
 
 ## Related Issues
 
-> Link any related issues here, for example:
->
-> - Fixes #123
-
----
-
-## Additional Notes
-
-> Add any other information that might help reviewers understand this PR better.
+> List any relevant issues, e.g., `Fixes #123`.
