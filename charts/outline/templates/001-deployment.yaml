@@ -24,7 +24,7 @@ spec:
       initContainers:
         - name: storage-prepare
           image: busybox
-          command: 
+          command:
             - chown
             - -R
             - 1001:1001
@@ -32,8 +32,10 @@ spec:
           volumeMounts:
           - name: {{ .Release.Name }}-data
             mountPath: {{ .Values.outline.fileStorage.localRootDir }}
+        {{- if .Values.outline.fileStorage.initContainerSecurityContext.enabled }}
           securityContext:
             runAsUser: 0
+        {{- end }}
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
@@ -405,10 +407,10 @@ spec:
             - name: OIDC_SCOPES
               value: "{{ .Values.auth.oidc.scopes }}"
           {{- end }}
-          {{- if .Values.outline.optional.iframely.enabled }} 
+          {{- if .Values.outline.optional.iframely.enabled }}
             - name: IFRAMELY_URL
               value: "{{ .Values.outline.optional.iframely.url }}"
-            {{- if .Values.outline.optional.iframely.apiKey }} 
+            {{- if .Values.outline.optional.iframely.apiKey }}
             - name: IFRAMELY_API_KEY
               value: "{{ .Values.outline.optional.iframely.apiKey }}"
             {{- end }}

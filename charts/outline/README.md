@@ -60,95 +60,96 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ### Deployment parameters
 
-| Name                                                   | Description                                                                                         | Value                     |
-| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------- | ------------------------- |
-| `replicaCount`                                         | The number of replicas to deploy.                                                                   | `1`                       |
-| `outline.secretKey.value`                              | Direct value for the secret key, if not using Kubernetes secret.                                    | `""`                      |
-| `outline.secretKey.existingSecret`                     | Reference to an existing Kubernetes secret for the secret key (outline-secret-key).                 | `""`                      |
-| `outline.utilsSecret.value`                            | Direct value for the utilities secret, if not using Kubernetes secret.                              | `""`                      |
-| `outline.utilsSecret.existingSecret`                   | Reference to an existing Kubernetes secret for the utilities secret (outline-utils-key).            | `""`                      |
-| `outline.nodeEnv`                                      | The environment in which the application is running (e.g., production, development).                | `production`              |
-| `outline.database.connectionPoolMin`                   | Minimum number of connections in the database pool.                                                 | `""`                      |
-| `outline.database.connectionPoolMax`                   | Maximum number of connections in the database pool.                                                 | `20`                      |
-| `outline.database.sslMode`                             | SSL mode for the database connection.                                                               | `disable`                 |
-| `outline.service.url`                                  | The URL where the application will be accessible.                                                   | `https://app.outline.dev` |
-| `outline.service.port`                                 | The port on which the application will run.                                                         | `3000`                    |
-| `outline.fileStorage.type`                             | Type of file storage to be used (e.g., local, s3).                                                  | `s3`                      |
-| `outline.fileStorage.storageClassName`                 | The storageclass name to use default "".                                                            | `""`                      |
-| `outline.fileStorage.storageSize`                      | The storageclass size to use default 250Gi.                                                         | `250Gi`                   |
-| `outline.fileStorage.localRootDir`                     | Local directory path for storing files, if using local storage.                                     | `/var/lib/outline/data`   |
-| `outline.fileStorage.uploadMaxSize`                    | Maximum file upload size limit.                                                                     | `26214400`                |
-| `outline.optional.collaborationUrl`                    | URL for collaboration features, if any.                                                             | `""`                      |
-| `outline.optional.forceHttps`                          | Forces HTTPS connections for increased security.                                                    | `false`                   |
-| `outline.optional.enableUpdates`                       | Enables automatic application updates.                                                              | `false`                   |
-| `outline.optional.webConcurrency`                      | Number of concurrent web processes to run.                                                          | `1`                       |
-| `outline.optional.fileStorageImportMaxSize`            | Maximum size limit for importing documents.                                                         | `5120000`                 |
-| `outline.optional.logLevel`                            | Sets the level of logging detail (e.g., info, error, debug).                                        | `info`                    |
-| `outline.optional.googleAnalyticsId`                   | Google Analytics ID for website traffic analysis.                                                   | `""`                      |
-| `outline.optional.iframely.enabled`                    | Whether to enable iframely.                                                                         | `false`                   |
-| `outline.optional.iframely.url`                        | URL of the iframely server.                                                                         | `http://iframely:8061`    |
-| `outline.optional.iframely.apiKey`                     | api key of the iframely server.                                                                     | `""`                      |
-| `outline.optional.sentry.dsn`                          | Data Source Name for Sentry, used to report errors.                                                 | `""`                      |
-| `outline.optional.sentry.tunnel`                       | URL for Sentry tunnel, useful for bypassing ad blockers.                                            | `""`                      |
-| `outline.optional.github.enabled`                      | Whether to enable GitHub integration.                                                               | `false`                   |
-| `outline.optional.github.clientId.value`               | Direct value for the GitHub client ID, if not using Kubernetes secret.                              | `""`                      |
-| `outline.optional.github.clientId.existingSecret`      | Reference to an existing Kubernetes secret for the GitHub client ID (github-client-id).             | `""`                      |
-| `outline.optional.github.clientSecret.value`           | Direct value for the GitHub client secret, if not using Kubernetes secret.                          | `""`                      |
-| `outline.optional.github.clientSecret.existingSecret`  | Reference to an existing Kubernetes secret for the GitHub client secret (github-client-secret).     | `""`                      |
-| `outline.optional.github.appName.value`                | Direct value for the GitHub app name, if not using Kubernetes secret.                               | `""`                      |
-| `outline.optional.github.appName.existingSecret`       | Reference to an existing Kubernetes secret for the GitHub app name (github-app-name).               | `""`                      |
-| `outline.optional.github.appId.value`                  | Direct value for the GitHub app ID, if not using Kubernetes secret.                                 | `""`                      |
-| `outline.optional.github.appId.existingSecret`         | Reference to an existing Kubernetes secret for the GitHub app ID (github-app-id).                   | `""`                      |
-| `outline.optional.github.appPrivateKey.value`          | Direct value for the GitHub app private key, if not using Kubernetes secret.                        | `""`                      |
-| `outline.optional.github.appPrivateKey.existingSecret` | Reference to an existing Kubernetes secret for the GitHub app private key (github-app-private-key). | `""`                      |
-| `outline.optional.smtp.enabled`                        | Whether to enable SMTP.                                                                             | `false`                   |
-| `outline.optional.smtp.host`                           | Hostname of the SMTP server.                                                                        | `""`                      |
-| `outline.optional.smtp.port`                           | Port number for the SMTP server.                                                                    | `""`                      |
-| `outline.optional.smtp.username`                       | Username for SMTP server authentication.                                                            | `""`                      |
-| `outline.optional.smtp.existingSecret`                 | Reference to an existing Kubernetes secret for SMTP password configuration (smtp-password).         | `""`                      |
-| `outline.optional.smtp.password`                       | Password for SMTP server authentication.                                                            | `""`                      |
-| `outline.optional.smtp.fromEmail`                      | Email address used as the sender in outgoing emails.                                                | `hello@example.com`       |
-| `outline.optional.smtp.replyEmail`                     | Email address used for replies to outgoing emails.                                                  | `hello@example.com`       |
-| `outline.optional.smtp.tlsCiphers`                     | TLS ciphers to use for SMTP connections.                                                            | `""`                      |
-| `outline.optional.smtp.secure`                         | Boolean indicating whether to use a secure connection for SMTP.                                     | `true`                    |
-| `outline.optional.defaultLanguage`                     | Default language setting for the application interface.                                             | `en_US`                   |
-| `outline.optional.rateLimiter.enabled`                 | Enable or disable rate limiting.                                                                    | `false`                   |
-| `outline.optional.rateLimiter.requests`                | Number of requests allowed per time window.                                                         | `1000`                    |
-| `outline.optional.rateLimiter.durationWindow`          | Duration of the rate limit window in seconds.                                                       | `60`                      |
-| `outline.optional.developmentUnsafeInlineCsp`          | Enables unsafe-inline CSP directive in development mode.                                            | `false`                   |
-| `outline.optional.ssl.key`                             | Base64 encoded private key for SSL.                                                                 | `""`                      |
-| `outline.optional.ssl.cert`                            | Base64 encoded certificate for SSL.                                                                 | `""`                      |
-| `outline.optional.cdnUrl`                              | URL for Content Delivery Network, if used.                                                          | `""`                      |
-| `auth.slack.enabled`                                   | Whether to enable Slack auth.                                                                       | `false`                   |
-| `auth.slack.clientId.value`                            | Direct value for the Slack client ID, if not using Kubernetes secret.                               | `""`                      |
-| `auth.slack.clientId.existingSecret`                   | Reference to an existing Kubernetes secret for the Slack client ID (slack-client-id).               | `""`                      |
-| `auth.slack.clientSecret.value`                        | Direct value for the Slack client secret, if not using Kubernetes secret.                           | `""`                      |
-| `auth.slack.clientSecret.existingSecret`               | Reference to an existing Kubernetes secret for the Slack client secret (slack-client-secret).       | `""`                      |
-| `auth.slack.messageActions`                            | Enables Slack message actions integration.                                                          | `true`                    |
-| `auth.slack.appId`                                     | Slack application ID.                                                                               | `""`                      |
-| `auth.slack.verificationToken`                         | Slack verification token.                                                                           | `""`                      |
-| `auth.google.enabled`                                  | Whether to enable Google auth.                                                                      | `false`                   |
-| `auth.google.clientId.value`                           | Direct value for the Google client ID, if not using Kubernetes secret.                              | `""`                      |
-| `auth.google.clientId.existingSecret`                  | Reference to an existing Kubernetes secret for the Google client ID (google-client-id).             | `""`                      |
-| `auth.google.clientSecret.value`                       | Direct value for the Google client secret, if not using Kubernetes secret.                          | `""`                      |
-| `auth.google.clientSecret.existingSecret`              | Reference to an existing Kubernetes secret for the Google client secret (google-client-secret).     | `""`                      |
-| `auth.azure.enabled`                                   | Whether to enable Azure auth.                                                                       | `false`                   |
-| `auth.azure.clientId.value`                            | Direct value for the Azure client ID, if not using Kubernetes secret.                               | `""`                      |
-| `auth.azure.clientId.existingSecret`                   | Reference to an existing Kubernetes secret for the Azure client ID (azure-client-id).               | `""`                      |
-| `auth.azure.clientSecret.value`                        | Direct value for the Azure client secret, if not using Kubernetes secret.                           | `""`                      |
-| `auth.azure.clientSecret.existingSecret`               | Reference to an existing Kubernetes secret for the Azure client secret (azure-client-secret).       | `""`                      |
-| `auth.azure.resourceAppId`                             | Azure resource application ID.                                                                      | `""`                      |
-| `auth.oidc.enabled`                                    | Whether to enable OIDC auth.                                                                        | `false`                   |
-| `auth.oidc.clientId.value`                             | Direct value for the OIDC client ID, if not using Kubernetes secret.                                | `""`                      |
-| `auth.oidc.clientId.existingSecret`                    | Reference to an existing Kubernetes secret for the OIDC client ID (oidc-client-id).                 | `""`                      |
-| `auth.oidc.clientSecret.value`                         | Direct value for the OIDC client secret, if not using Kubernetes secret.                            | `""`                      |
-| `auth.oidc.clientSecret.existingSecret`                | Reference to an existing Kubernetes secret for the OIDC client secret (oidc-client-secret).         | `""`                      |
-| `auth.oidc.authUri`                                    | OIDC authorization endpoint URI.                                                                    | `""`                      |
-| `auth.oidc.tokenUri`                                   | OIDC token endpoint URI.                                                                            | `""`                      |
-| `auth.oidc.userinfoUri`                                | OIDC userinfo endpoint URI.                                                                         | `""`                      |
-| `auth.oidc.usernameClaim`                              | OIDC claim used for the username.                                                                   | `preferred_username`      |
-| `auth.oidc.displayName`                                | Name to display for OIDC authentication.                                                            | `OpenID Connect`          |
-| `auth.oidc.scopes`                                     | OIDC scopes to request.                                                                             | `openid profile email`    |
+| Name                                                       | Description                                                                                           | Value                     |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------- |
+| `replicaCount`                                             | The number of replicas to deploy.                                                                     | `1`                       |
+| `outline.secretKey.value`                                  | Direct value for the secret key, if not using Kubernetes secret.                                      | `""`                      |
+| `outline.secretKey.existingSecret`                         | Reference to an existing Kubernetes secret for the secret key (outline-secret-key).                   | `""`                      |
+| `outline.utilsSecret.value`                                | Direct value for the utilities secret, if not using Kubernetes secret.                                | `""`                      |
+| `outline.utilsSecret.existingSecret`                       | Reference to an existing Kubernetes secret for the utilities secret (outline-utils-key).              | `""`                      |
+| `outline.nodeEnv`                                          | The environment in which the application is running (e.g., production, development).                  | `production`              |
+| `outline.database.connectionPoolMin`                       | Minimum number of connections in the database pool.                                                   | `""`                      |
+| `outline.database.connectionPoolMax`                       | Maximum number of connections in the database pool.                                                   | `20`                      |
+| `outline.database.sslMode`                                 | SSL mode for the database connection.                                                                 | `disable`                 |
+| `outline.service.url`                                      | The URL where the application will be accessible.                                                     | `https://app.outline.dev` |
+| `outline.service.port`                                     | The port on which the application will run.                                                           | `3000`                    |
+| `outline.fileStorage.type`                                 | Type of file storage to be used (e.g., local, s3).                                                    | `s3`                      |
+| `outline.fileStorage.storageClassName`                     | The storageclass name to use default "".                                                              | `""`                      |
+| `outline.fileStorage.storageSize`                          | The storageclass size to use default 250Gi.                                                           | `250Gi`                   |
+| `outline.fileStorage.localRootDir`                         | Local directory path for storing files, if using local storage.                                       | `/var/lib/outline/data`   |
+| `outline.fileStorage.uploadMaxSize`                        | Maximum file upload size limit.                                                                       | `26214400`                |
+| `outline.fileStorage.initContainerSecurityContext.enabled` | Whether to set the security context for the initContainer. Useful for deployments on GKE and similar. | `false`                   |
+| `outline.optional.collaborationUrl`                        | URL for collaboration features, if any.                                                               | `""`                      |
+| `outline.optional.forceHttps`                              | Forces HTTPS connections for increased security.                                                      | `false`                   |
+| `outline.optional.enableUpdates`                           | Enables automatic application updates.                                                                | `false`                   |
+| `outline.optional.webConcurrency`                          | Number of concurrent web processes to run.                                                            | `1`                       |
+| `outline.optional.fileStorageImportMaxSize`                | Maximum size limit for importing documents.                                                           | `5120000`                 |
+| `outline.optional.logLevel`                                | Sets the level of logging detail (e.g., info, error, debug).                                          | `info`                    |
+| `outline.optional.googleAnalyticsId`                       | Google Analytics ID for website traffic analysis.                                                     | `""`                      |
+| `outline.optional.iframely.enabled`                        | Whether to enable iframely.                                                                           | `false`                   |
+| `outline.optional.iframely.url`                            | URL of the iframely server.                                                                           | `http://iframely:8061`    |
+| `outline.optional.iframely.apiKey`                         | api key of the iframely server.                                                                       | `""`                      |
+| `outline.optional.sentry.dsn`                              | Data Source Name for Sentry, used to report errors.                                                   | `""`                      |
+| `outline.optional.sentry.tunnel`                           | URL for Sentry tunnel, useful for bypassing ad blockers.                                              | `""`                      |
+| `outline.optional.github.enabled`                          | Whether to enable GitHub integration.                                                                 | `false`                   |
+| `outline.optional.github.clientId.value`                   | Direct value for the GitHub client ID, if not using Kubernetes secret.                                | `""`                      |
+| `outline.optional.github.clientId.existingSecret`          | Reference to an existing Kubernetes secret for the GitHub client ID (github-client-id).               | `""`                      |
+| `outline.optional.github.clientSecret.value`               | Direct value for the GitHub client secret, if not using Kubernetes secret.                            | `""`                      |
+| `outline.optional.github.clientSecret.existingSecret`      | Reference to an existing Kubernetes secret for the GitHub client secret (github-client-secret).       | `""`                      |
+| `outline.optional.github.appName.value`                    | Direct value for the GitHub app name, if not using Kubernetes secret.                                 | `""`                      |
+| `outline.optional.github.appName.existingSecret`           | Reference to an existing Kubernetes secret for the GitHub app name (github-app-name).                 | `""`                      |
+| `outline.optional.github.appId.value`                      | Direct value for the GitHub app ID, if not using Kubernetes secret.                                   | `""`                      |
+| `outline.optional.github.appId.existingSecret`             | Reference to an existing Kubernetes secret for the GitHub app ID (github-app-id).                     | `""`                      |
+| `outline.optional.github.appPrivateKey.value`              | Direct value for the GitHub app private key, if not using Kubernetes secret.                          | `""`                      |
+| `outline.optional.github.appPrivateKey.existingSecret`     | Reference to an existing Kubernetes secret for the GitHub app private key (github-app-private-key).   | `""`                      |
+| `outline.optional.smtp.enabled`                            | Whether to enable SMTP.                                                                               | `false`                   |
+| `outline.optional.smtp.host`                               | Hostname of the SMTP server.                                                                          | `""`                      |
+| `outline.optional.smtp.port`                               | Port number for the SMTP server.                                                                      | `""`                      |
+| `outline.optional.smtp.username`                           | Username for SMTP server authentication.                                                              | `""`                      |
+| `outline.optional.smtp.existingSecret`                     | Reference to an existing Kubernetes secret for SMTP password configuration (smtp-password).           | `""`                      |
+| `outline.optional.smtp.password`                           | Password for SMTP server authentication.                                                              | `""`                      |
+| `outline.optional.smtp.fromEmail`                          | Email address used as the sender in outgoing emails.                                                  | `hello@example.com`       |
+| `outline.optional.smtp.replyEmail`                         | Email address used for replies to outgoing emails.                                                    | `hello@example.com`       |
+| `outline.optional.smtp.tlsCiphers`                         | TLS ciphers to use for SMTP connections.                                                              | `""`                      |
+| `outline.optional.smtp.secure`                             | Boolean indicating whether to use a secure connection for SMTP.                                       | `true`                    |
+| `outline.optional.defaultLanguage`                         | Default language setting for the application interface.                                               | `en_US`                   |
+| `outline.optional.rateLimiter.enabled`                     | Enable or disable rate limiting.                                                                      | `false`                   |
+| `outline.optional.rateLimiter.requests`                    | Number of requests allowed per time window.                                                           | `1000`                    |
+| `outline.optional.rateLimiter.durationWindow`              | Duration of the rate limit window in seconds.                                                         | `60`                      |
+| `outline.optional.developmentUnsafeInlineCsp`              | Enables unsafe-inline CSP directive in development mode.                                              | `false`                   |
+| `outline.optional.ssl.key`                                 | Base64 encoded private key for SSL.                                                                   | `""`                      |
+| `outline.optional.ssl.cert`                                | Base64 encoded certificate for SSL.                                                                   | `""`                      |
+| `outline.optional.cdnUrl`                                  | URL for Content Delivery Network, if used.                                                            | `""`                      |
+| `auth.slack.enabled`                                       | Whether to enable Slack auth.                                                                         | `false`                   |
+| `auth.slack.clientId.value`                                | Direct value for the Slack client ID, if not using Kubernetes secret.                                 | `""`                      |
+| `auth.slack.clientId.existingSecret`                       | Reference to an existing Kubernetes secret for the Slack client ID (slack-client-id).                 | `""`                      |
+| `auth.slack.clientSecret.value`                            | Direct value for the Slack client secret, if not using Kubernetes secret.                             | `""`                      |
+| `auth.slack.clientSecret.existingSecret`                   | Reference to an existing Kubernetes secret for the Slack client secret (slack-client-secret).         | `""`                      |
+| `auth.slack.messageActions`                                | Enables Slack message actions integration.                                                            | `true`                    |
+| `auth.slack.appId`                                         | Slack application ID.                                                                                 | `""`                      |
+| `auth.slack.verificationToken`                             | Slack verification token.                                                                             | `""`                      |
+| `auth.google.enabled`                                      | Whether to enable Google auth.                                                                        | `false`                   |
+| `auth.google.clientId.value`                               | Direct value for the Google client ID, if not using Kubernetes secret.                                | `""`                      |
+| `auth.google.clientId.existingSecret`                      | Reference to an existing Kubernetes secret for the Google client ID (google-client-id).               | `""`                      |
+| `auth.google.clientSecret.value`                           | Direct value for the Google client secret, if not using Kubernetes secret.                            | `""`                      |
+| `auth.google.clientSecret.existingSecret`                  | Reference to an existing Kubernetes secret for the Google client secret (google-client-secret).       | `""`                      |
+| `auth.azure.enabled`                                       | Whether to enable Azure auth.                                                                         | `false`                   |
+| `auth.azure.clientId.value`                                | Direct value for the Azure client ID, if not using Kubernetes secret.                                 | `""`                      |
+| `auth.azure.clientId.existingSecret`                       | Reference to an existing Kubernetes secret for the Azure client ID (azure-client-id).                 | `""`                      |
+| `auth.azure.clientSecret.value`                            | Direct value for the Azure client secret, if not using Kubernetes secret.                             | `""`                      |
+| `auth.azure.clientSecret.existingSecret`                   | Reference to an existing Kubernetes secret for the Azure client secret (azure-client-secret).         | `""`                      |
+| `auth.azure.resourceAppId`                                 | Azure resource application ID.                                                                        | `""`                      |
+| `auth.oidc.enabled`                                        | Whether to enable OIDC auth.                                                                          | `false`                   |
+| `auth.oidc.clientId.value`                                 | Direct value for the OIDC client ID, if not using Kubernetes secret.                                  | `""`                      |
+| `auth.oidc.clientId.existingSecret`                        | Reference to an existing Kubernetes secret for the OIDC client ID (oidc-client-id).                   | `""`                      |
+| `auth.oidc.clientSecret.value`                             | Direct value for the OIDC client secret, if not using Kubernetes secret.                              | `""`                      |
+| `auth.oidc.clientSecret.existingSecret`                    | Reference to an existing Kubernetes secret for the OIDC client secret (oidc-client-secret).           | `""`                      |
+| `auth.oidc.authUri`                                        | OIDC authorization endpoint URI.                                                                      | `""`                      |
+| `auth.oidc.tokenUri`                                       | OIDC token endpoint URI.                                                                              | `""`                      |
+| `auth.oidc.userinfoUri`                                    | OIDC userinfo endpoint URI.                                                                           | `""`                      |
+| `auth.oidc.usernameClaim`                                  | OIDC claim used for the username.                                                                     | `preferred_username`      |
+| `auth.oidc.displayName`                                    | Name to display for OIDC authentication.                                                              | `OpenID Connect`          |
+| `auth.oidc.scopes`                                         | OIDC scopes to request.                                                                               | `openid profile email`    |
 
 ### Ingress parameters
 
