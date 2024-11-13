@@ -76,7 +76,7 @@ jellyfin:
 
   image:
     repository: lscr.io/linuxserver/jellyfin
-    tag: "latest"
+    tag: "10.10.1"
     pullPolicy: IfNotPresent
 
   enableDLNA: false
@@ -257,7 +257,7 @@ sonarr:
   image:
     repository: lscr.io/linuxserver/sonarr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "4.0.10"
 
   imagePullSecrets: []
 
@@ -404,7 +404,7 @@ qbittorrent:
   image:
     repository: lscr.io/linuxserver/qbittorrent
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "4.6.7"
 
   imagePullSecrets: []
 
@@ -551,7 +551,7 @@ prowlarr:
   image:
     repository: lscr.io/linuxserver/prowlarr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "1.25.4"
 
   imagePullSecrets: []
 
@@ -691,7 +691,7 @@ flaresolverr:
   image:
     repository: ghcr.io/flaresolverr/flaresolverr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "v3.3.21"
 
   imagePullSecrets: []
 
@@ -820,7 +820,7 @@ jellyseerr:
   image:
     repository: docker.io/fallenbagel/jellyseerr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "2.0.1"
 
   imagePullSecrets: []
 
@@ -956,7 +956,7 @@ bazarr:
   image:
     repository: lscr.io/linuxserver/bazarr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "1.4.5"
 
   imagePullSecrets: []
 
@@ -1098,7 +1098,7 @@ radarr:
   image:
     repository: lscr.io/linuxserver/radarr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "5.14.0"
 
   imagePullSecrets: []
 
@@ -1242,7 +1242,7 @@ lidarr:
   image:
     repository: lscr.io/linuxserver/lidarr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "2.7.1"
 
   imagePullSecrets: []
 
@@ -1386,7 +1386,7 @@ readarr:
   image:
     repository: lscr.io/linuxserver/readarr
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "0.4.2-develop"
 
   imagePullSecrets: []
 
