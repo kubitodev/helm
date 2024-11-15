@@ -35,11 +35,11 @@ serviceAccount:
 ## @param service.type The type of the service to use.
 ## @param service.port The service port to use.
 ## @param config.settings.enabled Enable custom settings.
-## @param config.settings.data Custom settings data. Replace the secret key to any random string with `openssl rand -hex 32`.
+## @param config.settings.data [object, nullable] Custom settings data. Replace the secret key to any random string with `openssl rand -hex 32`.
 ## @param config.limiter.enabled Enable IP limiter.
-## @param config.limiter.data IP limiter data.
+## @param config.limiter.data [object, nullable] IP limiter data.
 ## @param config.uwsgi.enabled Enable UWSGI.
-## @param config.uwsgi.data UWSGI data.
+## @param config.uwsgi.data [object, nullable] UWSGI data.
 ## @param ingress.enabled Enable ingress record generation for Searxng.
 ## @param ingress.className The class name of the ingress to use.
 ## @param ingress.annotations Mapped annotations for the ingress.
@@ -90,7 +90,7 @@ service:
 config:
   settings:
     enabled: true
-    data: |
+    data: |-
       use_default_settings: true
 
       server:
@@ -112,13 +112,13 @@ config:
           - json
   limiter:
     enabled: true
-    data: |
+    data: |-
       [botdetection.ip_limit]
       # activate link_token method in the ip_limit method
       link_token = true
   uwsgi:
     enabled: true
-    data: |
+    data: |-
       [uwsgi]
       # Who will run the code
       uid = searxng
