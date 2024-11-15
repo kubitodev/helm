@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: searxng
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
