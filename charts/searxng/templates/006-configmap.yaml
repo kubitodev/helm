@@ -1,0 +1,46 @@
+{{- if .Values.config.settings.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-settings
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  settings.yml: |
+    {{- .Values.config.settings.data | nindent 4 }}
+{{- end }}
+
+---
+{{- if .Values.config.limiter.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-limiter
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  limiter.toml: |
+    {{- .Values.config.limiter.data | nindent 4 }}
+{{- end }}
+
+---
+{{- if .Values.config.uwsgi.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-uwsgi
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  uwsgi.ini: |
+    {{- .Values.config.uwsgi.data | nindent 4 }}
+{{- end }}

@@ -1,0 +1,232 @@
+## Default values for Searxng
+
+## @section Image parameters
+
+## @param image.repository The Docker repository to pull the image from.
+## @param image.tag The image tag to use.
+## @param image.imagePullPolicy The logic of image pulling.
+##
+image:
+  repository: searxng/searxng
+  tag: "latest"
+  imagePullPolicy: IfNotPresent
+
+## @section Common parameters
+
+## @param serviceAccount.enabled Specifies whether a ServiceAccount should be created.
+## @param serviceAccount.automount Whether to automount the service account.
+## @param serviceAccount.annotations Annotations for service account. Evaluated as a template. Only used if `create` is `true`.
+## @param serviceAccount.name The name of the ServiceAccount to use. If not set and enabled is true, a name is generated using the fullname template.
+serviceAccount:
+  enabled: true
+  automount: true
+  annotations: {}
+  name: ""
+
+## @section Deployment parameters
+
+## @param replicaCount The number of replicas to deploy.
+## @param imagePullSecrets Private registry pull secrets to include.
+## @param env Additional environment variables to add to the deployment.
+## @param podAnnotations Additional pod annotations.
+## @param podLabels Additional pod labels.
+## @param podSecurityContext Optional pod security context.
+## @param securityContext Optional deployment security context.
+## @param service.type The type of the service to use.
+## @param service.port The service port to use.
+## @param config.settings.enabled Enable custom settings.
+## @param config.settings.data Custom settings data. Replace the secret key to any random string with `openssl rand -hex 32`.
+## @param config.limiter.enabled Enable IP limiter.
+## @param config.limiter.data IP limiter data.
+## @param config.uwsgi.enabled Enable UWSGI.
+## @param config.uwsgi.data UWSGI data.
+## @param ingress.enabled Enable ingress record generation for Searxng.
+## @param ingress.className The class name of the ingress to use.
+## @param ingress.annotations Mapped annotations for the ingress.
+## @param ingress.hosts Array style hosts for the ingress.
+## @param ingress.tls Array style TLS secrets for the ingress.
+## @param resources Optional resource requests and limits to set.
+## @param livenessProbe.httpGet.path The path to use for the liveness probe.
+## @param livenessProbe.httpGet.port The port name to use for the liveness probe.
+## @param readinessProbe.httpGet.path The path to use for the readiness probe.
+## @param readinessProbe.httpGet.port The port name to use for the readiness probe.
+## @param autoscaling.enabled Whether to enable autoscaling.
+## @param autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param volumes Additional volumes to use.
+## @param volumeMounts Additional volume mounts to use.
+## @param nodeSelector Optional node selector to use.
+## @param tolerations Whether to set node tolerations.
+## @param affinity Whether to set node affinity.
+##
+replicaCount: 1
+
+imagePullSecrets: []
+
+env: []
+  # - name: TZ
+  #   value: "Europe/London"
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+config:
+  settings:
+    enabled: true
+    data: |
+      use_default_settings: true
+
+      server:
+        secret_key: "57dc63125e7eef404481411b99c21fb9a5763b724b0bc88f2440ef373cf94809"
+        limiter: false
+        image_proxy: true
+        port: 8080
+        bind_address: "0.0.0.0"
+
+      ui:
+        static_use_hash: true
+
+      search:
+        safe_search: 0
+        autocomplete: ""
+        default_lang: ""
+        formats:
+          - html
+          - json
+  limiter:
+    enabled: true
+    data: |
+      [botdetection.ip_limit]
+      # activate link_token method in the ip_limit method
+      link_token = true
+  uwsgi:
+    enabled: true
+    data: |
+      [uwsgi]
+      # Who will run the code
+      uid = searxng
+      gid = searxng
+
+      # Number of workers (usually CPU count)
+      # default value: %k (= number of CPU core, see Dockerfile)
+      workers = %k
+
+      # Number of threads per worker
+      # default value: 4 (see Dockerfile)
+      threads = 4
+
+      # The right granted on the created socket
+      chmod-socket = 666
+
+      # Plugin to use and interpreter config
+      single-interpreter = true
+      master = true
+      plugin = python3
+      lazy-apps = true
+      enable-threads = 4
+
+      # Module to import
+      module = searx.webapp
+
+      # Virtualenv and python path
+      pythonpath = /usr/local/searxng/
+      chdir = /usr/local/searxng/searx/
+
+      # automatically set processes name to something meaningful
+      auto-procname = true
+
+      # Disable request logging for privacy
+      disable-logging = true
+      log-5xx = true
+
+      # Set the max size of a request (request-body excluded)
+      buffer-size = 8192
+
+      # No keep alive
+      # See https://github.com/searx/searx-docker/issues/24
+      add-header = Connection: close
+
+      # uwsgi serves the static files
+      static-map = /static=/usr/local/searxng/searx/static
+      # expires set to one day
+      static-expires = /* 86400
+      static-gzip-all = True
+      offload-threads = 4
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    # - host: chart-example.local
+    #   paths:
+    #     - path: /
+    #       pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
