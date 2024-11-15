@@ -87,7 +87,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                            | Description                                                                                            | Value                    |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------ |
 | `cloudflared.image.repository`  | The Docker repository to pull the image from. Use `ghcr.io/milgradesec/cloudflared` for ARM64 devices. | `cloudflare/cloudflared` |
-| `cloudflared.image.tag`         | The image tag to use.                                                                                  | `2024.4.0`               |
+| `cloudflared.image.tag`         | The image tag to use.                                                                                  | `2024.11.0`              |
 | `cloudflared.replicaCount`      | The number of replicas to deploy.                                                                      | `1`                      |
 | `cloudflared.tunnelID`          | The Argo Tunnel ID you created. Check the configuration section for details.                           | `""`                     |
 | `cloudflared.ingress`           | The ingress settings to apply. Check the configuration section for examples.                           | `[]`                     |
