@@ -1023,6 +1023,29 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/penpot-1.0.0/penpot-1.0.0.tgz
     version: 1.0.0
+  searxng:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-11-15T19:11:08.410229774Z"
+    description: Kubito SearXNG Helm Chart
+    digest: 51ba4ae7670a0bdf9989de6c45ee6d043cb0c34fdced6f86f93e04497b090629
+    home: https://github.com/kubitodev/helm/tree/main/charts/searxng
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - searxng
+    - metasearch
+    - search
+    - privacy
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: searxng
+    sources:
+    - https://github.com/searxng/searxng
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/searxng-1.0.0/searxng-1.0.0.tgz
+    version: 1.0.0
   servarr:
   - apiVersion: v2
     appVersion: 1.0.7
@@ -1744,4 +1767,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-13T11:53:32.302594372Z"
+generated: "2024-11-15T19:11:08.41036196Z"
