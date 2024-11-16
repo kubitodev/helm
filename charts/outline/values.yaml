@@ -19,7 +19,7 @@ global:
 ##
 image:
   repository: outlinewiki/outline
-  tag: "0.80.2"
+  tag: "0.81.0"
   imagePullPolicy: IfNotPresent
 
 ## @section Deployment parameters
@@ -44,6 +44,9 @@ replicaCount: 1
 ## @param outline.fileStorage.localRootDir Local directory path for storing files, if using local storage.
 ## @param outline.fileStorage.uploadMaxSize Maximum file upload size limit.
 ## @param outline.fileStorage.initContainerSecurityContext.enabled Whether to set the security context for the initContainer. Useful for deployments on GKE and similar.
+## @param outline.nodeSelector Optional node selector to use.
+## @param outline.tolerations Whether to set node tolerations.
+## @param outline.affinity Whether to set node affinity.
 ## @param outline.optional.collaborationUrl URL for collaboration features, if any.
 ## @param outline.optional.forceHttps Forces HTTPS connections for increased security.
 ## @param outline.optional.enableUpdates Enables automatic application updates.
@@ -109,6 +112,9 @@ outline:
     uploadMaxSize: "26214400"
     initContainerSecurityContext:
       enabled: false
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
   optional:
     collaborationUrl: ""
