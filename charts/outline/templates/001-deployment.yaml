@@ -415,8 +415,6 @@ spec:
               value: "{{ .Values.outline.optional.iframely.apiKey }}"
             {{- end }}
           {{- end }}
-
-
       {{- if eq .Values.outline.fileStorage.type "local" }}
           volumeMounts:
           - name: {{ .Release.Name }}-data
@@ -425,4 +423,16 @@ spec:
       - name: {{ .Release.Name }}-data
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-data
+      {{- end }}
+      {{- with .Values.outline.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.outline.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.outline.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
       {{- end }}

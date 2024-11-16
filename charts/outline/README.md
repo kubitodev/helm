@@ -79,6 +79,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | `outline.fileStorage.localRootDir`                         | Local directory path for storing files, if using local storage.                                       | `/var/lib/outline/data`   |
 | `outline.fileStorage.uploadMaxSize`                        | Maximum file upload size limit.                                                                       | `26214400`                |
 | `outline.fileStorage.initContainerSecurityContext.enabled` | Whether to set the security context for the initContainer. Useful for deployments on GKE and similar. | `false`                   |
+| `outline.nodeSelector`                                     | Optional node selector to use.                                                                        | `{}`                      |
+| `outline.tolerations`                                      | Whether to set node tolerations.                                                                      | `[]`                      |
+| `outline.affinity`                                         | Whether to set node affinity.                                                                         | `{}`                      |
 | `outline.optional.collaborationUrl`                        | URL for collaboration features, if any.                                                               | `""`                      |
 | `outline.optional.forceHttps`                              | Forces HTTPS connections for increased security.                                                      | `false`                   |
 | `outline.optional.enableUpdates`                           | Enables automatic application updates.                                                                | `false`                   |
