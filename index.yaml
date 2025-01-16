@@ -2,6 +2,28 @@ apiVersion: v1
 entries:
   cloudflared:
   - apiVersion: v2
+    appVersion: 2025.1.0
+    created: "2025-01-16T10:57:04.341601141Z"
+    description: Kubito Cloudflared (Argo Tunnel) Helm Chart
+    digest: 1ad3deb17bd3bd12121b0806369a489820556096d720fbd1a6d4b691ea7bab56
+    home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/cloudflared-1.6.0/cloudflared-1.6.0.tgz
+    version: 1.6.0
+  - apiVersion: v2
     appVersion: 2024.11.0
     created: "2024-11-13T10:47:23.602787663Z"
     description: Kubito Cloudflared (Argo Tunnel) Helm Chart
@@ -502,6 +524,40 @@ entries:
     - https://github.com/kubitodev/helm/releases/download/kubernetes-cloudflare-ddns-1.0.0/kubernetes-cloudflare-ddns-1.0.0.tgz
     version: 1.0.0
   outline:
+  - apiVersion: v2
+    appVersion: 0.81.1
+    created: "2025-01-16T10:57:04.535134148Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    - condition: global.minioEnabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.x.x
+    description: Kubito Outline Wiki Helm Chart
+    digest: 3119d094a45858261553f8cde8e804d4ec3c36c35d1736fcd590e57ab8e3b914
+    home: https://github.com/kubitodev/helm/tree/main/charts/outline
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - outline
+    - wiki
+    - docs
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: outline
+    sources:
+    - https://github.com/outline/outline
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/outline-1.2.1/outline-1.2.1.tgz
+    version: 1.2.1
   - apiVersion: v2
     appVersion: 0.81.0
     created: "2024-11-16T20:15:46.947828978Z"
@@ -1858,4 +1914,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-16T20:15:46.947931921Z"
+generated: "2025-01-16T10:57:04.535336586Z"
