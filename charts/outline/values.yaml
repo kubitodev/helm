@@ -19,7 +19,7 @@ global:
 ##
 image:
   repository: outlinewiki/outline
-  tag: "0.81.0"
+  tag: "0.81.1"
   imagePullPolicy: IfNotPresent
 
 ## @section Deployment parameters
