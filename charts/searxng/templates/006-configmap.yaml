@@ -1,4 +1,5 @@
 {{- if .Values.config.settings.enabled -}}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -13,8 +14,8 @@ data:
     {{- .Values.config.settings.data | nindent 4 }}
 {{- end }}
 
----
 {{- if .Values.config.limiter.enabled -}}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -29,8 +30,8 @@ data:
     {{- .Values.config.limiter.data | nindent 4 }}
 {{- end }}
 
----
 {{- if .Values.config.uwsgi.enabled -}}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:

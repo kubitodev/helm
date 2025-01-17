@@ -4,7 +4,7 @@ maintainers:
     url: https://kubito.dev
 apiVersion: v2
 appVersion: 1.0.1
-version: 1.0.1
+version: 1.0.2
 description: Kubito SearXNG Helm Chart
 home: https://github.com/kubitodev/helm/tree/main/charts/searxng
 icon: https://kubito.dev/images/kubito.svg
