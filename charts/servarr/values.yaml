@@ -89,7 +89,7 @@ jellyfin:
     labels: {}
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
-    externalTrafficPolicy: Cluster
+    externalTrafficPolicy: null
 
   ingress:
     enabled: false
