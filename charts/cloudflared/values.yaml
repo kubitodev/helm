@@ -18,6 +18,8 @@ image:
 ## @param tolerations Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.
 ## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param resources If specified, it sets the resource requests and limits for the pod.
+## @param autoscaling If enabled, it sets autoscaling for the deployment to either scale up or down pods based on resource consumption.
+## @param podDisruptionBudget If enabled, it creates a disruption budget policy for the pods in the deployment.
 ##
 replicaCount: 1
 affinity: {}
@@ -31,6 +33,16 @@ resources: {}
 #   requests:
 #     cpu: 100m
 #     memory: 128Mi
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 6
+  targetMemoryUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 50
+
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
 
 ## @param logLevel The log level to use for the tunnel.
 logLevel: info
