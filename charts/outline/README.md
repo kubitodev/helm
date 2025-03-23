@@ -55,7 +55,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                 |
 | ----------------------- | --------------------------------------------- | --------------------- |
 | `image.repository`      | The Docker repository to pull the image from. | `outlinewiki/outline` |
-| `image.tag`             | The image tag to use.                         | `0.81.1`              |
+| `image.tag`             | The image tag to use.                         | `0.82.0`              |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`        |
 
 ### Deployment parameters
