@@ -48,7 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                    |
 | ----------------------- | --------------------------------------------- | ------------------------ |
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
-| `image.tag`             | The image tag to use.                         | `2025.1.0`               |
+| `image.tag`             | The image tag to use.                         | `2025.2.1`               |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
 
 ### Deployment parameters
