@@ -1,5 +1,8 @@
-{{- $replicas = .Values.replicaCount -}}
-{{- if and .Values.podDisruptionBudget.enabled (gt ($replicas | int) 1) }}
+{{- $replicas := .Values.replicaCount -}}
+{{- if .Values.podDisruptionBudget.enabled }}
+{{- if le ($replicas | int) 1 }}
+{{- fail "PodDisruptionBudget is not supported for replicaCount <= 1" -}}
+{{- end -}}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
