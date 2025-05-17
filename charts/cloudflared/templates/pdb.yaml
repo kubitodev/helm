@@ -1,7 +1,7 @@
 {{- $replicas := .Values.replicaCount -}}
 {{- if .Values.podDisruptionBudget.enabled }}
 {{- if le ($replicas | int) 1 }}
-{{- fail "PodDisruptionBudget is not supported for replicaCount <= 1" -}}
+{{- fail "podDisruptionBudget.minAvailable must be larger than 1 when replicaCount is 1" -}}
 {{- end -}}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
