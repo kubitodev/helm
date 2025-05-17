@@ -35,7 +35,7 @@ resources: {}
 #     memory: 128Mi
 autoscaling:
   enabled: false
-  minReplicas: 3
+  minReplicas: 1
   maxReplicas: 6
   targetMemoryUtilizationPercentage: 50
   targetCPUUtilizationPercentage: 50
