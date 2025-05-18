@@ -1,0 +1,14 @@
+{{- if .Values.config.settings.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-settings
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  settings.yml: |
+    {{- .Values.config.settings.data | nindent 4 }}
+{{- end }}
