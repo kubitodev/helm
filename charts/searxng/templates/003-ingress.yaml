@@ -1,4 +1,6 @@
 {{- if .Values.ingress.enabled -}}
+{{- $fullName := printf "%s-searxng" .Release.Name -}}
+{{- $svcPort := .Values.service.port -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
@@ -13,7 +15,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: searxng
+  name: {{ $fullName }}
   labels:
     app.kubernetes.io/name: "searxng"
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -52,10 +54,10 @@ spec:
               service:
                 name: searxng
                 port:
-                  number: {{ .Values.service.port }}
+                  number: {{ $svcPort }}
               {{- else }}
               serviceName: searxng
-              servicePort: {{ .Values.service.port }}
+              servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
     {{- end }}
