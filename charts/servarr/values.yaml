@@ -1519,7 +1519,7 @@ readarr:
 ## @param cleanuperr.env.SEARCH_DELAY The delay between searches in seconds.
 ## @param cleanuperr.env.QUEUECLEANER__ENABLED Whether to enable queue cleaner functionality.
 ## @param cleanuperr.env.TRIGGERS__QUEUECLEANER The cron schedule for queue cleaner.
-## @param cleanuperr.env.QUEUECLEANER__IGNORED_DOWNLOADS_PATH Path to ignored downloads list.
+## @param cleanuperr.env.QUEUECLEANER__IGNORED_DOWNLOADS_PATH Path to ignored downloads list. Set to /ignored to use the default.
 ## @param cleanuperr.env.QUEUECLEANER__RUNSEQUENTIALLY Whether to run queue cleaner sequentially.
 ## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES Maximum failed import strikes before action.
 ## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE Whether to ignore private trackers for failed imports.
@@ -1540,12 +1540,12 @@ readarr:
 ## @param cleanuperr.env.QUEUECLEANER__SLOW_IGNORE_ABOVE_SIZE Ignore torrents above this size for slow download checks.
 ## @param cleanuperr.env.CONTENTBLOCKER__ENABLED Whether to enable content blocker functionality.
 ## @param cleanuperr.env.TRIGGERS__CONTENTBLOCKER Cron schedule for content blocker.
-## @param cleanuperr.env.CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH Path to ignored downloads for content blocker.
+## @param cleanuperr.env.CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH Path to ignored downloads for content blocker. Set to /ignored to use the default.
 ## @param cleanuperr.env.CONTENTBLOCKER__IGNORE_PRIVATE Whether to ignore private trackers for content blocking.
 ## @param cleanuperr.env.CONTENTBLOCKER__DELETE_PRIVATE Whether to delete private tracker torrents when blocked.
 ## @param cleanuperr.env.DOWNLOADCLEANER__ENABLED Whether to enable download cleaner functionality.
 ## @param cleanuperr.env.TRIGGERS__DOWNLOADCLEANER Cron schedule for download cleaner.
-## @param cleanuperr.env.DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH Path to ignored downloads for download cleaner.
+## @param cleanuperr.env.DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH Path to ignored downloads for download cleaner. Set to /ignored to use the default.
 ## @param cleanuperr.env.DOWNLOADCLEANER__DELETE_PRIVATE Whether to delete private tracker torrents when cleaning.
 ## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__0__NAME Name for the first category (Sonarr).
 ## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__1__NAME Name for the second category (Radarr).
@@ -1680,7 +1680,7 @@ cleanuperr:
     # Queuecleaner Settings
     QUEUECLEANER__ENABLED: true
     TRIGGERS__QUEUECLEANER: "0 0/5 * * * ?"
-    QUEUECLEANER__IGNORED_DOWNLOADS_PATH: "/ignored"
+    QUEUECLEANER__IGNORED_DOWNLOADS_PATH: ""
     QUEUECLEANER__RUNSEQUENTIALLY: true
     QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES: "0"
     QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE: false
@@ -1702,13 +1702,13 @@ cleanuperr:
     # Content Blocker Settings
     CONTENTBLOCKER__ENABLED: true
     TRIGGERS__CONTENTBLOCKER: "0 0/5 * * * ?"
-    CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: "/ignored"
+    CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: ""
     CONTENTBLOCKER__IGNORE_PRIVATE: false
     CONTENTBLOCKER__DELETE_PRIVATE: false
     # Download Cleaner Settings
     DOWNLOADCLEANER__ENABLED: true
     TRIGGERS__DOWNLOADCLEANER: "0 0 * * * ?"
-    DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: "/ignored"
+    DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: ""
     DOWNLOADCLEANER__DELETE_PRIVATE: false
     DOWNLOADCLEANER__CATEGORIES__0__NAME: "tv-sonarr"
     DOWNLOADCLEANER__CATEGORIES__1__NAME: "movies-radarr"
