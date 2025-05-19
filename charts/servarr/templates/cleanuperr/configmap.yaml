@@ -1,0 +1,18 @@
+{{- if .Values.cleanuperr.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-cleanuperr-ignored-downloads
+  labels:
+    app.kubernetes.io/name: cleanuperr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  ignored_downloads: |-
+    {{- if .Values.cleanuperr.ignoredDownloads.entries }}
+    {{- range .Values.cleanuperr.ignoredDownloads.entries }}
+    {{ . }}
+    {{- end }}
+    {{- end }}
+{{- end }}

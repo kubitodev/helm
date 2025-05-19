@@ -1,8 +1,8 @@
-{{- if and .Values.cleanuperr.enabled .Values.cleanuperr.persistence.enabled (not .Values.cleanuperr.persistence.existingClaim) }}
+{{- if and .Values.cleanuperr.enabled .Values.cleanuperr.persistence.logs.enabled (not .Values.cleanuperr.persistence.logs.existingClaim) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-cleanuperr
+  name: {{ .Release.Name }}-cleanuperr-logs
   labels:
     app.kubernetes.io/name: cleanuperr
     app.kubernetes.io/instance: {{ .Release.Name | quote }}

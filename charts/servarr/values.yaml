@@ -1584,13 +1584,14 @@ readarr:
 ## @param cleanuperr.env.LIDARR__BLOCK__TYPE The block type for Lidarr.
 ## @param cleanuperr.env.LIDARR__BLOCK__PATH Path to the Lidarr blocklist.
 ## @param cleanuperr.env.LIDARR__INSTANCES__0__URL The URL for Lidarr.
-## @param cleanuperr.persistence.enabled Whether to enable persistence.
-## @param cleanuperr.persistence.storageClass The storage class to use for the persistence.
-## @param cleanuperr.persistence.existingClaim The name of an existing claim to use for the persistence.
-## @param cleanuperr.persistence.accessMode The access mode to use for the persistence.
-## @param cleanuperr.persistence.size The size to use for the persistence.
-## @param cleanuperr.persistence.additionalVolumes Additional volumes to add to the pod.
-## @param cleanuperr.persistence.additionalMounts Additional volume mounts to add to the pod.
+## @param cleanuperr.ignoredDownloads.entries List of torrent names or patterns to ignore in the ignored_downloads.txt ConfigMap.
+## @param cleanuperr.persistence.logs.enabled Whether to enable persistence.
+## @param cleanuperr.persistence.logs.storageClass The storage class to use for the persistence.
+## @param cleanuperr.persistence.logs.existingClaim The name of an existing claim to use for the persistence.
+## @param cleanuperr.persistence.logs.accessMode The access mode to use for the persistence.
+## @param cleanuperr.persistence.logs.size The size to use for the persistence.
+## @param cleanuperr.persistence.logs.additionalVolumes Additional volumes to add to the pod.
+## @param cleanuperr.persistence.logs.additionalMounts Additional volume mounts to add to the pod.
 ##
 cleanuperr:
   enabled: false
@@ -1680,7 +1681,7 @@ cleanuperr:
     # Queuecleaner Settings
     QUEUECLEANER__ENABLED: true
     TRIGGERS__QUEUECLEANER: "0 0/5 * * * ?"
-    QUEUECLEANER__IGNORED_DOWNLOADS_PATH: ""
+    QUEUECLEANER__IGNORED_DOWNLOADS_PATH: "/ignored/ignored_downloads"
     QUEUECLEANER__RUNSEQUENTIALLY: true
     QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES: "0"
     QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE: false
@@ -1702,13 +1703,13 @@ cleanuperr:
     # Content Blocker Settings
     CONTENTBLOCKER__ENABLED: true
     TRIGGERS__CONTENTBLOCKER: "0 0/5 * * * ?"
-    CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: ""
+    CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: "/ignored/ignored_downloads"
     CONTENTBLOCKER__IGNORE_PRIVATE: false
     CONTENTBLOCKER__DELETE_PRIVATE: false
     # Download Cleaner Settings
     DOWNLOADCLEANER__ENABLED: true
     TRIGGERS__DOWNLOADCLEANER: "0 0 * * * ?"
-    DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: ""
+    DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: "/ignored/ignored_downloads"
     DOWNLOADCLEANER__DELETE_PRIVATE: false
     DOWNLOADCLEANER__CATEGORIES__0__NAME: "tv-sonarr"
     DOWNLOADCLEANER__CATEGORIES__1__NAME: "movies-radarr"
@@ -1750,11 +1751,19 @@ cleanuperr:
     LIDARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist"
     LIDARR__INSTANCES__0__URL: "http://servarr-lidarr:8686"
 
+  ignoredDownloads:
+    # List of entries to add to the ignored_downloads.txt file
+    # Each entry should be a torrent name or pattern to ignore
+    entries: []
+    # - "example.torrent"
+    # - "pattern*to*ignore"
+
   persistence:
-    enabled: true
-    storageClass: ""
-    existingClaim: ""
-    accessMode: ReadWriteOnce
-    size: 800Mi
-    additionalVolumes: []
-    additionalMounts: []
+    logs:
+      enabled: false
+      storageClass: ""
+      existingClaim: ""
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      additionalVolumes: []
+      additionalMounts: []

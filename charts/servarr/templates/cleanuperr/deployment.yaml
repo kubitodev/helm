@@ -42,20 +42,23 @@ spec:
         {{- toYaml .Values.cleanuperr.initContainers | nindent 8 }}
       {{- end }}
       volumes:
-        - name: data
-          {{- if .Values.cleanuperr.persistence.enabled }}
+        - name: logs
+          {{- if .Values.cleanuperr.persistence.logs.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.cleanuperr.persistence.existingClaim | default (printf "%s-cleanuperr" .Release.Name) }}
+            claimName: {{ .Values.cleanuperr.persistence.logs.existingClaim | default (printf "%s-cleanuperr-logs" .Release.Name) }}
           {{- else }}
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.cleanuperr.persistence.enabled }}
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-jellyfin-media
           {{- else }}
           emptyDir: { }
           {{- end }}
+        - name: ignored-downloads
+          configMap:
+            name: {{ .Release.Name }}-cleanuperr-ignored-downloads
         {{- if .Values.cleanuperr.persistence.additionalVolumes }}
           {{- .Values.cleanuperr.persistence.additionalVolumes | toYaml | nindent 8}}
         {{- end }}
@@ -67,10 +70,9 @@ spec:
           imagePullPolicy: {{ .Values.cleanuperr.image.pullPolicy }}
           volumeMounts:
             - mountPath: /var/logs
-              name: data
-              subPath: logs
-            - mountPath: /ignored
-              name: data
+              name: logs
+            - mountPath: /ignored/ignored_downloads
+              name: ignored-downloads
               subPath: ignored_downloads
           {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled .Values.cleanuperr.persistence.enabled }}
             - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
