@@ -1737,18 +1737,18 @@ cleanuperr:
     SONARR__ENABLED: true
     SONARR__IMPORT_FAILED_MAX_STRIKES: "-1"
     SONARR__BLOCK__TYPE: "blacklist"
-    SONARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist"
+    SONARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist_permissive"
     SONARR__SEARCHTYPE: "Episode"
     SONARR__INSTANCES__0__URL: "http://servarr-sonarr:80"
     RADARR__ENABLED: true
     RADARR__IMPORT_FAILED_MAX_STRIKES: "-1"
     RADARR__BLOCK__TYPE: "blacklist"
-    RADARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist"
+    RADARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist_permissive"
     RADARR__INSTANCES__0__URL: "http://servarr-radarr:7878"
     LIDARR__ENABLED: false
     LIDARR__IMPORT_FAILED_MAX_STRIKES: "-1"
     LIDARR__BLOCK__TYPE: "blacklist"
-    LIDARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist"
+    LIDARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist_permissive"
     LIDARR__INSTANCES__0__URL: "http://servarr-lidarr:8686"
 
   ignoredDownloads:
