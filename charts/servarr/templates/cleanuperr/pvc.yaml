@@ -8,17 +8,17 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-  {{- if .Values.cleanuperr.persistence.annotations }}
+  {{- if .Values.cleanuperr.persistence.logs.annotations }}
   annotations:
-    {{- toYaml .Values.cleanuperr.persistence.annotations | nindent 4 }}
+    {{- toYaml .Values.cleanuperr.persistence.logs.annotations | nindent 4 }}
   {{- end }}
 spec:
   accessModes:
-    - {{ .Values.cleanuperr.persistence.accessMode | quote }}
-  {{- if .Values.cleanuperr.persistence.storageClass }}
-  storageClassName: {{ .Values.cleanuperr.persistence.storageClass | quote }}
+    - {{ .Values.cleanuperr.persistence.logs.accessMode | quote }}
+  {{- if .Values.cleanuperr.persistence.logs.storageClass }}
+  storageClassName: {{ .Values.cleanuperr.persistence.logs.storageClass | quote }}
   {{- end }}
   resources:
     requests:
-      storage: {{ .Values.cleanuperr.persistence.size | quote }}
+      storage: {{ .Values.cleanuperr.persistence.logs.size | quote }}
 {{- end }}
