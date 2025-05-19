@@ -86,13 +86,38 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
             {{- $secretName := ternary "cleanuperr-secret" .Values.cleanuperr.secrets.existingSecret (not .Values.cleanuperr.secrets.existingSecret) }}
-            {{- $secretKeys := list "QBITTORRENT__USERNAME" "QBITTORRENT__PASSWORD" "SONARR__APIKEY" "RADARR__APIKEY" "LIDARR__APIKEY" }}
-            {{- range $key := $secretKeys }}
-            - name: {{ $key }}
+            {{- if not (or (eq (.Values.cleanuperr.env.DOWNLOAD_CLIENT | toString) "none") (eq (.Values.cleanuperr.env.DOWNLOAD_CLIENT | toString) "disabled")) }}
+            - name: QBITTORRENT__USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}
-                  key: {{ $key }}
+                  key: QBITTORRENT__USERNAME
+            - name: QBITTORRENT__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: QBITTORRENT__PASSWORD
+            {{- end }}
+            {{- if eq (.Values.cleanuperr.env.SONARR__ENABLED | toString) "true" }}
+            - name: SONARR__APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: SONARR__APIKEY
+            {{- end }}
+            {{- if eq (.Values.cleanuperr.env.RADARR__ENABLED | toString) "true" }}
+            - name: RADARR__APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: RADARR__APIKEY
+            {{- end }}
+            {{- if eq (.Values.cleanuperr.env.LIDARR__ENABLED | toString) "true" }}
+            - name: LIDARR__APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: LIDARR__APIKEY
             {{- end }}
           resources:
             {{- toYaml .Values.cleanuperr.resources | nindent 12 }}
