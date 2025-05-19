@@ -101,25 +101,25 @@ spec:
                   key: QBITTORRENT__PASSWORD
             {{- end }}
             {{- if eq (.Values.cleanuperr.env.SONARR__ENABLED | toString) "true" }}
-            - name: SONARR__APIKEY
+            - name: SONARR__INSTANCES__0__APIKEY
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}
-                  key: SONARR__APIKEY
+                  key: SONARR__INSTANCES__0__APIKEY
             {{- end }}
             {{- if eq (.Values.cleanuperr.env.RADARR__ENABLED | toString) "true" }}
-            - name: RADARR__APIKEY
+            - name: RADARR__INSTANCES__0__APIKEY
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}
-                  key: RADARR__APIKEY
+                  key: RADARR__INSTANCES__0__APIKEY
             {{- end }}
             {{- if eq (.Values.cleanuperr.env.LIDARR__ENABLED | toString) "true" }}
-            - name: LIDARR__APIKEY
+            - name: LIDARR__INSTANCES__0__APIKEY
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}
-                  key: LIDARR__APIKEY
+                  key: LIDARR__INSTANCES__0__APIKEY
             {{- end }}
           resources:
             {{- toYaml .Values.cleanuperr.resources | nindent 12 }}
