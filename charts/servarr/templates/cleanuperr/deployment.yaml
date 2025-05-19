@@ -74,7 +74,7 @@ spec:
             - mountPath: /ignored/ignored_downloads
               name: ignored-downloads
               subPath: ignored_downloads
-          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled .Values.cleanuperr.persistence.enabled }}
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
             - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
               name: media
               subPath: {{ .Values.qbittorrent.persistence.path }}
