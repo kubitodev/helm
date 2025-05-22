@@ -3,8 +3,8 @@ maintainers:
   - name: kubitodev
     url: https://kubito.dev
 apiVersion: v2
-appVersion: 1.0.7
-version: 1.0.7
+appVersion: 1.1.7
+version: 1.1.7
 description: Kubito Servarr Helm Chart
 home: https://github.com/kubitodev/helm/tree/main/charts/servarr
 icon: https://kubito.dev/images/kubito.svg
@@ -20,5 +20,6 @@ keywords:
   - jellyseerr
   - qbittorrent
   - prowlarr
+  - cleanuperr
 sources:
   - https://github.com/Servarr

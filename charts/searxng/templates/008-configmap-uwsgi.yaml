@@ -1,0 +1,14 @@
+{{- if .Values.config.uwsgi.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-uwsgi
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  uwsgi.ini: |
+    {{- .Values.config.uwsgi.data | nindent 4 }}
+{{- end }}

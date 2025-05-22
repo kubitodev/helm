@@ -1,0 +1,14 @@
+{{- if .Values.config.limiter.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-limiter
+  labels:
+    app.kubernetes.io/name: "searxng"
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  limiter.toml: |
+    {{- .Values.config.limiter.data | nindent 4 }}
+{{- end }}

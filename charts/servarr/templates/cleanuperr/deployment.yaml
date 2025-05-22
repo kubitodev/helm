@@ -1,0 +1,138 @@
+{{- if .Values.cleanuperr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-cleanuperr
+  labels:
+    app.kubernetes.io/name: cleanuperr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.cleanuperr.autoscaling.enabled }}
+  replicas: {{ .Values.cleanuperr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.cleanuperr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cleanuperr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.cleanuperr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: cleanuperr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.cleanuperr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.cleanuperr.serviceAccount.name | default (printf "%s-cleanuperr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.cleanuperr.podSecurityContext | nindent 8 }}
+      {{- if .Values.cleanuperr.initContainers }}
+      initContainers:
+        {{- toYaml .Values.cleanuperr.initContainers | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: logs
+          {{- if .Values.cleanuperr.persistence.logs.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.cleanuperr.persistence.logs.existingClaim | default (printf "%s-cleanuperr-logs" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: ignored-downloads
+          configMap:
+            name: {{ .Release.Name }}-cleanuperr-ignored-downloads
+        {{- if .Values.cleanuperr.persistence.additionalVolumes }}
+          {{- .Values.cleanuperr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.cleanuperr.securityContext | nindent 12 }}
+          image: "{{ .Values.cleanuperr.image.repository }}:{{ .Values.cleanuperr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.cleanuperr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /var/logs
+              name: logs
+            - mountPath: /ignored/ignored_downloads
+              name: ignored-downloads
+              subPath: ignored_downloads
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
+            - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
+              name: media
+              subPath: {{ .Values.qbittorrent.persistence.path }}
+          {{- end }}
+          {{- if .Values.cleanuperr.persistence.additionalMounts }}
+            {{- .Values.cleanuperr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          env:
+            {{- range $k,$v := .Values.cleanuperr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+            {{- $secretName := ternary "cleanuperr-secret" .Values.cleanuperr.secrets.existingSecret (not .Values.cleanuperr.secrets.existingSecret) }}
+            {{- if not (or (eq (.Values.cleanuperr.env.DOWNLOAD_CLIENT | toString) "none") (eq (.Values.cleanuperr.env.DOWNLOAD_CLIENT | toString) "disabled")) }}
+            - name: QBITTORRENT__USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: QBITTORRENT__USERNAME
+            - name: QBITTORRENT__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: QBITTORRENT__PASSWORD
+            {{- end }}
+            {{- if eq (.Values.cleanuperr.env.SONARR__ENABLED | toString) "true" }}
+            - name: SONARR__INSTANCES__0__APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: SONARR__INSTANCES__0__APIKEY
+            {{- end }}
+            {{- if eq (.Values.cleanuperr.env.RADARR__ENABLED | toString) "true" }}
+            - name: RADARR__INSTANCES__0__APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: RADARR__INSTANCES__0__APIKEY
+            {{- end }}
+            {{- if eq (.Values.cleanuperr.env.LIDARR__ENABLED | toString) "true" }}
+            - name: LIDARR__INSTANCES__0__APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: LIDARR__INSTANCES__0__APIKEY
+            {{- end }}
+          resources:
+            {{- toYaml .Values.cleanuperr.resources | nindent 12 }}
+      {{- with .Values.cleanuperr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cleanuperr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cleanuperr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
