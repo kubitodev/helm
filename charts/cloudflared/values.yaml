@@ -18,8 +18,6 @@ image:
 ## @param tolerations Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.
 ## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param resources If specified, it sets the resource requests and limits for the pod.
-## @param autoscaling If enabled, it sets autoscaling for the deployment to either scale up or down pods based on resource consumption.
-## @param podDisruptionBudget If enabled, it creates a disruption budget policy for the pods in the deployment.
 ##
 replicaCount: 1
 affinity: {}
@@ -33,6 +31,13 @@ resources: {}
 #   requests:
 #     cpu: 100m
 #     memory: 128Mi
+
+## @section Autoscaling parameters
+## @param autoscaling.enabled Enable autoscaling for the deployment
+## @param autoscaling.minReplicas Minimum number of replicas for the HPA
+## @param autoscaling.maxReplicas Maximum number of replicas for the HPA
+## @param autoscaling.targetMemoryUtilizationPercentage Target memory utilization percentage for the HPA
+## @param autoscaling.targetCPUUtilizationPercentage Target CPU utilization percentage for the HPA
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -40,6 +45,10 @@ autoscaling:
   targetMemoryUtilizationPercentage: 50
   targetCPUUtilizationPercentage: 50
 
+## @section PodDisruptionBudget parameters
+## @param podDisruptionBudget.enabled Enable PodDisruptionBudget for the deployment
+## @param podDisruptionBudget.minAvailable Minimum number of pods that must be available
+## @param podDisruptionBudget.maxUnavailable [number, nullable] Maximum number of pods that can be unavailable
 podDisruptionBudget:
   enabled: false
   minAvailable: 1
