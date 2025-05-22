@@ -32,28 +32,6 @@ resources: {}
 #     cpu: 100m
 #     memory: 128Mi
 
-## @section Autoscaling parameters
-## @param autoscaling.enabled Enable autoscaling for the deployment
-## @param autoscaling.minReplicas Minimum number of replicas for the HPA
-## @param autoscaling.maxReplicas Maximum number of replicas for the HPA
-## @param autoscaling.targetMemoryUtilizationPercentage Target memory utilization percentage for the HPA
-## @param autoscaling.targetCPUUtilizationPercentage Target CPU utilization percentage for the HPA
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 6
-  targetMemoryUtilizationPercentage: 50
-  targetCPUUtilizationPercentage: 50
-
-## @section PodDisruptionBudget parameters
-## @param podDisruptionBudget.enabled Enable PodDisruptionBudget for the deployment
-## @param podDisruptionBudget.minAvailable Minimum number of pods that must be available
-## @param podDisruptionBudget.maxUnavailable [number, nullable] Maximum number of pods that can be unavailable
-podDisruptionBudget:
-  enabled: false
-  minAvailable: 1
-  # maxUnavailable: 1
-
 ## @param logLevel The log level to use for the tunnel.
 logLevel: info
 
@@ -93,3 +71,23 @@ local:
     existingSecret: ""
   warpRouting: false
   ingress: []
+
+## @param autoscaling.enabled Enable autoscaling for the deployment
+## @param autoscaling.minReplicas Minimum number of replicas for the HPA
+## @param autoscaling.maxReplicas Maximum number of replicas for the HPA
+## @param autoscaling.targetMemoryUtilizationPercentage Target memory utilization percentage for the HPA
+## @param autoscaling.targetCPUUtilizationPercentage Target CPU utilization percentage for the HPA
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 6
+  targetMemoryUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 50
+
+## @param podDisruptionBudget.enabled Enable PodDisruptionBudget for the deployment
+## @param podDisruptionBudget.minAvailable Minimum number of pods that must be available
+## @param podDisruptionBudget.maxUnavailable [number, nullable] Maximum number of pods that can be unavailable
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+  # maxUnavailable: 1

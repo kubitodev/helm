@@ -53,36 +53,36 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ### Deployment parameters
 
-| Name                                              | Description                                                                                                                                   | Value   |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `replicaCount`                                    | The number of replicas to deploy.                                                                                                             | `1`     |
-| `affinity`                                        | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`    |
-| `tolerations`                                     | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
-| `topologySpreadConstraints`                       | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
-| `resources`                                       | If specified, it sets the resource requests and limits for the pod.                                                                           | `{}`    |
-| `logLevel`                                        | The log level to use for the tunnel.                                                                                                          | `info`  |
-| `priorityClassName`                               | The priority class name to use for the tunnel.                                                                                                | `""`    |
-| `metrics.enabled`                                 | Enable metrics for prometheus monitoring. The crd monitoring.coreos.com/v1 must be already installed on the target.                           | `false` |
-| `metrics.port`                                    | The port to use for metrics.                                                                                                                  | `""`    |
-| `managed.enabled`                                 | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.                                  | `true`  |
-| `managed.token`                                   | The connector token provided at the end of the CF Zero Trust tunnel creation.                                                                 | `""`    |
-| `managed.existingSecret`                          | The name of the existing secret containing the token. The secret key must be set to 'cf-tunnel-token'.                                        | `""`    |
-| `local.enabled`                                   | Whether to enable Local (CLI) tunnel configuration. Cannot coexist with the managed one.                                                      | `false` |
-| `local.auth.tunnelID`                             | The Argo Tunnel ID you created. Check the configuration section for details.                                                                  | `""`    |
-| `local.auth.accountTag`                           | The Argo tunnel account tag.                                                                                                                  | `""`    |
-| `local.auth.tunnelName`                           | The Argo tunnel name.                                                                                                                         | `""`    |
-| `local.auth.tunnelSecret`                         | The Argo tunnel secret.                                                                                                                       | `""`    |
-| `local.auth.existingSecret`                       | The name of an existing secret containing the Argo tunnel settings.                                                                           | `""`    |
-| `local.warpRouting`                               | Whether to enable WARP traffic routing to local subnets.                                                                                      | `false` |
-| `local.ingress`                                   | The ingress settings to apply. Check the configuration section for examples.                                                                  | `[]`    |
-| `autoscaling.enabled`                             | Wether to enable a HorizontalPodAutoscaler. Note that the HPA will take over the replica management making `replicaCount` obsolete.           | `false` |
-| `autoscaling.minReplicas`                         | Minimum of replicas for the HorizontalPodAutoscaler.                                                                                          | `1`     |
-| `autoscaling.maxReplicas`                         | Maximum of replicas for the HorizontalPodAutoscaler.                                                                                          | `6`     |
-| `autoscaling.targetCPUUtilizationPercentage`      | Amount of percentage of CPU usage to determine scale up or scale down.                                                                        | `50`    |
-| `autoscaling.targetMemoryUtilizationPercentage`   | Amount of percentage of Memory usage to determine scale up or scale down.                                                                     | `50`    |
-| `podDisruptionBudget.enabled`                     | Whether to enable a PodDisruptionBudget.                                                                                                      | `false` |
-| `podDisruptionBudget.minAvailable`                | Minimum available pods during Kubernetes disruptions.                                                                                         | `1`     |
-| `podDisruptionBudget.maxUnavailable`              | Maximum unavailable pods during Kubernetes disruptions.                                                                                       | ``      |
+| Name                                            | Description                                                                                                                                   | Value       |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `replicaCount`                                  | The number of replicas to deploy.                                                                                                             | `1`         |
+| `affinity`                                      | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`        |
+| `tolerations`                                   | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`        |
+| `topologySpreadConstraints`                     | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`        |
+| `resources`                                     | If specified, it sets the resource requests and limits for the pod.                                                                           | `{}`        |
+| `logLevel`                                      | The log level to use for the tunnel.                                                                                                          | `info`      |
+| `priorityClassName`                             | The priority class name to use for the tunnel.                                                                                                | `""`        |
+| `metrics.enabled`                               | Enable metrics for prometheus monitoring. The crd monitoring.coreos.com/v1 must be already installed on the target.                           | `false`     |
+| `metrics.port`                                  | The port to use for metrics.                                                                                                                  | `""`        |
+| `managed.enabled`                               | Whether to enable Managed (CF Zero Trust Dashboard) tunnel configuration. Cannot coexist with the local one.                                  | `true`      |
+| `managed.token`                                 | The connector token provided at the end of the CF Zero Trust tunnel creation.                                                                 | `""`        |
+| `managed.existingSecret`                        | The name of the existing secret containing the token. The secret key must be set to 'cf-tunnel-token'.                                        | `""`        |
+| `local.enabled`                                 | Whether to enable Local (CLI) tunnel configuration. Cannot coexist with the managed one.                                                      | `false`     |
+| `local.auth.tunnelID`                           | The Argo Tunnel ID you created. Check the configuration section for details.                                                                  | `""`        |
+| `local.auth.accountTag`                         | The Argo tunnel account tag.                                                                                                                  | `""`        |
+| `local.auth.tunnelName`                         | The Argo tunnel name.                                                                                                                         | `""`        |
+| `local.auth.tunnelSecret`                       | The Argo tunnel secret.                                                                                                                       | `""`        |
+| `local.auth.existingSecret`                     | The name of an existing secret containing the Argo tunnel settings.                                                                           | `""`        |
+| `local.warpRouting`                             | Whether to enable WARP traffic routing to local subnets.                                                                                      | `false`     |
+| `local.ingress`                                 | The ingress settings to apply. Check the configuration section for examples.                                                                  | `[]`        |
+| `autoscaling.enabled`                           | Enable autoscaling for the deployment                                                                                                         | `false`     |
+| `autoscaling.minReplicas`                       | Minimum number of replicas for the HPA                                                                                                        | `1`         |
+| `autoscaling.maxReplicas`                       | Maximum number of replicas for the HPA                                                                                                        | `6`         |
+| `autoscaling.targetMemoryUtilizationPercentage` | Target memory utilization percentage for the HPA                                                                                              | `50`        |
+| `autoscaling.targetCPUUtilizationPercentage`    | Target CPU utilization percentage for the HPA                                                                                                 | `50`        |
+| `podDisruptionBudget.enabled`                   | Enable PodDisruptionBudget for the deployment                                                                                                 | `false`     |
+| `podDisruptionBudget.minAvailable`              | Minimum number of pods that must be available                                                                                                 | `1`         |
+| `podDisruptionBudget.maxUnavailable`            | Maximum number of pods that can be unavailable                                                                                                | `undefined` |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
