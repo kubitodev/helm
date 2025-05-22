@@ -1,0 +1,25 @@
+{{- if .Values.podDisruptionBudget.enabled }}
+  {{- if eq (.Values.podDisruptionBudget.minAvailable | int) 1 }}
+    {{- if and .Values.autoscaling.enabled (le (.Values.autoscaling.minReplicas | int) 1) }}
+      {{- fail "autoscaling.minReplicas must be larger than 1 when podDisruptionBudget.minAvailable=1" -}}
+    {{- end }}
+    {{- if and (not .Values.autoscaling.enabled) (le (.Values.replicaCount | int) 1) }}
+      {{- fail "replicaCount must be larger than 1 when podDisruptionBudget.minAvailable=1" -}}
+    {{- end -}}
+  {{- end -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{- if .Values.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  {{- end  }}
+  {{- if .Values.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  {{- end  }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+{{- end }}
