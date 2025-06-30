@@ -17,9 +17,9 @@ spec:
       {{- if .Values.local.enabled }}
       annotations:
         checksum/tunnel-id: {{ sha256sum .Values.local.auth.tunnelID }}
-        checksum/ingress: {{ .Values.ingress | toJson | sha256sum }}
-        checksum/auth: {{ .Values.auth | toJson | sha256sum }}
-        checksum/warp-routing: {{ .Values.warpRouting | toJson | sha256sum }}
+        checksum/ingress: {{ .Values.local.ingress | toJson | sha256sum }}
+        checksum/auth: {{ .Values.local.auth | toJson | sha256sum }}
+        checksum/warp-routing: {{ .Values.local.warpRouting | toJson | sha256sum }}
       {{- end }}
     spec:
       containers:
