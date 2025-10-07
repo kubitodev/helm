@@ -49,13 +49,6 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
-        - name: media
-          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.prowlarr.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ if .Values.jellyfin.persistence.media.existingClaim }}{{ .Values.jellyfin.persistence.media.existingClaim }}{{- else }}{{ .Release.Name }}-jellyfin-media{{- end }}
-          {{- else }}
-          emptyDir: { }
-          {{- end }}
         {{- if .Values.prowlarr.persistence.additionalVolumes }}
           {{- .Values.prowlarr.persistence.additionalVolumes | toYaml | nindent 8}}
         {{- end }}
