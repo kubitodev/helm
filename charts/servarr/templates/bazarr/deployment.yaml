@@ -52,7 +52,7 @@ spec:
         - name: media
           {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.bazarr.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-jellyfin-media
+            claimName: {{ if .Values.jellyfin.persistence.media.existingClaim }}{{ .Values.jellyfin.persistence.media.existingClaim }}{{- else }}{{ .Release.Name }}-jellyfin-media{{- end }}
           {{- else }}
           emptyDir: { }
           {{- end }}
