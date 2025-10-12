@@ -17,9 +17,9 @@ spec:
       {{- if .Values.local.enabled }}
       annotations:
         checksum/tunnel-id: {{ sha256sum .Values.local.auth.tunnelID }}
-        checksum/ingress: {{ .Values.ingress | toJson | sha256sum }}
-        checksum/auth: {{ .Values.auth | toJson | sha256sum }}
-        checksum/warp-routing: {{ .Values.warpRouting | toJson | sha256sum }}
+        checksum/ingress: {{ .Values.local.ingress | toJson | sha256sum }}
+        checksum/auth: {{ .Values.local.auth | toJson | sha256sum }}
+        checksum/warp-routing: {{ .Values.local.warpRouting | toJson | sha256sum }}
       {{- end }}
     spec:
       containers:
@@ -30,15 +30,15 @@ spec:
         - --metrics
         - "0.0.0.0:{{ .Values.metrics.port }}"
         {{ end }}
+        {{- if .Values.logLevel }}
+        - --loglevel
+        - {{ .Values.logLevel }}
+        {{- end }}
         {{- if .Values.local.enabled }}
         - --config
         - /etc/cloudflared/config.yaml
         - run
         {{- else if .Values.managed.enabled }}
-        {{- if .Values.logLevel }}
-        - --loglevel
-        - {{ .Values.logLevel }}
-        {{- end }}
         - run
         - --token
         - $(CF_MANAGED_TUNNEL_TOKEN)
