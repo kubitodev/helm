@@ -1,6 +1,6 @@
 # Servarr
 
-A Helm chart for deploying the Servarr suite of applications - including Sonarr, Radarr, Lidarr, Prowlarr, Readarr, and Jellyfin. These applications provide media management, automation, and streaming capabilities for TV shows, movies, music, books, and more. The chart also supports enabling additional services like Bazarr for subtitle management, FlareSolverr for handling anti-bot protections, Jellyseerr for media requests, qBittorrent for downloading, and other complementary applications to create a complete media server stack.
+A Helm chart for deploying the Servarr suite of applications - including Sonarr, Radarr, Lidarr, Prowlarr, and Jellyfin. These applications provide media management, automation, and streaming capabilities for TV shows, movies, music, books, and more. The chart also supports enabling additional services like Bazarr for subtitle management, FlareSolverr for handling anti-bot protections, Jellyseerr for media requests, qBittorrent for downloading, and other complementary applications to create a complete media server stack.
 
 ## TL;DR
 
@@ -503,56 +503,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | `lidarr.persistence.additionalVolumes`                 | Additional volumes to add to the pod.                                                                                               | `[]`                         |
 | `lidarr.persistence.additionalMounts`                  | Additional volume mounts to add to the pod.                                                                                         | `[]`                         |
 
-### Readarr parameters
-
-| Name                                                    | Description                                                                                                                         | Value                         |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| `readarr.enabled`                                       | Whether to enable Readarr.                                                                                                          | `true`                        |
-| `readarr.replicaCount`                                  | The number of replicas to deploy.                                                                                                   | `1`                           |
-| `readarr.image.repository`                              | The Docker repository to pull the image from.                                                                                       | `lscr.io/linuxserver/readarr` |
-| `readarr.image.tag`                                     | The image tag to use.                                                                                                               | `0.4.2-develop`               |
-| `readarr.image.pullPolicy`                              | The logic of image pulling.                                                                                                         | `IfNotPresent`                |
-| `readarr.imagePullSecrets`                              | The image pull secrets to use.                                                                                                      | `[]`                          |
-| `readarr.deployment.strategy.type`                      | The deployment strategy to use.                                                                                                     | `Recreate`                    |
-| `readarr.serviceAccount.create`                         | Whether to create a service account.                                                                                                | `true`                        |
-| `readarr.serviceAccount.annotations`                    | Additional annotations to add to the service account.                                                                               | `{}`                          |
-| `readarr.serviceAccount.name`                           | The name of the service account to use. If not set and create is true, a new service account will be created with a generated name. | `""`                          |
-| `readarr.podAnnotations`                                | Additional annotations to add to the pod.                                                                                           | `{}`                          |
-| `readarr.podSecurityContext`                            | The security context to use for the pod.                                                                                            | `{}`                          |
-| `readarr.securityContext`                               | The security context to use for the container.                                                                                      | `{}`                          |
-| `readarr.initContainers`                                | Additional init containers to add to the pod.                                                                                       | `[]`                          |
-| `readarr.service.type`                                  | The type of service to create.                                                                                                      | `ClusterIP`                   |
-| `readarr.service.port`                                  | The port on which the service will run.                                                                                             | `8787`                        |
-| `readarr.service.nodePort`                              | The nodePort to use for the service. Only used if service.type is NodePort.                                                         | `""`                          |
-| `readarr.ingress.enabled`                               | Whether to create an ingress for the service.                                                                                       | `false`                       |
-| `readarr.ingress.className`                             | The ingress class name to use.                                                                                                      | `""`                          |
-| `readarr.ingress.annotations`                           | Additional annotations to add to the ingress.                                                                                       | `{}`                          |
-| `readarr.ingress.hosts[0].host`                         | The host to use for the ingress.                                                                                                    | `chart-example.local`         |
-| `readarr.ingress.hosts[0].paths[0].path`                | The path to use for the ingress.                                                                                                    | `/`                           |
-| `readarr.ingress.hosts[0].paths[0].pathType`            | The path type to use for the ingress.                                                                                               | `ImplementationSpecific`      |
-| `readarr.ingress.tls`                                   | The TLS configuration for the ingress.                                                                                              | `[]`                          |
-| `readarr.resources`                                     | The resources to use for the pod.                                                                                                   | `{}`                          |
-| `readarr.autoscaling.enabled`                           | Whether to enable autoscaling.                                                                                                      | `false`                       |
-| `readarr.autoscaling.minReplicas`                       | The minimum number of replicas to scale to.                                                                                         | `1`                           |
-| `readarr.autoscaling.maxReplicas`                       | The maximum number of replicas to scale to.                                                                                         | `100`                         |
-| `readarr.autoscaling.targetCPUUtilizationPercentage`    | The target CPU utilization percentage to use for autoscaling.                                                                       | `80`                          |
-| `readarr.autoscaling.targetMemoryUtilizationPercentage` | The target memory utilization percentage to use for autoscaling.                                                                    | `80`                          |
-| `readarr.nodeSelector`                                  | The node selector to use for the pod.                                                                                               | `{}`                          |
-| `readarr.tolerations`                                   | The tolerations to use for the pod.                                                                                                 | `[]`                          |
-| `readarr.affinity`                                      | The affinity to use for the pod.                                                                                                    | `{}`                          |
-| `readarr.env.PUID`                                      | The user ID to use for the pod.                                                                                                     | `1000`                        |
-| `readarr.env.PGID`                                      | The group ID to use for the pod.                                                                                                    | `1000`                        |
-| `readarr.env.TZ`                                        | The timezone to use for the pod.                                                                                                    | `Europe/London`               |
-| `readarr.env.UMASK`                                     | The umask to use for the pod.                                                                                                       | `002`                         |
-| `readarr.persistence.enabled`                           | Whether to enable persistence.                                                                                                      | `true`                        |
-| `readarr.persistence.path`                              | The path to use for the persistence. Don't use slashes.                                                                             | `books`                       |
-| `readarr.persistence.storageClass`                      | The storage class to use for the persistence.                                                                                       | `""`                          |
-| `readarr.persistence.existingClaim`                     | The name of an existing claim to use for the persistence.                                                                           | `""`                          |
-| `readarr.persistence.accessMode`                        | The access mode to use for the persistence.                                                                                         | `ReadWriteOnce`               |
-| `readarr.persistence.size`                              | The size to use for the persistence.                                                                                                | `800Mi`                       |
-| `readarr.persistence.additionalVolumes`                 | Additional volumes to add to the pod.                                                                                               | `[]`                          |
-| `readarr.persistence.additionalMounts`                  | Additional volume mounts to add to the pod.                                                                                         | `[]`                          |
-
 ### Cleanuparr parameters
 
 | Name                                                       | Description                                                                                                                         | Value                           |
@@ -631,7 +581,7 @@ Sonarr can use hardlinks to save space, but it needs to write to the same volume
 
 If you use subPath in the volumeMounts, Sonarr will not be able to create hardlinks because Kubernetes sees the subdirectory as a different filesystem and will not be able to create hardlinks.
 
-It is highly recommended that you simply use the chart's default values for this. These are the directories that are mounted by Sonarr, Radarr, Lidarr, Readarr, and qBittorrent:
+It is highly recommended that you simply use the chart's default values for this. These are the directories that are mounted by Sonarr, Radarr, Lidarr, and qBittorrent:
 
 - `/media/tv`
 - `/media/movies`
