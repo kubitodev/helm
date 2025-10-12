@@ -1,0 +1,102 @@
+{{- if .Values.cleanuparr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-cleanuparr
+  labels:
+    app.kubernetes.io/name: cleanuparr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  {{- if not .Values.cleanuparr.autoscaling.enabled }}
+  replicas: {{ .Values.cleanuparr.replicaCount }}
+  {{- end }}
+  strategy:
+    {{- .Values.cleanuparr.deployment.strategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cleanuparr
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.cleanuparr.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: cleanuparr
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    spec:
+      {{- with .Values.cleanuparr.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.cleanuparr.serviceAccount.name | default (printf "%s-cleanuparr" .Release.Name) }}
+      securityContext:
+        {{- toYaml .Values.cleanuparr.podSecurityContext | nindent 8 }}
+      {{- if .Values.cleanuparr.initContainers }}
+      initContainers:
+        {{- toYaml .Values.cleanuparr.initContainers | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          {{- if .Values.cleanuparr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.cleanuparr.persistence.existingClaim | default (printf "%s-cleanuparr" .Release.Name) }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: media
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-jellyfin-media
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.cleanuparr.persistence.additionalVolumes }}
+          {{- .Values.cleanuparr.persistence.additionalVolumes | toYaml | nindent 8}}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.cleanuparr.securityContext | nindent 12 }}
+          image: "{{ .Values.cleanuparr.image.repository }}:{{ .Values.cleanuparr.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.cleanuparr.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.qbittorrent.persistence.enabled }}
+            - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
+              name: media
+              subPath: {{ .Values.qbittorrent.persistence.path }}
+          {{- end }}
+          {{- if .Values.cleanuparr.persistence.additionalMounts }}
+            {{- .Values.cleanuparr.persistence.additionalMounts | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.cleanuparr.service.port | default 11011 }}
+              protocol: TCP
+          env:
+            {{- range $k,$v := .Values.cleanuparr.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.cleanuparr.resources | nindent 12 }}
+      {{- with .Values.cleanuparr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cleanuparr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cleanuparr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

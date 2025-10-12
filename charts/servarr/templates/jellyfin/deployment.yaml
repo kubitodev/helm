@@ -140,11 +140,6 @@ spec:
               name: media
               subPath: {{ .Values.lidarr.persistence.path }}
             {{- end }}
-            {{- if and .Values.readarr.enabled .Values.readarr.persistence.enabled }}
-            - mountPath: "/media/{{ .Values.readarr.persistence.path }}"
-              name: media
-              subPath: {{ .Values.readarr.persistence.path }}
-            {{- end }}
           {{- if .Values.jellyfin.extraContainers }}
           {{- toYaml .Values.jellyfin.extraContainers | nindent 8 }}
           {{- end }}

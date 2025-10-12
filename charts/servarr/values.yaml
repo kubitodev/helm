@@ -1330,62 +1330,63 @@ lidarr:
     additionalVolumes: []
     additionalMounts: []
 
-## @section Readarr parameters
+## @section Cleanuparr parameters
 
-## @param readarr.enabled Whether to enable Readarr.
-## @param readarr.replicaCount The number of replicas to deploy.
-## @param readarr.image.repository The Docker repository to pull the image from.
-## @param readarr.image.tag The image tag to use.
-## @param readarr.image.pullPolicy The logic of image pulling.
-## @param readarr.imagePullSecrets The image pull secrets to use.
-## @param readarr.deployment.strategy.type The deployment strategy to use.
-## @param readarr.serviceAccount.create Whether to create a service account.
-## @param readarr.serviceAccount.annotations Additional annotations to add to the service account.
-## @param readarr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
-## @param readarr.podAnnotations Additional annotations to add to the pod.
-## @param readarr.podSecurityContext The security context to use for the pod.
-## @param readarr.securityContext The security context to use for the container.
-## @param readarr.initContainers Additional init containers to add to the pod.
-## @param readarr.service.type The type of service to create.
-## @param readarr.service.port The port on which the service will run.
-## @param readarr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
-## @param readarr.ingress.enabled Whether to create an ingress for the service.
-## @param readarr.ingress.className The ingress class name to use.
-## @param readarr.ingress.annotations Additional annotations to add to the ingress.
-## @param readarr.ingress.hosts[0].host The host to use for the ingress.
-## @param readarr.ingress.hosts[0].paths[0].path The path to use for the ingress.
-## @param readarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
-## @param readarr.ingress.tls The TLS configuration for the ingress.
-## @param readarr.resources The resources to use for the pod.
-## @param readarr.autoscaling.enabled Whether to enable autoscaling.
-## @param readarr.autoscaling.minReplicas The minimum number of replicas to scale to.
-## @param readarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
-## @param readarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
-## @param readarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
-## @param readarr.nodeSelector The node selector to use for the pod.
-## @param readarr.tolerations The tolerations to use for the pod.
-## @param readarr.affinity The affinity to use for the pod.
-## @param readarr.env.PUID The user ID to use for the pod.
-## @param readarr.env.PGID The group ID to use for the pod.
-## @param readarr.env.TZ The timezone to use for the pod.
-## @param readarr.env.UMASK The umask to use for the pod.
-## @param readarr.persistence.enabled Whether to enable persistence.
-## @param readarr.persistence.path The path to use for the persistence. Don't use slashes.
-## @param readarr.persistence.storageClass The storage class to use for the persistence.
-## @param readarr.persistence.existingClaim The name of an existing claim to use for the persistence.
-## @param readarr.persistence.accessMode The access mode to use for the persistence.
-## @param readarr.persistence.size The size to use for the persistence.
-## @param readarr.persistence.additionalVolumes Additional volumes to add to the pod.
-## @param readarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+## @param cleanuparr.enabled Whether to enable Cleanuparr.
+## @param cleanuparr.replicaCount The number of replicas to deploy.
+## @param cleanuparr.image.repository The Docker repository to pull the image from.
+## @param cleanuparr.image.tag The image tag to use.
+## @param cleanuparr.image.pullPolicy The logic of image pulling.
+## @param cleanuparr.imagePullSecrets The image pull secrets to use.
+## @param cleanuparr.deployment.strategy.type The deployment strategy to use.
+## @param cleanuparr.serviceAccount.create Whether to create a service account.
+## @param cleanuparr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param cleanuparr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param cleanuparr.podAnnotations Additional annotations to add to the pod.
+## @param cleanuparr.podSecurityContext The security context to use for the pod.
+## @param cleanuparr.securityContext The security context to use for the container.
+## @param cleanuparr.initContainers Additional init containers to add to the pod.
+## @param cleanuparr.service.type The type of service to create.
+## @param cleanuparr.service.port The port on which the service will run.
+## @param cleanuparr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param cleanuparr.ingress.enabled Whether to create an ingress for the service.
+## @param cleanuparr.ingress.className The ingress class name to use.
+## @param cleanuparr.ingress.annotations Additional annotations to add to the ingress.
+## @param cleanuparr.ingress.hosts[0].host The host to use for the ingress.
+## @param cleanuparr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param cleanuparr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param cleanuparr.ingress.tls The TLS configuration for the ingress.
+## @param cleanuparr.resources The resources to use for the pod.
+## @param cleanuparr.autoscaling.enabled Whether to enable autoscaling.
+## @param cleanuparr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param cleanuparr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param cleanuparr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param cleanuparr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param cleanuparr.nodeSelector The node selector to use for the pod.
+## @param cleanuparr.tolerations The tolerations to use for the pod.
+## @param cleanuparr.affinity The affinity to use for the pod.
+## @param cleanuparr.env.BASE_PATH The base path to use for the service.
+## @param cleanuparr.env.PORT The port on which the service will run.
+## @param cleanuparr.env.PUID The user ID to use for the pod.
+## @param cleanuparr.env.PGID The group ID to use for the pod.
+## @param cleanuparr.env.TZ The timezone to use for the pod.
+## @param cleanuparr.env.UMASK The umask to use for the pod.
+## @param cleanuparr.persistence.enabled Whether to enable persistence.
+## @param cleanuparr.persistence.storageClass The storage class to use for the persistence.
+## @param cleanuparr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param cleanuparr.persistence.accessMode The access mode to use for the persistence.
+## @param cleanuparr.persistence.size The size to use for the persistence.
+## @param cleanuparr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param cleanuparr.persistence.additionalMounts Additional volume mounts to add to the pod.
 ##
-readarr:
-  enabled: true
+cleanuparr:
+  enabled: false
   replicaCount: 1
 
   image:
-    repository: lscr.io/linuxserver/readarr
+    repository: ghcr.io/cleanuparr/cleanuparr
     pullPolicy: IfNotPresent
-    tag: "0.4.2-develop"
+    tag: "latest"
 
   imagePullSecrets: []
 
@@ -1411,15 +1412,14 @@ readarr:
     # runAsNonRoot: true
     # runAsUser: 1000
 
-  initContainers:
-    []
+  initContainers: []
     # - name: init-container
     #   image: busybox
     #   command: ['sh', '-c', 'echo "this is an init container"']
 
   service:
     type: ClusterIP
-    port: 8787
+    port: 11011
     nodePort: ""
 
   ingress:
@@ -1460,310 +1460,18 @@ readarr:
   affinity: {}
 
   env:
+    BASE_PATH: "/"
+    PORT: "11011"
     PUID: "1000"
     PGID: "1000"
     TZ: "Europe/London"
     UMASK: "002"
 
   persistence:
-    enabled: true
-    path: books
+    enabled: false
     storageClass: ""
     existingClaim: ""
     accessMode: ReadWriteOnce
-    size: 800Mi
+    size: 100Mi
     additionalVolumes: []
     additionalMounts: []
-
-## @section Cleanuperr parameters
-
-## @param cleanuperr.enabled Whether to enable Cleanuperr.
-## @param cleanuperr.replicaCount The number of replicas to deploy.
-## @param cleanuperr.image.repository The Docker repository to pull the image from.
-## @param cleanuperr.image.tag The image tag to use.
-## @param cleanuperr.image.pullPolicy The logic of image pulling.
-## @param cleanuperr.imagePullSecrets The image pull secrets to use.
-## @param cleanuperr.deployment.strategy.type The deployment strategy to use.
-## @param cleanuperr.serviceAccount.create Whether to create a service account.
-## @param cleanuperr.serviceAccount.annotations Additional annotations to add to the service account.
-## @param cleanuperr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
-## @param cleanuperr.podAnnotations Additional annotations to add to the pod.
-## @param cleanuperr.podSecurityContext The security context to use for the pod.
-## @param cleanuperr.securityContext The security context to use for the container.
-## @param cleanuperr.initContainers Additional init containers to add to the pod.
-## @param cleanuperr.resources The resources to use for the pod.
-## @param cleanuperr.autoscaling.enabled Whether to enable autoscaling.
-## @param cleanuperr.autoscaling.minReplicas The minimum number of replicas to scale to.
-## @param cleanuperr.autoscaling.maxReplicas The maximum number of replicas to scale to.
-## @param cleanuperr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
-## @param cleanuperr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
-## @param cleanuperr.nodeSelector The node selector to use for the pod.
-## @param cleanuperr.tolerations The tolerations to use for the pod.
-## @param cleanuperr.affinity The affinity to use for the pod.
-## @param cleanuperr.secrets.existingSecret The name of an existing Secret to use for credentials instead of creating a new one.
-## @param cleanuperr.secrets.qbittorrent.username The qBittorrent username to be stored in the secret.
-## @param cleanuperr.secrets.qbittorrent.password The qBittorrent password to be stored in the secret.
-## @param cleanuperr.secrets.sonarr.apiKey The Sonarr API key to be stored in the secret.
-## @param cleanuperr.secrets.radarr.apiKey The Radarr API key to be stored in the secret.
-## @param cleanuperr.secrets.lidarr.apiKey The Lidarr API key to be stored in the secret.
-## @param cleanuperr.env.TZ The timezone to use for the pod.
-## @param cleanuperr.env.DRY_RUN Enable dry run mode to log actions without actually performing them.
-## @param cleanuperr.env.LOGGING__LOGLEVEL The log level for the application.
-## @param cleanuperr.env.LOGGING__FILE__ENABLED Whether to enable file logging.
-## @param cleanuperr.env.LOGGING__FILE__PATH The path to store log files.
-## @param cleanuperr.env.LOGGING__ENHANCED Whether to enable enhanced logging.
-## @param cleanuperr.env.HTTP_MAX_RETRIES The maximum number of HTTP retries.
-## @param cleanuperr.env.HTTP_TIMEOUT The HTTP timeout in seconds.
-## @param cleanuperr.env.HTTP_VALIDATE_CERT Whether to validate HTTPS certificates.
-## @param cleanuperr.env.SEARCH_ENABLED Whether to enable search functionality.
-## @param cleanuperr.env.SEARCH_DELAY The delay between searches in seconds.
-## @param cleanuperr.env.QUEUECLEANER__ENABLED Whether to enable queue cleaner functionality.
-## @param cleanuperr.env.TRIGGERS__QUEUECLEANER The cron schedule for queue cleaner.
-## @param cleanuperr.env.QUEUECLEANER__IGNORED_DOWNLOADS_PATH Path to ignored downloads list. Set to /ignored to use the default.
-## @param cleanuperr.env.QUEUECLEANER__RUNSEQUENTIALLY Whether to run queue cleaner sequentially.
-## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES Maximum failed import strikes before action.
-## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE Whether to ignore private trackers for failed imports.
-## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_DELETE_PRIVATE Whether to delete private tracker torrents on failed imports.
-## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_IGNORE_PATTERNS__0 Patterns to ignore for failed imports.
-## @param cleanuperr.env.QUEUECLEANER__IMPORT_FAILED_IGNORE_PATTERNS__1 Additional patterns to ignore for failed imports.
-## @param cleanuperr.env.QUEUECLEANER__STALLED_MAX_STRIKES Maximum stalled strikes before action.
-## @param cleanuperr.env.QUEUECLEANER__STALLED_RESET_STRIKES_ON_PROGRESS Whether to reset strikes on progress for stalled downloads.
-## @param cleanuperr.env.QUEUECLEANER__STALLED_IGNORE_PRIVATE Whether to ignore private trackers for stalled torrents.
-## @param cleanuperr.env.QUEUECLEANER__STALLED_DELETE_PRIVATE Whether to delete private tracker torrents when stalled.
-## @param cleanuperr.env.QUEUECLEANER__DOWNLOADING_METADATA_MAX_STRIKES Maximum strikes for downloading metadata.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_MAX_STRIKES Maximum slow download strikes before action.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_RESET_STRIKES_ON_PROGRESS Whether to reset strikes on progress for slow downloads.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_IGNORE_PRIVATE Whether to ignore private trackers for slow downloads.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_DELETE_PRIVATE Whether to delete private tracker torrents when slow.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_MIN_SPEED Minimum speed threshold for slow downloads.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_MAX_TIME Maximum time allowed for slow downloads.
-## @param cleanuperr.env.QUEUECLEANER__SLOW_IGNORE_ABOVE_SIZE Ignore torrents above this size for slow download checks.
-## @param cleanuperr.env.CONTENTBLOCKER__ENABLED Whether to enable content blocker functionality.
-## @param cleanuperr.env.TRIGGERS__CONTENTBLOCKER Cron schedule for content blocker.
-## @param cleanuperr.env.CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH Path to ignored downloads for content blocker. Set to /ignored to use the default.
-## @param cleanuperr.env.CONTENTBLOCKER__IGNORE_PRIVATE Whether to ignore private trackers for content blocking.
-## @param cleanuperr.env.CONTENTBLOCKER__DELETE_PRIVATE Whether to delete private tracker torrents when blocked.
-## @param cleanuperr.env.DOWNLOADCLEANER__ENABLED Whether to enable download cleaner functionality.
-## @param cleanuperr.env.TRIGGERS__DOWNLOADCLEANER Cron schedule for download cleaner.
-## @param cleanuperr.env.DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH Path to ignored downloads for download cleaner. Set to /ignored to use the default.
-## @param cleanuperr.env.DOWNLOADCLEANER__DELETE_PRIVATE Whether to delete private tracker torrents when cleaning.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__0__NAME Name for the first category (Sonarr).
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__1__NAME Name for the second category (Radarr).
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__2__NAME Name for the third category (Lidarr).
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__0__MAX_RATIO Max ratio for the first category.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__1__MAX_RATIO Max ratio for the second category.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__2__MAX_RATIO Max ratio for the third category.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__0__MIN_SEED_TIME Min seed time for the first category in minutes.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__1__MIN_SEED_TIME Min seed time for the second category in minutes.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__2__MIN_SEED_TIME Min seed time for the third category in minutes.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__0__MAX_SEED_TIME Max seed time for the first category in minutes.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__1__MAX_SEED_TIME Max seed time for the second category in minutes.
-## @param cleanuperr.env.DOWNLOADCLEANER__CATEGORIES__2__MAX_SEED_TIME Max seed time for the third category in minutes.
-## @param cleanuperr.env.DOWNLOADCLEANER__UNLINKED_TARGET_CATEGORY Target category for unlinked downloads.
-## @param cleanuperr.env.DOWNLOADCLEANER__UNLINKED_USE_TAG Whether to use a tag for unlinked downloads.
-## @param cleanuperr.env.DOWNLOADCLEANER__UNLINKED_IGNORED_ROOT_DIR Root directory to ignore for unlinked downloads.
-## @param cleanuperr.env.DOWNLOADCLEANER__UNLINKED_CATEGORIES__0 First category to check for unlinked downloads.
-## @param cleanuperr.env.DOWNLOADCLEANER__UNLINKED_CATEGORIES__1 Second category to check for unlinked downloads.
-## @param cleanuperr.env.DOWNLOADCLEANER__UNLINKED_CATEGORIES__2 Third category to check for unlinked downloads.
-## @param cleanuperr.env.DOWNLOAD_CLIENT The download client to use.
-## @param cleanuperr.env.QBITTORRENT__URL The URL for qBittorrent web interface.
-## @param cleanuperr.env.QBITTORRENT__URL_BASE The base URL for qBittorrent.
-## @param cleanuperr.env.SONARR__ENABLED Whether to enable Sonarr integration.
-## @param cleanuperr.env.SONARR__IMPORT_FAILED_MAX_STRIKES Maximum failed import strikes for Sonarr.
-## @param cleanuperr.env.SONARR__BLOCK__TYPE The block type for Sonarr.
-## @param cleanuperr.env.SONARR__BLOCK__PATH Path to the Sonarr blocklist.
-## @param cleanuperr.env.SONARR__SEARCHTYPE The search type for Sonarr.
-## @param cleanuperr.env.SONARR__INSTANCES__0__URL The URL for Sonarr.
-## @param cleanuperr.env.RADARR__ENABLED Whether to enable Radarr integration.
-## @param cleanuperr.env.RADARR__IMPORT_FAILED_MAX_STRIKES Maximum failed import strikes for Radarr.
-## @param cleanuperr.env.RADARR__BLOCK__TYPE The block type for Radarr.
-## @param cleanuperr.env.RADARR__BLOCK__PATH Path to the Radarr blocklist.
-## @param cleanuperr.env.RADARR__INSTANCES__0__URL The URL for Radarr.
-## @param cleanuperr.env.LIDARR__ENABLED Whether to enable Lidarr integration.
-## @param cleanuperr.env.LIDARR__IMPORT_FAILED_MAX_STRIKES Maximum failed import strikes for Lidarr.
-## @param cleanuperr.env.LIDARR__BLOCK__TYPE The block type for Lidarr.
-## @param cleanuperr.env.LIDARR__BLOCK__PATH Path to the Lidarr blocklist.
-## @param cleanuperr.env.LIDARR__INSTANCES__0__URL The URL for Lidarr.
-## @param cleanuperr.ignoredDownloads.entries List of torrent names or patterns to ignore in the ignored_downloads.txt ConfigMap.
-## @param cleanuperr.persistence.logs.enabled Whether to enable persistence.
-## @param cleanuperr.persistence.logs.storageClass The storage class to use for the persistence.
-## @param cleanuperr.persistence.logs.existingClaim The name of an existing claim to use for the persistence.
-## @param cleanuperr.persistence.logs.accessMode The access mode to use for the persistence.
-## @param cleanuperr.persistence.logs.size The size to use for the persistence.
-## @param cleanuperr.persistence.logs.additionalVolumes Additional volumes to add to the pod.
-## @param cleanuperr.persistence.logs.additionalMounts Additional volume mounts to add to the pod.
-##
-cleanuperr:
-  enabled: false
-  replicaCount: 1
-
-  image:
-    repository: ghcr.io/flmorg/cleanuperr
-    pullPolicy: IfNotPresent
-    tag: "latest"
-
-  imagePullSecrets: []
-
-  deployment:
-    strategy:
-      type: Recreate
-
-  serviceAccount:
-    create: true
-    annotations: {}
-    name: ""
-
-  podAnnotations: {}
-
-  podSecurityContext: {}
-    # fsGroup: 2000
-
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
-
-  initContainers: []
-    # - name: init-container
-    #   image: busybox
-    #   command: ['sh', '-c', 'echo "this is an init container"']
-
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
-
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    targetMemoryUtilizationPercentage: 80
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  secrets:
-    existingSecret: ""
-    qbittorrent:
-      username: ""
-      password: ""
-    sonarr:
-      apiKey: ""
-    radarr:
-      apiKey: ""
-    lidarr:
-      apiKey: ""
-
-  env:
-    # General Settings
-    TZ: "Europe/London"
-    DRY_RUN: false
-    LOGGING__LOGLEVEL: "Information"
-    LOGGING__FILE__ENABLED: true
-    LOGGING__FILE__PATH: "/var/logs"
-    LOGGING__ENHANCED: true
-    HTTP_MAX_RETRIES: "3"
-    HTTP_TIMEOUT: "100"
-    HTTP_VALIDATE_CERT: "Enabled"
-    # Search Settings
-    SEARCH_ENABLED: true
-    SEARCH_DELAY: "30"
-    # Queuecleaner Settings
-    QUEUECLEANER__ENABLED: true
-    TRIGGERS__QUEUECLEANER: "0 0/5 * * * ?"
-    QUEUECLEANER__IGNORED_DOWNLOADS_PATH: "/ignored/ignored_downloads"
-    QUEUECLEANER__RUNSEQUENTIALLY: true
-    QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES: "0"
-    QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE: false
-    QUEUECLEANER__IMPORT_FAILED_DELETE_PRIVATE: false
-    QUEUECLEANER__IMPORT_FAILED_IGNORE_PATTERNS__0: "title mismatch"
-    QUEUECLEANER__IMPORT_FAILED_IGNORE_PATTERNS__1: "manual import required"
-    QUEUECLEANER__STALLED_MAX_STRIKES: "0"
-    QUEUECLEANER__STALLED_RESET_STRIKES_ON_PROGRESS: "false"
-    QUEUECLEANER__STALLED_IGNORE_PRIVATE: "false"
-    QUEUECLEANER__STALLED_DELETE_PRIVATE: "false"
-    QUEUECLEANER__DOWNLOADING_METADATA_MAX_STRIKES: "0"
-    QUEUECLEANER__SLOW_MAX_STRIKES: "0"
-    QUEUECLEANER__SLOW_RESET_STRIKES_ON_PROGRESS: false
-    QUEUECLEANER__SLOW_IGNORE_PRIVATE: false
-    QUEUECLEANER__SLOW_DELETE_PRIVATE: false
-    QUEUECLEANER__SLOW_MIN_SPEED: ""
-    QUEUECLEANER__SLOW_MAX_TIME: "0"
-    QUEUECLEANER__SLOW_IGNORE_ABOVE_SIZE: ""
-    # Content Blocker Settings
-    CONTENTBLOCKER__ENABLED: true
-    TRIGGERS__CONTENTBLOCKER: "0 0/5 * * * ?"
-    CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: "/ignored/ignored_downloads"
-    CONTENTBLOCKER__IGNORE_PRIVATE: false
-    CONTENTBLOCKER__DELETE_PRIVATE: false
-    # Download Cleaner Settings
-    DOWNLOADCLEANER__ENABLED: true
-    TRIGGERS__DOWNLOADCLEANER: "0 0 * * * ?"
-    DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: "/ignored/ignored_downloads"
-    DOWNLOADCLEANER__DELETE_PRIVATE: false
-    DOWNLOADCLEANER__CATEGORIES__0__NAME: "tv-sonarr"
-    DOWNLOADCLEANER__CATEGORIES__1__NAME: "movies-radarr"
-    DOWNLOADCLEANER__CATEGORIES__2__NAME: "music-lidarr"
-    DOWNLOADCLEANER__CATEGORIES__0__MAX_RATIO: "1.0"
-    DOWNLOADCLEANER__CATEGORIES__1__MAX_RATIO: "1.0"
-    DOWNLOADCLEANER__CATEGORIES__2__MAX_RATIO: "1.0"
-    DOWNLOADCLEANER__CATEGORIES__0__MIN_SEED_TIME: "360"
-    DOWNLOADCLEANER__CATEGORIES__1__MIN_SEED_TIME: "360"
-    DOWNLOADCLEANER__CATEGORIES__2__MIN_SEED_TIME: "360"
-    DOWNLOADCLEANER__CATEGORIES__0__MAX_SEED_TIME: "720"
-    DOWNLOADCLEANER__CATEGORIES__1__MAX_SEED_TIME: "720"
-    DOWNLOADCLEANER__CATEGORIES__2__MAX_SEED_TIME: "720"
-    DOWNLOADCLEANER__UNLINKED_TARGET_CATEGORY: "cleanuperr-unlinked"
-    DOWNLOADCLEANER__UNLINKED_USE_TAG: false
-    DOWNLOADCLEANER__UNLINKED_IGNORED_ROOT_DIR: "/media/downloads"
-    DOWNLOADCLEANER__UNLINKED_CATEGORIES__0: "tv-sonarr"
-    DOWNLOADCLEANER__UNLINKED_CATEGORIES__1: "movies-radarr"
-    DOWNLOADCLEANER__UNLINKED_CATEGORIES__2: "music-lidarr"
-    # Download Client Settings
-    DOWNLOAD_CLIENT: "qbittorrent"
-    QBITTORRENT__URL: "http://servarr-qbittorrent-web:8080"
-    QBITTORRENT__URL_BASE: ""
-    # Arrs Settings
-    SONARR__ENABLED: true
-    SONARR__IMPORT_FAILED_MAX_STRIKES: "-1"
-    SONARR__BLOCK__TYPE: "blacklist"
-    SONARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist_permissive"
-    SONARR__SEARCHTYPE: "Episode"
-    SONARR__INSTANCES__0__URL: "http://servarr-sonarr:80"
-    RADARR__ENABLED: true
-    RADARR__IMPORT_FAILED_MAX_STRIKES: "-1"
-    RADARR__BLOCK__TYPE: "blacklist"
-    RADARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist_permissive"
-    RADARR__INSTANCES__0__URL: "http://servarr-radarr:7878"
-    LIDARR__ENABLED: false
-    LIDARR__IMPORT_FAILED_MAX_STRIKES: "-1"
-    LIDARR__BLOCK__TYPE: "blacklist"
-    LIDARR__BLOCK__PATH: "https://raw.githubusercontent.com/flmorg/cleanuperr/refs/heads/main/blacklist_permissive"
-    LIDARR__INSTANCES__0__URL: "http://servarr-lidarr:8686"
-
-  ignoredDownloads:
-    # List of entries to add to the ignored_downloads.txt file
-    # Each entry should be a torrent name or pattern to ignore
-    entries: []
-    # - "example.torrent"
-    # - "pattern*to*ignore"
-
-  persistence:
-    logs:
-      enabled: false
-      storageClass: ""
-      existingClaim: ""
-      accessMode: ReadWriteOnce
-      size: 100Mi
-      additionalVolumes: []
-      additionalMounts: []

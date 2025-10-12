@@ -1,0 +1,31 @@
+{{- if and .Values.cleanuparr.enabled .Values.cleanuparr.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-cleanuparr
+  labels:
+    app.kubernetes.io/name: cleanuparr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-cleanuparr
+  minReplicas: {{ .Values.cleanuparr.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.cleanuparr.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.cleanuparr.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.cleanuparr.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.cleanuparr.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.cleanuparr.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
