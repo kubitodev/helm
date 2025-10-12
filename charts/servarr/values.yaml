@@ -1460,7 +1460,7 @@ cleanuparr:
   affinity: {}
 
   env:
-    BASE_PATH: "/"
+    BASE_PATH: ""
     PORT: "11011"
     PUID: "1000"
     PGID: "1000"
