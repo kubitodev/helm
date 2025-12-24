@@ -2,6 +2,28 @@ apiVersion: v1
 entries:
   cloudflared:
   - apiVersion: v2
+    appVersion: 2025.11.1
+    created: "2025-12-24T23:57:58.815662331Z"
+    description: Kubito Cloudflared (Argo Tunnel) Helm Chart
+    digest: 466f24c7e20eab851e668909f4e7a4c074a6a2846f09ee2199970ce24a27d8ae
+    home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/cloudflared-1.7.4/cloudflared-1.7.4.tgz
+    version: 1.7.4
+  - apiVersion: v2
     appVersion: 2025.9.1
     created: "2025-10-12T02:28:21.786621181Z"
     description: Kubito Cloudflared (Argo Tunnel) Helm Chart
@@ -2578,4 +2600,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2025-10-13T12:12:45.816886309Z"
+generated: "2025-12-24T23:57:58.815900575Z"
