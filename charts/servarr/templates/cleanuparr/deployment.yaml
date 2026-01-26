@@ -81,9 +81,13 @@ spec:
               containerPort: {{ .Values.cleanuparr.service.port | default 11011 }}
               protocol: TCP
           env:
-            {{- range $k,$v := .Values.cleanuparr.env }}
+            {{- range $k, $v := .Values.cleanuparr.env }}
             - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
           resources:
             {{- toYaml .Values.cleanuparr.resources | nindent 12 }}

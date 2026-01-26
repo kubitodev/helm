@@ -87,9 +87,13 @@ spec:
               containerPort: {{ .Values.qbittorrent.service.bt.port | default 6881 }}
               protocol: UDP
           env:
-            {{- range $k,$v := .Values.qbittorrent.env }}
+            {{- range $k, $v := .Values.qbittorrent.env }}
             - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
           resources:
             {{- toYaml .Values.qbittorrent.resources | nindent 12 }}

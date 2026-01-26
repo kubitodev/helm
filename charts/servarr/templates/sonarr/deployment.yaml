@@ -88,9 +88,13 @@ spec:
               containerPort: 8989
               protocol: TCP
           env:
-            {{- range $k,$v := .Values.sonarr.env }}
+            {{- range $k, $v := .Values.sonarr.env }}
             - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
           livenessProbe:
             httpGet:

@@ -88,9 +88,13 @@ spec:
               containerPort: 7878
               protocol: TCP
           env:
-            {{- range $k,$v := .Values.radarr.env }}
+            {{- range $k, $v := .Values.radarr.env }}
             - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
           livenessProbe:
             httpGet:

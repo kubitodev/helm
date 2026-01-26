@@ -69,9 +69,13 @@ spec:
               containerPort: {{ .Values.prowlarr.service.port | default 9696 }}
               protocol: TCP
           env:
-            {{- range $k,$v := .Values.prowlarr.env }}
+            {{- range $k, $v := .Values.prowlarr.env }}
             - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
           livenessProbe:
             httpGet:

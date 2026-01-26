@@ -86,9 +86,13 @@ spec:
               containerPort: 6767
               protocol: TCP
           env:
-            {{- range $k,$v := .Values.bazarr.env }}
+            {{- range $k, $v := .Values.bazarr.env }}
             - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
           resources:
             {{- toYaml .Values.bazarr.resources | nindent 12 }}
