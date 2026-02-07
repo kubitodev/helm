@@ -8,7 +8,7 @@
 ##
 image:
   repository: cloudflare/cloudflared
-  tag: "2025.11.1"
+  tag: "2026.2.0"
   imagePullPolicy: IfNotPresent
 
 ## @section Deployment parameters
@@ -86,8 +86,8 @@ autoscaling:
 
 ## @param podDisruptionBudget.enabled Enable PodDisruptionBudget for the deployment
 ## @param podDisruptionBudget.minAvailable Minimum number of pods that must be available
-## @param podDisruptionBudget.maxUnavailable [number, nullable] Maximum number of pods that can be unavailable
+## @param podDisruptionBudget.maxUnavailable Maximum number of pods that can be unavailable
 podDisruptionBudget:
   enabled: false
   minAvailable: 1
-  # maxUnavailable: 1
+  maxUnavailable: 1
