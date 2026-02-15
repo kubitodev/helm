@@ -164,16 +164,16 @@ jellyfin:
 
   podSecurityContext: {}
   # Jellyfin can be run as an unprivileged user with the following settings:
-    # runAsUser: 65534
-    # runAsGroup: 65534
+  # runAsUser: 65534
+  # runAsGroup: 65534
 
   securityContext: {}
   # For example, you might need to grant the following capabilities to enable hardware acceleration when mounting a /dev/dri device:
-    # capabilities:
-    #   add:
-    #     - "SYS_ADMIN"
-    #   drop:
-    #     - "ALL"
+  # capabilities:
+  #   add:
+  #     - "SYS_ADMIN"
+  #   drop:
+  #     - "ALL"
 
   livenessProbe:
     enabled: false
@@ -769,57 +769,57 @@ flaresolverr:
 
   affinity: {}
 
-## @section Jellyseerr parameters
+## @section Seerr parameters
 
-## @param jellyseerr.enabled Whether to enable Jellyseerr.
-## @param jellyseerr.replicaCount The number of replicas to deploy.
-## @param jellyseerr.image.repository The Docker repository to pull the image from.
-## @param jellyseerr.image.tag The image tag to use.
-## @param jellyseerr.image.pullPolicy The logic of image pulling.
-## @param jellyseerr.imagePullSecrets The image pull secrets to use.
-## @param jellyseerr.deployment.strategy.type The deployment strategy to use.
-## @param jellyseerr.serviceAccount.create Whether to create a service account.
-## @param jellyseerr.serviceAccount.annotations Additional annotations to add to the service account.
-## @param jellyseerr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
-## @param jellyseerr.podAnnotations Additional annotations to add to the pod.
-## @param jellyseerr.podSecurityContext The security context to use for the pod.
-## @param jellyseerr.securityContext The security context to use for the container.
-## @param jellyseerr.initContainers Additional init containers to add to the pod.
-## @param jellyseerr.service.type The type of service to create.
-## @param jellyseerr.service.port The port on which the service will run.
-## @param jellyseerr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
-## @param jellyseerr.ingress.enabled Whether to create an ingress for the service.
-## @param jellyseerr.ingress.className The ingress class name to use.
-## @param jellyseerr.ingress.annotations Additional annotations to add to the ingress.
-## @param jellyseerr.ingress.hosts[0].host The host to use for the ingress.
-## @param jellyseerr.ingress.hosts[0].paths[0].path The path to use for the ingress.
-## @param jellyseerr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
-## @param jellyseerr.ingress.tls The TLS configuration for the ingress.
-## @param jellyseerr.resources The resources to use for the pod.
-## @param jellyseerr.autoscaling.enabled Whether to enable autoscaling.
-## @param jellyseerr.autoscaling.minReplicas The minimum number of replicas to scale to.
-## @param jellyseerr.autoscaling.maxReplicas The maximum number of replicas to scale to.
-## @param jellyseerr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
-## @param jellyseerr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
-## @param jellyseerr.nodeSelector The node selector to use for the pod.
-## @param jellyseerr.tolerations The tolerations to use for the pod.
-## @param jellyseerr.affinity The affinity to use for the pod.
-## @param jellyseerr.persistence.enabled Whether to enable persistence.
-## @param jellyseerr.persistence.storageClass The storage class to use for the persistence.
-## @param jellyseerr.persistence.existingClaim The name of an existing claim to use for the persistence.
-## @param jellyseerr.persistence.accessMode The access mode to use for the persistence.
-## @param jellyseerr.persistence.size The size to use for the persistence.
-## @param jellyseerr.persistence.additionalVolumes Additional volumes to add to the pod.
-## @param jellyseerr.persistence.additionalMounts Additional volume mounts to add to the pod.
+## @param seerr.enabled Whether to enable Seerr.
+## @param seerr.replicaCount The number of replicas to deploy.
+## @param seerr.image.repository The Docker repository to pull the image from.
+## @param seerr.image.tag The image tag to use.
+## @param seerr.image.pullPolicy The logic of image pulling.
+## @param seerr.imagePullSecrets The image pull secrets to use.
+## @param seerr.deployment.strategy.type The deployment strategy to use.
+## @param seerr.serviceAccount.create Whether to create a service account.
+## @param seerr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param seerr.serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
+## @param seerr.podAnnotations Additional annotations to add to the pod.
+## @param seerr.podSecurityContext The security context to use for the pod.
+## @param seerr.securityContext The security context to use for the container.
+## @param seerr.initContainers Additional init containers to add to the pod.
+## @param seerr.service.type The type of service to create.
+## @param seerr.service.port The port on which the service will run.
+## @param seerr.service.nodePort The nodePort to use for the service. Only used if service.type is NodePort.
+## @param seerr.ingress.enabled Whether to create an ingress for the service.
+## @param seerr.ingress.className The ingress class name to use.
+## @param seerr.ingress.annotations Additional annotations to add to the ingress.
+## @param seerr.ingress.hosts[0].host The host to use for the ingress.
+## @param seerr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param seerr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param seerr.ingress.tls The TLS configuration for the ingress.
+## @param seerr.resources The resources to use for the pod.
+## @param seerr.autoscaling.enabled Whether to enable autoscaling.
+## @param seerr.autoscaling.minReplicas The minimum number of replicas to scale to.
+## @param seerr.autoscaling.maxReplicas The maximum number of replicas to scale to.
+## @param seerr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
+## @param seerr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param seerr.nodeSelector The node selector to use for the pod.
+## @param seerr.tolerations The tolerations to use for the pod.
+## @param seerr.affinity The affinity to use for the pod.
+## @param seerr.persistence.enabled Whether to enable persistence.
+## @param seerr.persistence.storageClass The storage class to use for the persistence.
+## @param seerr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param seerr.persistence.accessMode The access mode to use for the persistence.
+## @param seerr.persistence.size The size to use for the persistence.
+## @param seerr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param seerr.persistence.additionalMounts Additional volume mounts to add to the pod.
 ##
-jellyseerr:
+seerr:
   enabled: true
   replicaCount: 1
 
   image:
-    repository: docker.io/fallenbagel/jellyseerr
+    repository: ghcr.io/seerr-team/seerr
     pullPolicy: IfNotPresent
-    tag: "2.0.1"
+    tag: "latest"
 
   imagePullSecrets: []
 

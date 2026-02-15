@@ -1,24 +1,24 @@
-{{- if .Values.jellyseerr.enabled }}
+{{- if .Values.seerr.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-jellyseerr
+  name: {{ .Release.Name }}-seerr
   labels:
-    app.kubernetes.io/name: jellyseerr
+    app.kubernetes.io/name: seerr
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 spec:
-  type: {{ .Values.jellyseerr.service.type | default "ClusterIP" }}
+  type: {{ .Values.seerr.service.type | default "ClusterIP" }}
   ports:
-    - port: {{ .Values.jellyseerr.service.port | default 5055 }}
+    - port: {{ .Values.seerr.service.port | default 5055 }}
       targetPort: http
       protocol: TCP
       name: http
-{{ if (and (eq .Values.jellyseerr.service.type "NodePort") (not (empty .Values.jellyseerr.service.nodePort))) }}
-      nodePort: {{.Values.jellyseerr.service.nodePort}}
+{{ if (and (eq .Values.seerr.service.type "NodePort") (not (empty .Values.seerr.service.nodePort))) }}
+      nodePort: {{.Values.seerr.service.nodePort}}
 {{ end }}
   selector:
-    app.kubernetes.io/name: jellyseerr
+    app.kubernetes.io/name: seerr
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

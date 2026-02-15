@@ -1,24 +1,24 @@
-{{- if and .Values.jellyseerr.enabled .Values.jellyseerr.persistence.enabled (not .Values.jellyseerr.persistence.existingClaim) }}
+{{- if and .Values.seerr.enabled .Values.seerr.persistence.enabled (not .Values.seerr.persistence.existingClaim) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-jellyseerr
+  name: {{ .Release.Name }}-seerr
   labels:
-    app.kubernetes.io/name: jellyseerr
+    app.kubernetes.io/name: seerr
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-  {{- if .Values.jellyseerr.persistence.annotations }}
+  {{- if .Values.seerr.persistence.annotations }}
   annotations:
-    {{- toYaml .Values.jellyseerr.persistence.annotations | nindent 4 }}
+    {{- toYaml .Values.seerr.persistence.annotations | nindent 4 }}
   {{- end }}
 spec:
   accessModes:
-    - {{ .Values.jellyseerr.persistence.accessMode | quote }}
-  {{- if .Values.jellyseerr.persistence.storageClass }}
-  storageClassName: {{ .Values.jellyseerr.persistence.storageClass | quote }}
+    - {{ .Values.seerr.persistence.accessMode | quote }}
+  {{- if .Values.seerr.persistence.storageClass }}
+  storageClassName: {{ .Values.seerr.persistence.storageClass | quote }}
   {{- end }}
   resources:
     requests:
-      storage: {{ .Values.jellyseerr.persistence.size | quote }}
+      storage: {{ .Values.seerr.persistence.size | quote }}
 {{- end }}
