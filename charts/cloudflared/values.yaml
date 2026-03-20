@@ -89,5 +89,5 @@ autoscaling:
 ## @param podDisruptionBudget.maxUnavailable Maximum number of pods that can be unavailable
 podDisruptionBudget:
   enabled: false
-  minAvailable: 1
-  maxUnavailable: 1
+  minAvailable:
+  maxUnavailable:
