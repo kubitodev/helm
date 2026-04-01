@@ -81,8 +81,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | `autoscaling.targetMemoryUtilizationPercentage` | Target memory utilization percentage for the HPA                                                                                              | `50`    |
 | `autoscaling.targetCPUUtilizationPercentage`    | Target CPU utilization percentage for the HPA                                                                                                 | `50`    |
 | `podDisruptionBudget.enabled`                   | Enable PodDisruptionBudget for the deployment                                                                                                 | `false` |
-| `podDisruptionBudget.minAvailable`              | Minimum number of pods that must be available                                                                                                 | `1`     |
-| `podDisruptionBudget.maxUnavailable`            | Maximum number of pods that can be unavailable                                                                                                | `1`     |
+| `podDisruptionBudget.minAvailable`              | Minimum number of pods that must be available(mutually exclusive with `podDisruptionBudgetmaxUnavailable`)                                                                                                 | null     |
+| `podDisruptionBudget.minAvailable`            | Maximum number of pods that can be unavailable(mutually exclusive with `podDisruptionBudgetmaxUnavailable`)                                                                                                | null     |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
