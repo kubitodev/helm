@@ -146,7 +146,6 @@ spec:
           resources:
 {{ toYaml .Values.jellyfin.resources | indent 12 }}
           terminationMessagePolicy: FallbackToLogsOnError
-          securityContext: {{- toYaml .Values.jellyfin.securityContext | nindent 12 }}
   {{- if .Values.jellyfin.extraInitContainers }}
       initContainers:
       {{- toYaml .Values.jellyfin.extraInitContainers | nindent 10 }}
