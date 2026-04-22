@@ -41,6 +41,10 @@ spec:
         - name: {{ .Chart.Name }}
           env:
           {{- if .Values.config.granian.enabled }}
+            - name: GRANIAN_PORT
+              value: {{ .Values.service.port | quote }}
+            - name: GRANIAN_HOST
+              value: "0.0.0.0"
             - name: GRANIAN_WORKERS
               value: {{ .Values.config.granian.workers | quote }}
             - name: GRANIAN_BLOCKING_THREADS
@@ -78,16 +82,19 @@ spec:
             - mountPath: /etc/searxng/settings.yml
               name: searxng-settings
               subPath: settings.yml
+              readOnly: true
           {{- end }}
           {{- if .Values.config.limiter.enabled }}
             - mountPath: /etc/searxng/limiter.toml
               name: searxng-limiter
               subPath: limiter.toml
+              readOnly: true
           {{- end }}
           {{- if .Values.config.uwsgi.enabled }}
             - mountPath: /etc/searxng/uwsgi.ini
               name: searxng-uwsgi
               subPath: uwsgi.ini
+              readOnly: true
           {{- end }}
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
