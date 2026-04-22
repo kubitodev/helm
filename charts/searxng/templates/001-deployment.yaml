@@ -39,7 +39,6 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- with .Values.env }}
           env:
           {{- if .Values.config.granian.enabled }}
             - name: GRANIAN_WORKERS
@@ -57,6 +56,7 @@ spec:
             - name: GRANIAN_LOG_ACCESS_ENABLED
               value: {{ .Values.config.granian.log_access_enabled | quote }}
           {{- end }}
+          {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
           securityContext:
