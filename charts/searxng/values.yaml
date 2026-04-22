@@ -38,8 +38,16 @@ serviceAccount:
 ## @param config.settings.data [object, nullable] Custom settings data. Replace the secret key to any random string with `openssl rand -hex 32`.
 ## @param config.limiter.enabled Enable IP limiter.
 ## @param config.limiter.data [object, nullable] IP limiter data.
-## @param config.uwsgi.enabled Enable UWSGI.
-## @param config.uwsgi.data [object, nullable] UWSGI data.
+## @param config.uwsgi.enabled Enable UWSGI (disabled by default, Granian is the default).
+## @param config.uwsgi.data [object, nullable] UWSGI configuration.
+## @param config.granian.enabled Enable Granian.
+## @param config.granian.workers Number of Granian workers.
+## @param config.granian.blocking_threads Number of Granian blocking threads.
+## @param config.granian.backpressure Granian backpressure limit.
+## @param config.granian.http1_buffer_size HTTP/1 buffer size in bytes.
+## @param config.granian.http1_keep_alive Whether to enable HTTP/1 keep-alive.
+## @param config.granian.log_level Granian log level.
+## @param config.granian.log_access_enabled Whether to enable access logging.
 ## @param ingress.enabled Enable ingress record generation for Searxng.
 ## @param ingress.className The class name of the ingress to use.
 ## @param ingress.annotations Mapped annotations for the ingress.
@@ -117,7 +125,7 @@ config:
       # activate link_token method in the ip_limit method
       link_token = true
   uwsgi:
-    enabled: true
+    enabled: false
     data: |-
       [uwsgi]
       # Who will run the code
@@ -169,6 +177,15 @@ config:
       static-expires = /* 86400
       static-gzip-all = True
       offload-threads = 4
+  granian:
+    enabled: true
+    workers: 1
+    blocking_threads: 4
+    backpressure: 20
+    http1_buffer_size: 8192
+    http1_keep_alive: false
+    log_level: warning
+    log_access_enabled: false
 
 ingress:
   enabled: false

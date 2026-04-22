@@ -41,6 +41,22 @@ spec:
         - name: {{ .Chart.Name }}
           {{- with .Values.env }}
           env:
+          {{- if .Values.config.granian.enabled }}
+            - name: GRANIAN_WORKERS
+              value: {{ .Values.config.granian.workers | quote }}
+            - name: GRANIAN_BLOCKING_THREADS
+              value: {{ .Values.config.granian.blocking_threads | quote }}
+            - name: GRANIAN_BACKPRESSURE
+              value: {{ .Values.config.granian.backpressure | quote }}
+            - name: GRANIAN_HTTP1_BUFFER_SIZE
+              value: {{ .Values.config.granian.http1_buffer_size | quote }}
+            - name: GRANIAN_HTTP1_KEEP_ALIVE
+              value: {{ .Values.config.granian.http1_keep_alive | quote }}
+            - name: GRANIAN_LOG_LEVEL
+              value: {{ .Values.config.granian.log_level | quote }}
+            - name: GRANIAN_LOG_ACCESS_ENABLED
+              value: {{ .Values.config.granian.log_access_enabled | quote }}
+          {{- end }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
           securityContext:
@@ -85,16 +101,16 @@ spec:
           configMap:
             name: searxng-settings
       {{- end }}
-      {{- if .Values.config.limiter.enabled }}
+    {{- if .Values.config.limiter.enabled }}
         - name: searxng-limiter
           configMap:
             name: searxng-limiter
-      {{- end }}
-      {{- if .Values.config.uwsgi.enabled }}
+     {{- end }}
+     {{- if .Values.config.uwsgi.enabled }}
         - name: searxng-uwsgi
           configMap:
             name: searxng-uwsgi
-      {{- end }}
+     {{- end }}
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
