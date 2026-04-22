@@ -41,10 +41,6 @@ spec:
         - name: {{ .Chart.Name }}
           env:
           {{- if .Values.config.granian.enabled }}
-            - name: GRANIAN_PORT
-              value: {{ .Values.service.port | quote }}
-            - name: GRANIAN_HOST
-              value: "0.0.0.0"
             - name: GRANIAN_WORKERS
               value: {{ .Values.config.granian.workers | quote }}
             - name: GRANIAN_BLOCKING_THREADS
