@@ -52,11 +52,11 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: searxng
+                name: searxng-http
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: searxng
+              serviceName: searxng-http
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
