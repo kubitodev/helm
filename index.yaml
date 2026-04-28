@@ -1392,6 +1392,28 @@ entries:
   searxng:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2026-04-28T05:43:14.120005652Z"
+    description: Kubito SearXNG Helm Chart
+    digest: 70684ff56a9804d3e26cfa405c1f7f6cd188629170f006571f4ae1fca688fef4
+    home: https://github.com/kubitodev/helm/tree/main/charts/searxng
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - searxng
+    - metasearch
+    - search
+    - privacy
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: searxng
+    sources:
+    - https://github.com/searxng/searxng
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/searxng-1.1.1/searxng-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2026-04-22T13:12:17.165457706Z"
     description: Kubito SearXNG Helm Chart
     digest: 37ac68069fed92218178b92f11e4e9d9b58d8c90bd73d25388d10ba6c9524670
@@ -2832,4 +2854,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-22T13:12:17.165737422Z"
+generated: "2026-04-28T05:43:14.120258437Z"
