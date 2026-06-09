@@ -3,6 +3,28 @@ entries:
   cloudflared:
   - apiVersion: v2
     appVersion: 2026.3.0
+    created: "2026-06-09T23:25:51.257545976Z"
+    description: Kubito Cloudflared (Argo Tunnel) Helm Chart
+    digest: 6cd8aa111963ce8d45b3044339c2d2b0fdf5ca712ac329714249b70dd83c1472
+    home: https://github.com/kubitodev/helm/tree/main/charts/cloudflared
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/cloudflared-1.7.9/cloudflared-1.7.9.tgz
+    version: 1.7.9
+  - apiVersion: v2
+    appVersion: 2026.3.0
     created: "2026-06-09T21:08:11.188554117Z"
     description: Kubito Cloudflared (Argo Tunnel) Helm Chart
     digest: 61093733d1e1c11328b1e6309656d68418bc1cdf0b5bce3f480d3ab02c592f8d
@@ -618,6 +640,27 @@ entries:
     - https://github.com/kubitodev/helm/releases/download/cloudflared-1.0.0/cloudflared-1.0.0.tgz
     version: 1.0.0
   excalidraw:
+  - apiVersion: v2
+    appVersion: 0.17.6
+    created: "2026-06-09T23:25:51.432025973Z"
+    description: Kubito Excalidraw Helm Chart
+    digest: 93b7ac79fe77a10fd41ffed58b6d54d5c29af05cc80444d61e288b780099d6b6
+    home: https://github.com/kubitodev/helm/tree/main/charts/excalidraw
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - excalidraw
+    - diagrams
+    - design
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: excalidraw
+    sources:
+    - https://github.com/excalidraw/excalidraw
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/excalidraw-1.0.3/excalidraw-1.0.3.tgz
+    version: 1.0.3
   - apiVersion: v2
     appVersion: 0.17.6
     created: "2026-06-09T21:08:11.370131499Z"
@@ -1456,6 +1499,28 @@ entries:
   searxng:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2026-06-09T23:25:51.606425917Z"
+    description: Kubito SearXNG Helm Chart
+    digest: 875b6da2ee36b8630f2dc481465b2ab2a90b6d21dbd0d10409146345bfdc4903
+    home: https://github.com/kubitodev/helm/tree/main/charts/searxng
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - searxng
+    - metasearch
+    - search
+    - privacy
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: searxng
+    sources:
+    - https://github.com/searxng/searxng
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/searxng-1.1.4/searxng-1.1.4.tgz
+    version: 1.1.4
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2026-06-09T21:08:11.525491955Z"
     description: Kubito SearXNG Helm Chart
     digest: d2b858895aaea9af5760431d88824300cd4f39377b281d9b138705387b9dbd7a
@@ -1807,6 +1872,34 @@ entries:
     - https://github.com/kubitodev/helm/releases/download/searxng-1.0.0/searxng-1.0.0.tgz
     version: 1.0.0
   servarr:
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2026-06-09T23:25:51.774595547Z"
+    description: Kubito Servarr Helm Chart
+    digest: 0e4a5a060659c18dc7a78836ca6ebf2ac3ca0e51e805718544072dca7cebb248
+    home: https://github.com/kubitodev/helm/tree/main/charts/servarr
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - sonarr
+    - radarr
+    - flaresolverr
+    - jellyfin
+    - seerr
+    - qbittorrent
+    - prowlarr
+    - cleanuparr
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/servarr-1.4.0/servarr-1.4.0.tgz
+    version: 1.4.0
   - apiVersion: v2
     appVersion: 1.3.0
     created: "2026-06-09T21:08:11.703411629Z"
@@ -3018,4 +3111,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2026-06-09T21:08:11.703984779Z"
+generated: "2026-06-09T23:25:51.775072543Z"
