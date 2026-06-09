@@ -23,6 +23,9 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        {{- with .Values.jellyfin.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
     {{- if .Values.jellyfin.enableDLNA }}
       hostNetwork: true
@@ -187,6 +190,10 @@ spec:
     {{- end }}
     {{- with .Values.jellyfin.tolerations }}
       tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.jellyfin.topologySpreadConstraints }}
+      topologySpreadConstraints:
 {{ toYaml . | indent 8 }}
     {{- end }}
       securityContext: {{- toYaml .Values.jellyfin.podSecurityContext | nindent 8 }}

@@ -10,6 +10,7 @@
 ## @param serviceAccount.annotations Additional annotations to add to the service account.
 ## @param serviceAccount.name The name of the service account to use. If not set and create is true, a new service account will be created with a generated name.
 ## @param podAnnotations Additional annotations to add to the pod.
+## @param podLabels Additional labels to add to the pod template.
 ## @param podSecurityContext The security context to use for the pod.
 ## @param securityContext The security context to use for the container.
 ## @param initContainers Additional init containers to add to the pod.
@@ -33,6 +34,7 @@
 ## @param nodeSelector The node selector to use for the pod.
 ## @param tolerations The tolerations to use for the pod.
 ## @param affinity The affinity to use for the pod.
+## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ##
 replicaCount: 1
 
@@ -53,6 +55,8 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
+
+podLabels: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -116,3 +120,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+topologySpreadConstraints: []

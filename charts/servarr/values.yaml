@@ -42,7 +42,9 @@
 ## @param jellyfin.resources The resources to use for the pod.
 ## @param jellyfin.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param jellyfin.nodeSelector The node selector to use for the pod.
+## @param jellyfin.podLabels Additional labels to add to the pod template.
 ## @param jellyfin.tolerations The tolerations to use for the pod.
+## @param jellyfin.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param jellyfin.affinity The affinity to use for the pod.
 ## @param jellyfin.extraVolumes Additional volumes to add to the pod.
 ## @param jellyfin.extraVolumeMounts Additional volume mounts to add to the pod.
@@ -150,6 +152,10 @@ jellyfin:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   extraVolumes: []
     #- name: renderD129
     #  hostPath:
@@ -240,7 +246,9 @@ jellyfin:
 ## @param sonarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param sonarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param sonarr.nodeSelector The node selector to use for the pod.
+## @param sonarr.podLabels Additional labels to add to the pod template.
 ## @param sonarr.tolerations The tolerations to use for the pod.
+## @param sonarr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param sonarr.affinity The affinity to use for the pod.
 ## @param sonarr.env.PUID The user ID to use for the pod.
 ## @param sonarr.env.PGID The group ID to use for the pod.
@@ -340,6 +348,10 @@ sonarr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   env:
     PUID: "1000"
     PGID: "1000"
@@ -393,7 +405,9 @@ sonarr:
 ## @param qbittorrent.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param qbittorrent.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param qbittorrent.nodeSelector The node selector to use for the pod.
+## @param qbittorrent.podLabels Additional labels to add to the pod template.
 ## @param qbittorrent.tolerations The tolerations to use for the pod.
+## @param qbittorrent.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param qbittorrent.affinity The affinity to use for the pod.
 ## @param qbittorrent.env.PUID The user ID to use for the pod.
 ## @param qbittorrent.env.PGID The group ID to use for the pod.
@@ -496,6 +510,10 @@ qbittorrent:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   env:
     PUID: "1000"
     PGID: "1000"
@@ -545,7 +563,9 @@ qbittorrent:
 ## @param prowlarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param prowlarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param prowlarr.nodeSelector The node selector to use for the pod.
+## @param prowlarr.podLabels Additional labels to add to the pod template.
 ## @param prowlarr.tolerations The tolerations to use for the pod.
+## @param prowlarr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param prowlarr.affinity The affinity to use for the pod.
 ## @param prowlarr.env.PUID The user ID to use for the pod.
 ## @param prowlarr.env.PGID The group ID to use for the pod.
@@ -644,6 +664,10 @@ prowlarr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   env:
     PUID: "1000"
     PGID: "1000"
@@ -701,7 +725,9 @@ prowlarr:
 ## @param flaresolverr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param flaresolverr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param flaresolverr.nodeSelector The node selector to use for the pod.
+## @param flaresolverr.podLabels Additional labels to add to the pod template.
 ## @param flaresolverr.tolerations The tolerations to use for the pod.
+## @param flaresolverr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param flaresolverr.affinity The affinity to use for the pod.
 ##
 flaresolverr:
@@ -794,6 +820,10 @@ flaresolverr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
 ## @section Seerr parameters
 
 ## @param seerr.enabled Whether to enable Seerr.
@@ -828,7 +858,9 @@ flaresolverr:
 ## @param seerr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param seerr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param seerr.nodeSelector The node selector to use for the pod.
+## @param seerr.podLabels Additional labels to add to the pod template.
 ## @param seerr.tolerations The tolerations to use for the pod.
+## @param seerr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param seerr.affinity The affinity to use for the pod.
 ## @param seerr.persistence.enabled Whether to enable persistence.
 ## @param seerr.persistence.storageClass The storage class to use for the persistence.
@@ -923,6 +955,10 @@ seerr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   persistence:
     enabled: true
     storageClass: ""
@@ -966,7 +1002,9 @@ seerr:
 ## @param bazarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param bazarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param bazarr.nodeSelector The node selector to use for the pod.
+## @param bazarr.podLabels Additional labels to add to the pod template.
 ## @param bazarr.tolerations The tolerations to use for the pod.
+## @param bazarr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param bazarr.affinity The affinity to use for the pod.
 ## @param bazarr.env.PUID The user ID to use for the pod.
 ## @param bazarr.env.PGID The group ID to use for the pod.
@@ -1063,6 +1101,10 @@ bazarr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   env:
     PUID: "1000"
     PGID: "1000"
@@ -1111,7 +1153,9 @@ bazarr:
 ## @param radarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param radarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param radarr.nodeSelector The node selector to use for the pod.
+## @param radarr.podLabels Additional labels to add to the pod template.
 ## @param radarr.tolerations The tolerations to use for the pod.
+## @param radarr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param radarr.affinity The affinity to use for the pod.
 ## @param radarr.env.PUID The user ID to use for the pod.
 ## @param radarr.env.PGID The group ID to use for the pod.
@@ -1210,6 +1254,10 @@ radarr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   env:
     PUID: "1000"
     PGID: "1000"
@@ -1260,7 +1308,9 @@ radarr:
 ## @param lidarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param lidarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param lidarr.nodeSelector The node selector to use for the pod.
+## @param lidarr.podLabels Additional labels to add to the pod template.
 ## @param lidarr.tolerations The tolerations to use for the pod.
+## @param lidarr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param lidarr.affinity The affinity to use for the pod.
 ## @param lidarr.env.PUID The user ID to use for the pod.
 ## @param lidarr.env.PGID The group ID to use for the pod.
@@ -1359,6 +1409,10 @@ lidarr:
 
   affinity: {}
 
+  podLabels: {}
+
+  topologySpreadConstraints: []
+
   env:
     PUID: "1000"
     PGID: "1000"
@@ -1409,7 +1463,9 @@ lidarr:
 ## @param cleanuparr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param cleanuparr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param cleanuparr.nodeSelector The node selector to use for the pod.
+## @param cleanuparr.podLabels Additional labels to add to the pod template.
 ## @param cleanuparr.tolerations The tolerations to use for the pod.
+## @param cleanuparr.topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param cleanuparr.affinity The affinity to use for the pod.
 ## @param cleanuparr.env.BASE_PATH The base path to use for the service.
 ## @param cleanuparr.env.PORT The port on which the service will run.
@@ -1508,6 +1564,10 @@ cleanuparr:
   tolerations: []
 
   affinity: {}
+
+  podLabels: {}
+
+  topologySpreadConstraints: []
 
   env:
     BASE_PATH: ""

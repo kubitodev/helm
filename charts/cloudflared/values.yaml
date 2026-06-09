@@ -14,12 +14,14 @@ image:
 ## @section Deployment parameters
 
 ## @param replicaCount The number of replicas to deploy.
+## @param podLabels Additional labels to add to the pod template.
 ## @param affinity If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.
 ## @param tolerations Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.
 ## @param topologySpreadConstraints Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains.
 ## @param resources If specified, it sets the resource requests and limits for the pod.
 ##
 replicaCount: 1
+podLabels: {}
 affinity: {}
 tolerations: []
 topologySpreadConstraints: []

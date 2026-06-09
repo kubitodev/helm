@@ -29,6 +29,9 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        {{- with .Values.flaresolverr.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.flaresolverr.imagePullSecrets }}
       imagePullSecrets:
@@ -66,6 +69,10 @@ spec:
       {{- end }}
       {{- with .Values.flaresolverr.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.flaresolverr.topologySpreadConstraints }}
+      topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}

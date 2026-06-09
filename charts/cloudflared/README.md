@@ -48,7 +48,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                    | Description                                   | Value                    |
 | ----------------------- | --------------------------------------------- | ------------------------ |
 | `image.repository`      | The Docker repository to pull the image from. | `cloudflare/cloudflared` |
-| `image.tag`             | The image tag to use.                         | `2026.2.0`               |
+| `image.tag`             | The image tag to use.                         | `2026.3.0`               |
 | `image.imagePullPolicy` | The logic of image pulling.                   | `IfNotPresent`           |
 
 ### Deployment parameters
@@ -56,6 +56,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                                            | Description                                                                                                                                   | Value   |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | `replicaCount`                                  | The number of replicas to deploy.                                                                                                             | `1`     |
+| `podLabels`                                     | Additional labels to add to the pod template.                                                                                                 | `{}`    |
 | `affinity`                                      | If specified, the pod's scheduling constraints. Affinity is a group of affinity scheduling rules.                                             | `{}`    |
 | `tolerations`                                   | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
 | `topologySpreadConstraints`                     | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
