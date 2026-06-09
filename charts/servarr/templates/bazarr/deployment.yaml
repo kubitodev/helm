@@ -97,6 +97,18 @@ spec:
               value: {{ $v | quote }}
               {{- end }}
             {{- end }}
+          {{- with .Values.bazarr.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.bazarr.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.bazarr.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.bazarr.resources | nindent 12 }}
       {{- with .Values.bazarr.priorityClassName }}

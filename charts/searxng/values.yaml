@@ -54,6 +54,7 @@ serviceAccount:
 ## @param ingress.hosts Array style hosts for the ingress.
 ## @param ingress.tls Array style TLS secrets for the ingress.
 ## @param resources Optional resource requests and limits to set.
+## @param startupProbe Startup probe configuration. Leave empty to disable.
 ## @param livenessProbe.httpGet.path The path to use for the liveness probe.
 ## @param livenessProbe.httpGet.port The port name to use for the liveness probe.
 ## @param readinessProbe.httpGet.path The path to use for the readiness probe.
@@ -217,6 +218,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+startupProbe: {}
 livenessProbe:
   httpGet:
     path: /

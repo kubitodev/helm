@@ -61,6 +61,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | `tolerations`                                   | Tolerates any taint that matches the triple `<key,value,effect>` using the matching operator `<operator>`.                                    | `[]`    |
 | `topologySpreadConstraints`                     | Control how pods are spread across your cluster among failure-domains such as regions, zones, nodes, and other user-defined topology domains. | `[]`    |
 | `resources`                                     | If specified, it sets the resource requests and limits for the pod.                                                                           | `{}`    |
+| `startupProbe`                                  | Startup probe configuration. Leave empty to disable.                                                                                          | `{}`    |
+| `livenessProbe`                                 | Liveness probe configuration. Leave empty to disable. Requires metrics.enabled=true for a listening port.                                     | `{}`    |
+| `readinessProbe`                                | Readiness probe configuration. Leave empty to disable. Requires metrics.enabled=true for a listening port.                                    | `{}`    |
 | `logLevel`                                      | The log level to use for the tunnel.                                                                                                          | `info`  |
 | `priorityClassName`                             | The priority class name to use for the tunnel.                                                                                                | `""`    |
 | `metrics.enabled`                               | Enable metrics for prometheus monitoring. The crd monitoring.coreos.com/v1 must be already installed on the target.                           | `false` |

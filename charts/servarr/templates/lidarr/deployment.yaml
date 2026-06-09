@@ -99,18 +99,18 @@ spec:
               value: {{ $v | quote }}
               {{- end }}
             {{- end }}
-          livenessProbe:
-            httpGet:
-              path: /ping
-              port: http
-            failureThreshold: 12
-            periodSeconds: 10
+          {{- with .Values.lidarr.startupProbe }}
           startupProbe:
-            httpGet:
-              path: /ping
-              port: http
-            failureThreshold: 30
-            periodSeconds: 10
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.lidarr.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.lidarr.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.lidarr.resources | nindent 12 }}
       {{- with .Values.lidarr.priorityClassName }}

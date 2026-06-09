@@ -74,6 +74,26 @@ spec:
               hostPort: 1900
               protocol: UDP
           {{- end }}
+        {{ if .Values.jellyfin.startupProbe.enabled }}
+          startupProbe:
+          {{ if .Values.jellyfin.startupProbe.initialDelaySeconds }}
+            initialDelaySeconds: {{ .Values.jellyfin.startupProbe.initialDelaySeconds }}
+          {{- end }}
+          {{ if .Values.jellyfin.startupProbe.periodSeconds }}
+            periodSeconds: {{ .Values.jellyfin.startupProbe.periodSeconds }}
+          {{- end }}
+          {{ if .Values.jellyfin.startupProbe.timeoutSeconds }}
+            timeoutSeconds: {{ .Values.jellyfin.startupProbe.timeoutSeconds }}
+          {{- end }}
+          {{ if .Values.jellyfin.startupProbe.failureThreshold }}
+            failureThreshold: {{ .Values.jellyfin.startupProbe.failureThreshold }}
+          {{- end }}
+          {{ if .Values.jellyfin.startupProbe.successThreshold }}
+            successThreshold: {{ .Values.jellyfin.startupProbe.successThreshold }}
+          {{- end }}
+            tcpSocket:
+              port: http
+        {{- end }}
         {{ if .Values.jellyfin.livenessProbe.enabled }}
           livenessProbe:
           {{ if .Values.jellyfin.livenessProbe.initialDelaySeconds }}

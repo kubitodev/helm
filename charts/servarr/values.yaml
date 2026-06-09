@@ -53,6 +53,7 @@
 ## @param jellyfin.extraContainers Additional sidecar containers to add to the pod.
 ## @param jellyfin.podSecurityContext The security context to use for the pod.
 ## @param jellyfin.securityContext The security context to use for the container.
+## @param jellyfin.startupProbe.enabled Whether to enable the startup probe.
 ## @param jellyfin.livenessProbe.enabled Whether to enable the liveness probe.
 ## @param jellyfin.livenessProbe.failureThreshold The number of times to retry before giving up.
 ## @param jellyfin.livenessProbe.initialDelaySeconds The number of seconds to wait before starting the probe.
@@ -186,6 +187,9 @@ jellyfin:
   #   drop:
   #     - "ALL"
 
+  startupProbe:
+    enabled: false
+
   livenessProbe:
     enabled: false
     failureThreshold: 3
@@ -239,6 +243,9 @@ jellyfin:
 ## @param sonarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param sonarr.ingress.tls The TLS configuration for the ingress.
 ## @param sonarr.resources The resources to use for the pod.
+## @param sonarr.startupProbe [object] Startup probe configuration.
+## @param sonarr.livenessProbe [object] Liveness probe configuration.
+## @param sonarr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param sonarr.autoscaling.enabled Whether to enable autoscaling.
 ## @param sonarr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param sonarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -331,6 +338,20 @@ sonarr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 12
+    periodSeconds: 10
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -398,6 +419,9 @@ sonarr:
 ## @param qbittorrent.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param qbittorrent.ingress.tls The TLS configuration for the ingress.
 ## @param qbittorrent.resources The resources to use for the pod.
+## @param qbittorrent.startupProbe Startup probe configuration. Leave empty to disable.
+## @param qbittorrent.livenessProbe Liveness probe configuration. Leave empty to disable.
+## @param qbittorrent.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param qbittorrent.autoscaling.enabled Whether to enable autoscaling.
 ## @param qbittorrent.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param qbittorrent.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -493,6 +517,10 @@ qbittorrent:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe: {}
+  livenessProbe: {}
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -556,6 +584,9 @@ qbittorrent:
 ## @param prowlarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param prowlarr.ingress.tls The TLS configuration for the ingress.
 ## @param prowlarr.resources The resources to use for the pod.
+## @param prowlarr.startupProbe [object] Startup probe configuration.
+## @param prowlarr.livenessProbe [object] Liveness probe configuration.
+## @param prowlarr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param prowlarr.autoscaling.enabled Whether to enable autoscaling.
 ## @param prowlarr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param prowlarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -647,6 +678,20 @@ prowlarr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 12
+    periodSeconds: 10
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -718,6 +763,9 @@ prowlarr:
 ## @param flaresolverr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param flaresolverr.ingress.tls The TLS configuration for the ingress.
 ## @param flaresolverr.resources The resources to use for the pod.
+## @param flaresolverr.startupProbe Startup probe configuration. Leave empty to disable.
+## @param flaresolverr.livenessProbe Liveness probe configuration. Leave empty to disable.
+## @param flaresolverr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param flaresolverr.autoscaling.enabled Whether to enable autoscaling.
 ## @param flaresolverr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param flaresolverr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -803,6 +851,10 @@ flaresolverr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe: {}
+  livenessProbe: {}
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -851,6 +903,9 @@ flaresolverr:
 ## @param seerr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param seerr.ingress.tls The TLS configuration for the ingress.
 ## @param seerr.resources The resources to use for the pod.
+## @param seerr.startupProbe Startup probe configuration. Leave empty to disable.
+## @param seerr.livenessProbe Liveness probe configuration. Leave empty to disable.
+## @param seerr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param seerr.autoscaling.enabled Whether to enable autoscaling.
 ## @param seerr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param seerr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -938,6 +993,10 @@ seerr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe: {}
+  livenessProbe: {}
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -995,6 +1054,9 @@ seerr:
 ## @param bazarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param bazarr.ingress.tls The TLS configuration for the ingress.
 ## @param bazarr.resources The resources to use for the pod.
+## @param bazarr.startupProbe Startup probe configuration. Leave empty to disable.
+## @param bazarr.livenessProbe Liveness probe configuration. Leave empty to disable.
+## @param bazarr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param bazarr.autoscaling.enabled Whether to enable autoscaling.
 ## @param bazarr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param bazarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -1084,6 +1146,10 @@ bazarr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe: {}
+  livenessProbe: {}
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -1146,6 +1212,9 @@ bazarr:
 ## @param radarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param radarr.ingress.tls The TLS configuration for the ingress.
 ## @param radarr.resources The resources to use for the pod.
+## @param radarr.startupProbe [object] Startup probe configuration.
+## @param radarr.livenessProbe [object] Liveness probe configuration.
+## @param radarr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param radarr.autoscaling.enabled Whether to enable autoscaling.
 ## @param radarr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param radarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -1237,6 +1306,20 @@ radarr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 12
+    periodSeconds: 10
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -1301,6 +1384,9 @@ radarr:
 ## @param lidarr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param lidarr.ingress.tls The TLS configuration for the ingress.
 ## @param lidarr.resources The resources to use for the pod.
+## @param lidarr.startupProbe [object] Startup probe configuration.
+## @param lidarr.livenessProbe [object] Liveness probe configuration.
+## @param lidarr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param lidarr.autoscaling.enabled Whether to enable autoscaling.
 ## @param lidarr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param lidarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -1392,6 +1478,20 @@ lidarr:
     #   cpu: 100m
     #   memory: 128Mi
 
+  startupProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
+    failureThreshold: 12
+    periodSeconds: 10
+  readinessProbe: {}
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -1456,6 +1556,9 @@ lidarr:
 ## @param cleanuparr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param cleanuparr.ingress.tls The TLS configuration for the ingress.
 ## @param cleanuparr.resources The resources to use for the pod.
+## @param cleanuparr.startupProbe Startup probe configuration. Leave empty to disable.
+## @param cleanuparr.livenessProbe Liveness probe configuration. Leave empty to disable.
+## @param cleanuparr.readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param cleanuparr.autoscaling.enabled Whether to enable autoscaling.
 ## @param cleanuparr.autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param cleanuparr.autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -1547,6 +1650,10 @@ cleanuparr:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
+
+  startupProbe: {}
+  livenessProbe: {}
+  readinessProbe: {}
 
   autoscaling:
     enabled: false

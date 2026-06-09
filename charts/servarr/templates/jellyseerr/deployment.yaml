@@ -80,6 +80,18 @@ spec:
               value: {{ $v | quote }}
               {{- end }}
             {{- end }}
+          {{- with .Values.seerr.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.seerr.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.seerr.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.seerr.resources | nindent 12 }}
       {{- with .Values.seerr.priorityClassName }}

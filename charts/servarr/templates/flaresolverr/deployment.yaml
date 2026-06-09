@@ -54,6 +54,18 @@ spec:
             - name: http
               containerPort: 8191
               protocol: TCP
+          {{- with .Values.flaresolverr.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.flaresolverr.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.flaresolverr.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.flaresolverr.resources | nindent 12 }}
       {{- with .Values.flaresolverr.priorityClassName }}

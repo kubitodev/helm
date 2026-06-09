@@ -92,6 +92,18 @@ spec:
               value: {{ $v | quote }}
               {{- end }}
             {{- end }}
+          {{- with .Values.cleanuparr.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.cleanuparr.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.cleanuparr.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.cleanuparr.resources | nindent 12 }}
       {{- with .Values.cleanuparr.priorityClassName }}

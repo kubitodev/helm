@@ -99,18 +99,18 @@ spec:
               value: {{ $v | quote }}
               {{- end }}
             {{- end }}
-          livenessProbe:
-            httpGet:
-              path: /ping
-              port: http
-            failureThreshold: 12
-            periodSeconds: 10
+          {{- with .Values.radarr.startupProbe }}
           startupProbe:
-            httpGet:
-              path: /ping
-              port: http
-            failureThreshold: 30
-            periodSeconds: 10
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.radarr.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.radarr.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.radarr.resources | nindent 12 }}
       {{- with .Values.radarr.priorityClassName }}

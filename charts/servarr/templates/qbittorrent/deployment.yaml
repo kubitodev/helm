@@ -98,6 +98,18 @@ spec:
               value: {{ $v | quote }}
               {{- end }}
             {{- end }}
+          {{- with .Values.qbittorrent.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.qbittorrent.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.qbittorrent.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.qbittorrent.resources | nindent 12 }}
       {{- with .Values.qbittorrent.priorityClassName }}

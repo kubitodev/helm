@@ -34,6 +34,13 @@ resources: {}
 #     cpu: 100m
 #     memory: 128Mi
 
+## @param startupProbe Startup probe configuration. Leave empty to disable.
+## @param livenessProbe Liveness probe configuration. Leave empty to disable. Requires metrics.enabled=true for a listening port.
+## @param readinessProbe Readiness probe configuration. Leave empty to disable. Requires metrics.enabled=true for a listening port.
+startupProbe: {}
+livenessProbe: {}
+readinessProbe: {}
+
 ## @param logLevel The log level to use for the tunnel.
 logLevel: info
 

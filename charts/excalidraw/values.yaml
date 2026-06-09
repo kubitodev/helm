@@ -25,6 +25,9 @@
 ## @param ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
 ## @param ingress.tls The TLS configuration for the ingress.
 ## @param resources The resources to use for the pod.
+## @param startupProbe Startup probe configuration. Leave empty to disable.
+## @param livenessProbe Liveness probe configuration. Leave empty to disable.
+## @param readinessProbe Readiness probe configuration. Leave empty to disable.
 ## @param autoscaling.enabled Whether to enable autoscaling.
 ## @param autoscaling.minReplicas The minimum number of replicas to scale to.
 ## @param autoscaling.maxReplicas The maximum number of replicas to scale to.
@@ -103,6 +106,10 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+startupProbe: {}
+livenessProbe: {}
+readinessProbe: {}
 
 autoscaling:
   enabled: false
