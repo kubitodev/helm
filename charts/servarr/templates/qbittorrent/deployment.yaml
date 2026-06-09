@@ -97,6 +97,9 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.qbittorrent.resources | nindent 12 }}
+      {{- with .Values.qbittorrent.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.qbittorrent.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

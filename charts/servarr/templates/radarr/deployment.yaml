@@ -110,6 +110,9 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.radarr.resources | nindent 12 }}
+      {{- with .Values.radarr.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.radarr.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

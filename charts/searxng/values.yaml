@@ -65,6 +65,7 @@ serviceAccount:
 ## @param autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
 ## @param volumes Additional volumes to use.
 ## @param volumeMounts Additional volume mounts to use.
+## @param priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param nodeSelector Optional node selector to use.
 ## @param tolerations Whether to set node tolerations.
 ## @param affinity Whether to set node affinity.
@@ -241,6 +242,10 @@ volumeMounts: []
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
+
+# -- Kubernetes PriorityClass name for pod eviction priority.
+# Leave empty to inherit the cluster's globalDefault PriorityClass.
+priorityClassName: ""
 
 nodeSelector: {}
 

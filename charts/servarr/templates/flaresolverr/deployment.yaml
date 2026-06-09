@@ -53,6 +53,9 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.flaresolverr.resources | nindent 12 }}
+      {{- with .Values.flaresolverr.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.flaresolverr.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

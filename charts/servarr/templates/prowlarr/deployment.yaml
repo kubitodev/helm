@@ -91,6 +91,9 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.prowlarr.resources | nindent 12 }}
+      {{- with .Values.prowlarr.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.prowlarr.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -79,6 +79,9 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.seerr.resources | nindent 12 }}
+      {{- with .Values.seerr.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.seerr.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

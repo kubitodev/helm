@@ -40,6 +40,7 @@
 ## @param jellyfin.persistence.media.annotations Additional annotations to add to the media.
 ## @param jellyfin.persistence.extraExistingClaimMounts Additional existing claim mounts to add to the pod.
 ## @param jellyfin.resources The resources to use for the pod.
+## @param jellyfin.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param jellyfin.nodeSelector The node selector to use for the pod.
 ## @param jellyfin.tolerations The tolerations to use for the pod.
 ## @param jellyfin.affinity The affinity to use for the pod.
@@ -139,6 +140,10 @@ jellyfin:
     #  cpu: 100m
     #  memory: 128Mi
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -233,6 +238,7 @@ jellyfin:
 ## @param sonarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param sonarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param sonarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param sonarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param sonarr.nodeSelector The node selector to use for the pod.
 ## @param sonarr.tolerations The tolerations to use for the pod.
 ## @param sonarr.affinity The affinity to use for the pod.
@@ -324,6 +330,10 @@ sonarr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -381,6 +391,7 @@ sonarr:
 ## @param qbittorrent.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param qbittorrent.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param qbittorrent.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param qbittorrent.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param qbittorrent.nodeSelector The node selector to use for the pod.
 ## @param qbittorrent.tolerations The tolerations to use for the pod.
 ## @param qbittorrent.affinity The affinity to use for the pod.
@@ -475,6 +486,10 @@ qbittorrent:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -528,6 +543,7 @@ qbittorrent:
 ## @param prowlarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param prowlarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param prowlarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param prowlarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param prowlarr.nodeSelector The node selector to use for the pod.
 ## @param prowlarr.tolerations The tolerations to use for the pod.
 ## @param prowlarr.affinity The affinity to use for the pod.
@@ -618,6 +634,10 @@ prowlarr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -679,6 +699,7 @@ prowlarr:
 ## @param flaresolverr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param flaresolverr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param flaresolverr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param flaresolverr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param flaresolverr.nodeSelector The node selector to use for the pod.
 ## @param flaresolverr.tolerations The tolerations to use for the pod.
 ## @param flaresolverr.affinity The affinity to use for the pod.
@@ -763,6 +784,10 @@ flaresolverr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -801,6 +826,7 @@ flaresolverr:
 ## @param seerr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param seerr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param seerr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param seerr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param seerr.nodeSelector The node selector to use for the pod.
 ## @param seerr.tolerations The tolerations to use for the pod.
 ## @param seerr.affinity The affinity to use for the pod.
@@ -887,6 +913,10 @@ seerr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -934,6 +964,7 @@ seerr:
 ## @param bazarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param bazarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param bazarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param bazarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param bazarr.nodeSelector The node selector to use for the pod.
 ## @param bazarr.tolerations The tolerations to use for the pod.
 ## @param bazarr.affinity The affinity to use for the pod.
@@ -1022,6 +1053,10 @@ bazarr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -1074,6 +1109,7 @@ bazarr:
 ## @param radarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param radarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param radarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param radarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param radarr.nodeSelector The node selector to use for the pod.
 ## @param radarr.tolerations The tolerations to use for the pod.
 ## @param radarr.affinity The affinity to use for the pod.
@@ -1164,6 +1200,10 @@ radarr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -1218,6 +1258,7 @@ radarr:
 ## @param lidarr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param lidarr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param lidarr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param lidarr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param lidarr.nodeSelector The node selector to use for the pod.
 ## @param lidarr.tolerations The tolerations to use for the pod.
 ## @param lidarr.affinity The affinity to use for the pod.
@@ -1308,6 +1349,10 @@ lidarr:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
+
   nodeSelector: {}
 
   tolerations: []
@@ -1362,6 +1407,7 @@ lidarr:
 ## @param cleanuparr.autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param cleanuparr.autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param cleanuparr.autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param cleanuparr.priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param cleanuparr.nodeSelector The node selector to use for the pod.
 ## @param cleanuparr.tolerations The tolerations to use for the pod.
 ## @param cleanuparr.affinity The affinity to use for the pod.
@@ -1452,6 +1498,10 @@ cleanuparr:
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
+
+  # -- Kubernetes PriorityClass name for pod eviction priority.
+  # Leave empty to inherit the cluster's globalDefault PriorityClass.
+  priorityClassName: ""
 
   nodeSelector: {}
 

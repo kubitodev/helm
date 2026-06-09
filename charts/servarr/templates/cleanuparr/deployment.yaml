@@ -91,6 +91,9 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.cleanuparr.resources | nindent 12 }}
+      {{- with .Values.cleanuparr.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.cleanuparr.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

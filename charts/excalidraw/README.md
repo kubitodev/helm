@@ -75,6 +75,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `autoscaling.maxReplicas`                       | The maximum number of replicas to scale to.                                                                                         | `100`                    |
 | `autoscaling.targetCPUUtilizationPercentage`    | The target CPU utilization percentage to use for autoscaling.                                                                       | `80`                     |
 | `autoscaling.targetMemoryUtilizationPercentage` | The target memory utilization percentage to use for autoscaling.                                                                    | `80`                     |
+| `priorityClassName`                             | Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.          | `""`                     |
 | `nodeSelector`                                  | The node selector to use for the pod.                                                                                               | `{}`                     |
 | `tolerations`                                   | The tolerations to use for the pod.                                                                                                 | `[]`                     |
 | `affinity`                                      | The affinity to use for the pod.                                                                                                    | `{}`                     |

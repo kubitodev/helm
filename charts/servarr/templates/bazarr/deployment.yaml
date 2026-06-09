@@ -96,6 +96,9 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.bazarr.resources | nindent 12 }}
+      {{- with .Values.bazarr.priorityClassName }}
+      priorityClassName: {{ . | quote }}
+      {{- end }}
       {{- with .Values.bazarr.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

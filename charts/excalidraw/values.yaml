@@ -29,6 +29,7 @@
 ## @param autoscaling.maxReplicas The maximum number of replicas to scale to.
 ## @param autoscaling.targetCPUUtilizationPercentage The target CPU utilization percentage to use for autoscaling.
 ## @param autoscaling.targetMemoryUtilizationPercentage The target memory utilization percentage to use for autoscaling.
+## @param priorityClassName Kubernetes PriorityClass name for pod eviction priority. Leave empty to inherit the cluster's globalDefault PriorityClass.
 ## @param nodeSelector The node selector to use for the pod.
 ## @param tolerations The tolerations to use for the pod.
 ## @param affinity The affinity to use for the pod.
@@ -105,6 +106,10 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
+
+# -- Kubernetes PriorityClass name for pod eviction priority.
+# Leave empty to inherit the cluster's globalDefault PriorityClass.
+priorityClassName: ""
 
 nodeSelector: {}
 
