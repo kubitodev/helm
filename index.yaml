@@ -598,6 +598,27 @@ entries:
   excalidraw:
   - apiVersion: v2
     appVersion: 0.17.6
+    created: "2026-06-09T15:52:21.415698963Z"
+    description: Kubito Excalidraw Helm Chart
+    digest: 2da160843adf15dd17da2fe738662049a12ff8f70182a174ec115fb57e03a584
+    home: https://github.com/kubitodev/helm/tree/main/charts/excalidraw
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - excalidraw
+    - diagrams
+    - design
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: excalidraw
+    sources:
+    - https://github.com/excalidraw/excalidraw
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/excalidraw-1.0.1/excalidraw-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 0.17.6
     created: "2024-11-03T18:54:35.102590767Z"
     description: Kubito Excalidraw Helm Chart
     digest: 0ec74609b1eb25eca3af59ce13697f9724500ef06aa788797ac30c34a5fdb34d
@@ -1392,6 +1413,28 @@ entries:
   searxng:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2026-06-09T15:52:21.630848221Z"
+    description: Kubito SearXNG Helm Chart
+    digest: 2ffcae98ccc3eb36d82643069a17d9d12444173f79d5a06e2bae5d6cb8a0b191
+    home: https://github.com/kubitodev/helm/tree/main/charts/searxng
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - searxng
+    - metasearch
+    - search
+    - privacy
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: searxng
+    sources:
+    - https://github.com/searxng/searxng
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/searxng-1.1.2/searxng-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2026-04-28T05:43:14.120005652Z"
     description: Kubito SearXNG Helm Chart
     digest: 70684ff56a9804d3e26cfa405c1f7f6cd188629170f006571f4ae1fca688fef4
@@ -1699,6 +1742,34 @@ entries:
     - https://github.com/kubitodev/helm/releases/download/searxng-1.0.0/searxng-1.0.0.tgz
     version: 1.0.0
   servarr:
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2026-06-09T15:52:21.795532041Z"
+    description: Kubito Servarr Helm Chart
+    digest: 23b58b8be4da3941e8fc557d8a7322b351e693672b35a55e6075e65869deb1f2
+    home: https://github.com/kubitodev/helm/tree/main/charts/servarr
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - sonarr
+    - radarr
+    - flaresolverr
+    - jellyfin
+    - seerr
+    - qbittorrent
+    - prowlarr
+    - cleanuparr
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/servarr-1.3.1/servarr-1.3.1.tgz
+    version: 1.3.1
   - apiVersion: v2
     appVersion: 1.3.0
     created: "2026-02-15T09:28:35.055950869Z"
@@ -2854,4 +2925,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-28T05:43:14.120258437Z"
+generated: "2026-06-09T15:52:21.795887544Z"
