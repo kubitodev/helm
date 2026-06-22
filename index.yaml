@@ -1874,6 +1874,35 @@ entries:
   servarr:
   - apiVersion: v2
     appVersion: 1.3.0
+    created: "2026-06-22T15:25:01.852980309Z"
+    description: Kubito Servarr Helm Chart
+    digest: 8df477a5609511f8c62bb78c12a8151416a36d8ef30954078cb4d5daa78648e0
+    home: https://github.com/kubitodev/helm/tree/main/charts/servarr
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - sonarr
+    - radarr
+    - flaresolverr
+    - jellyfin
+    - seerr
+    - qbittorrent
+    - prowlarr
+    - cleanuparr
+    - lidatube
+    maintainers:
+    - name: kubitodev
+      url: https://kubito.dev
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/kubitodev/helm/releases/download/servarr-1.5.0/servarr-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
+    appVersion: 1.3.0
     created: "2026-06-09T23:25:51.774595547Z"
     description: Kubito Servarr Helm Chart
     digest: 0e4a5a060659c18dc7a78836ca6ebf2ac3ca0e51e805718544072dca7cebb248
@@ -3111,4 +3140,4 @@ entries:
     urls:
     - https://github.com/kubitodev/helm/releases/download/traefik-whitelist-ddns-1.0.0/traefik-whitelist-ddns-1.0.0.tgz
     version: 1.0.0
-generated: "2026-06-09T23:25:51.775072543Z"
+generated: "2026-06-22T15:25:01.853345423Z"
