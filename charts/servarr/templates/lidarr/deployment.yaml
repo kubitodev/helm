@@ -113,6 +113,49 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.lidarr.resources | nindent 12 }}
+        {{- if .Values.lidarr.lidatube.enabled }}
+        - name: lidatube
+          securityContext:
+            {{- toYaml .Values.lidarr.securityContext | nindent 12 }}
+          image: "{{ .Values.lidarr.lidatube.image.repository }}:{{ .Values.lidarr.lidatube.image.tag }}"
+          imagePullPolicy: {{ .Values.lidarr.lidatube.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /lidatube/config
+              name: config
+              subPath: lidatube
+          {{- if and .Values.jellyfin.enabled .Values.jellyfin.persistence.media.enabled .Values.lidarr.persistence.enabled }}
+            - mountPath: /lidatube/downloads
+              name: media
+              subPath: {{ .Values.lidarr.persistence.path }}
+          {{- end }}
+          ports:
+            - name: lidatube
+              containerPort: {{ .Values.lidarr.lidatube.service.port | default 5000 }}
+              protocol: TCP
+          env:
+          {{- if not (hasKey .Values.lidarr.lidatube.env "lidarr_address") }}
+            - name: lidarr_address
+              value: "http://localhost:{{ .Values.lidarr.service.port | default 8686 }}"
+          {{- end }}
+            {{- range $k, $v := .Values.lidarr.lidatube.env }}
+            - name: {{ $k }}
+              {{- if kindIs "map" $v }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
+              value: {{ $v | quote }}
+              {{- end }}
+            {{- end }}
+          {{- with .Values.lidarr.lidatube.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.lidarr.lidatube.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.lidarr.lidatube.resources | nindent 12 }}
+        {{- end }}
       {{- with .Values.lidarr.priorityClassName }}
       priorityClassName: {{ . | quote }}
       {{- end }}

@@ -22,3 +22,26 @@ spec:
     app.kubernetes.io/name: lidarr
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+---
+{{- if and .Values.lidarr.enabled .Values.lidarr.lidatube.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-lidatube
+  labels:
+    app.kubernetes.io/name: lidatube
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  type: {{ .Values.lidarr.lidatube.service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.lidarr.lidatube.service.port | default 5000 }}
+      targetPort: lidatube
+      protocol: TCP
+      name: lidatube
+  selector:
+    app.kubernetes.io/name: lidarr
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

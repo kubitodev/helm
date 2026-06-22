@@ -1410,6 +1410,16 @@ radarr:
 ## @param lidarr.persistence.size The size to use for the persistence.
 ## @param lidarr.persistence.additionalVolumes Additional volumes to add to the pod.
 ## @param lidarr.persistence.additionalMounts Additional volume mounts to add to the pod.
+## @param lidarr.lidatube.enabled Whether to run the LidaTube sidecar (finds and downloads missing Lidarr albums via yt-dlp).
+## @param lidarr.lidatube.image.repository The Docker repository to pull the LidaTube image from.
+## @param lidarr.lidatube.image.pullPolicy The logic of image pulling.
+## @param lidarr.lidatube.image.tag The image tag to use.
+## @param lidarr.lidatube.service.type The type of service to create for LidaTube.
+## @param lidarr.lidatube.service.port The port on which LidaTube will run.
+## @param lidarr.lidatube.env Environment variables for LidaTube (e.g. lidarr_api_key). lidarr_address defaults to the in-pod Lidarr.
+## @param lidarr.lidatube.resources The resources to use for the LidaTube sidecar.
+## @param lidarr.lidatube.startupProbe [object] Startup probe configuration for LidaTube.
+## @param lidarr.lidatube.livenessProbe [object] Liveness probe configuration for LidaTube.
 ##
 lidarr:
   enabled: true
@@ -1528,6 +1538,39 @@ lidarr:
     size: 800Mi
     additionalVolumes: []
     additionalMounts: []
+
+  # LidaTube sidecar — finds and downloads missing Lidarr albums via yt-dlp.
+  # Runs inside the Lidarr pod, sharing the config + media volumes so download
+  # paths line up with Lidarr's library root (media subPath = lidarr.persistence.path)
+  # and imports resolve against Lidarr's artist paths. Needs jellyfin media enabled.
+  lidatube:
+    enabled: false
+    image:
+      repository: thewicklowwolf/lidatube
+      pullPolicy: IfNotPresent
+      tag: "0.2.52"
+    service:
+      type: ClusterIP
+      port: 5000
+    # lidarr_address defaults to http://localhost:<lidarr.service.port> automatically.
+    # Provide lidarr_api_key (and any other LidaTube settings) here; scalar or valueFrom map.
+    env: {}
+      # lidarr_api_key: "<key>"
+      # preferred_codec: "mp3"
+      # attempt_lidarr_import: "True"
+      # sync_schedule: "3, 15"
+      # minimum_match_ratio: "90"
+    resources: {}
+    startupProbe:
+      tcpSocket:
+        port: lidatube
+      failureThreshold: 30
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: lidatube
+      failureThreshold: 5
+      periodSeconds: 30
 
 ## @section Cleanuparr parameters
 

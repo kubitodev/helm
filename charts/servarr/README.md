@@ -554,6 +554,16 @@ The command removes all the Kubernetes components associated with the chart and 
 | `lidarr.persistence.size`                              | The size to use for the persistence.                                                                                                          | `800Mi`                      |
 | `lidarr.persistence.additionalVolumes`                 | Additional volumes to add to the pod.                                                                                                         | `[]`                         |
 | `lidarr.persistence.additionalMounts`                  | Additional volume mounts to add to the pod.                                                                                                   | `[]`                         |
+| `lidarr.lidatube.enabled`                              | Whether to run the LidaTube sidecar (finds and downloads missing Lidarr albums via yt-dlp).                                                   | `false`                      |
+| `lidarr.lidatube.image.repository`                     | The Docker repository to pull the LidaTube image from.                                                                                        | `thewicklowwolf/lidatube`    |
+| `lidarr.lidatube.image.pullPolicy`                     | The logic of image pulling.                                                                                                                   | `IfNotPresent`               |
+| `lidarr.lidatube.image.tag`                            | The image tag to use.                                                                                                                         | `0.2.52`                     |
+| `lidarr.lidatube.service.type`                         | The type of service to create for LidaTube.                                                                                                   | `ClusterIP`                  |
+| `lidarr.lidatube.service.port`                         | The port on which LidaTube will run.                                                                                                          | `5000`                       |
+| `lidarr.lidatube.env`                                  | Environment variables for LidaTube (e.g. lidarr_api_key). lidarr_address defaults to the in-pod Lidarr.                                       | `{}`                         |
+| `lidarr.lidatube.resources`                            | The resources to use for the LidaTube sidecar.                                                                                                | `{}`                         |
+| `lidarr.lidatube.startupProbe`                         | Startup probe configuration for LidaTube.                                                                                                     | `{}`                         |
+| `lidarr.lidatube.livenessProbe`                        | Liveness probe configuration for LidaTube.                                                                                                    | `{}`                         |
 
 ### Cleanuparr parameters
 
