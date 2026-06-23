@@ -1561,23 +1561,13 @@ lidarr:
       # sync_schedule: "3, 15"
       # minimum_match_ratio: "90"
     resources: {}
-    # HTTP probes, not TCP: gunicorn's master holds the socket open before the gevent worker
-    # boots, so a TCP probe falsely passes while the worker is hung and never serves HTTP.
-    # httpGet exercises the worker and restarts the container until it boots clean.
-    startupProbe:
-      httpGet:
-        path: /
-        port: lidatube
-      failureThreshold: 12
-      periodSeconds: 10
-      timeoutSeconds: 5
-    livenessProbe:
-      httpGet:
-        path: /
-        port: lidatube
-      failureThreshold: 3
-      periodSeconds: 30
-      timeoutSeconds: 10
+    # No default probes. LidaTube serves "/" from a single gevent worker that also runs the scan
+    # thread, so "/" is unresponsive whenever it's scanning (CPU-bound yt-dlp) and it can't be
+    # multi-worker. An httpGet probe reads "busy scanning" as "hung" and SIGKILLs the container
+    # (restart loop / "never opens"), so consumers opt into what they actually want instead — e.g.
+    # a tcpSocket startup probe; a crashing master exits the container and is restarted anyway.
+    startupProbe: {}
+    livenessProbe: {}
 
 ## @section Cleanuparr parameters
 
